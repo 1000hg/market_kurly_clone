@@ -17,7 +17,7 @@
 
 
 
-클라이언트, 서버 동시 수행
+데이터베이스 
 
 ```
   https://docs.google.com/spreadsheets/d/1rhxjjl9JzxLzUR5FRn6n0TN3IgxsB_UhRI5l3xs1KlM/edit#gid=653244254
