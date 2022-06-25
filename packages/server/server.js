@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.sendFile('../client/build/index.html')
+    res.send('한글 되니?');
 })
 
 app.get('/api/list', (req, res) => {
