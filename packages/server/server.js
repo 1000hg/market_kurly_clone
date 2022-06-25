@@ -23,7 +23,7 @@ app.get('/api/item', (req, res) => {
     });
 });
 
-app.listen(8080, (err) => {
+app.listen(process.env.PORT || 8080, (err) => {
     if (err) {
         console.log('err 발생');
     }
