@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html')
+    res.sendFile('../client/build/index.html')
 })
 
 app.get('/api/list', (req, res) => {
