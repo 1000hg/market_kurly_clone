@@ -8,11 +8,8 @@
     "./packages/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "cd ./packages/client && npm run start",
     "start": "cd ./packages/server && npm run server",
     "heroku-postbuild": "cd ./packages/client && npm install && npm run build",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "engines": {
       "node": "16.13.2",
