@@ -9,8 +9,8 @@
 
 ### Installation
 ```
-git clone https://github.com/sbjang123456/docker-fullstack.git
-cd docker-fullstack/packages/client
+git clone https://github.com/1000hg/market_kurly_clone.git
+cd market_kurly_clone/packages/client
 npm install
 npm run build
 cd ../../
@@ -18,7 +18,7 @@ docker-compose up -d
 ```
 
 ### Development
-- npm workspaces 활용으로 인한 npm 7.x 버전을 사용 하였다.
+- npm workspaces 활용으로 인한 npm 8.x 버전을 사용 하였다.
 ```
 npm install
 npm run dev
