@@ -1,14 +1,16 @@
+const path = require('path');
 const express = require('express');
 const app = express();
+const dotenv = require('dotenv');
+const usersRouter = require('./routes/auth.js');
+dotenv.config();
 
-app.use(express.static(path.join(__dirname, "../client/build")));
-
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
+app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html')
+    res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
 
 app.get('/api/list', (req, res) => {
@@ -26,6 +28,8 @@ app.get('/api/item', (req, res) => {
         name: '테스트1'
     });
 });
+
+app.use('/api/auth', usersRouter);
 
 app.listen(process.env.PORT || 8080, (err) => {
     if (err) {
