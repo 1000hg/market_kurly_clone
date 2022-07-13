@@ -8,11 +8,18 @@
     "./packages/*"
   ],
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "client": "cd ./packages/client && npm run start",
     "start": "cd ./packages/server && npm run server",
     "build": "cd ./packages/client && npm run build",
     "dev": "concurrently \"npm run server\" \"npm run client\""
+=======
+    "start": "cd ./packages/server && npm run server",
+    "build": "cd ./packages/client && npm install && npm run build",
+    "server": "cd ./packages/server && npm run server",
+    "client": "cd ./packages/client && npm start"
+>>>>>>> feature/product
   },
   "repository": {
     "type": "git",

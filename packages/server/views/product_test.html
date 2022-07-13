@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            <span>카테고리 번호 : </span>
+            <input type="text" name="category_seq" id="category_seq">
+        </div>
+        <div>
+            <span>상품 가격 : </span>
+            <input type="text" name="product_price" id="product_price">
+        </div>
+        <div>
+            <span>상품 재고 : </span>
+            <input type="text" name="product_stock" id="product_stock">
+        </div>
+        <div>
+            <span>상품 원산지 : </span>
+            <input type="text" name="product_origin" id="product_origin">
+        </div>
+        <div>
+            <span>판매 단위 : </span>
+            <input type="text" name="sales_unit" id="sales_unit">
+        </div>
+        <div>
+            <input type="file" id="img" name="img", accept="image/*">
+        </div>
+        <button class="submit-button" id="createProduct">생성</button>
+    </div>
+</body>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+
+$("#createProduct").click(function() {
+
+    let file = document.querySelector('#img').files[0];
+    getBase64(file).then((image) => {
+        let data = {
+            category_seq: $('#category_seq').val(),
+            product_price: $('#product_price').val(),
+            product_stock: $('#product_stock').val(),
+            product_origin: $('#product_origin').val(),
+            file: image
+        }
+    
+        $.ajax({
+        type: "POST",
+        url: "/product/create",
+        data: JSON.stringify(data),
+        enctype: "multipart/form-data",
+        contentType: "application/json",
+        success: function(res) {
+            console.log(res)
+        }
+        })
+    })
+})
+
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        var fr = new FileReader();  
+        fr.onload = () => {
+            resolve(fr.result)
+        };
+        fr.onerror = reject;
+        fr.readAsText(file.blob);
+  });
+}
+</script>
+</html>
