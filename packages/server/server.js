@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const usersRouter = require('./routes/auth.js');
+const indexRouter = require('./routes');
 dotenv.config();
 
 app.use(express.static(path.join(__dirname, '../client/build')));
