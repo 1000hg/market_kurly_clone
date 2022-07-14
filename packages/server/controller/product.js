@@ -1,4 +1,4 @@
-const productModel = require('../models/product.js')
+const productModel = require('../services/product.js')
 const serviceStatus = require('../modules/serviceStatus')
 
 

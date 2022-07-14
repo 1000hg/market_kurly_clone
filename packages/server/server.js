@@ -7,11 +7,8 @@ const indexRouter = require('./routes');
 dotenv.config();
 
 app.use(express.static(path.join(__dirname, '../client/build')));
-<<<<<<< HEAD
-=======
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
->>>>>>> feature/product
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build/index.html'))
@@ -33,11 +30,8 @@ app.get('/api/item', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-=======
 app.use('/api/auth', usersRouter);
 
->>>>>>> feature/product
 app.listen(process.env.PORT || 8080, (err) => {
     if (err) {
         console.log('err 발생');
