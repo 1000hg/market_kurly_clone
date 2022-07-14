@@ -31,6 +31,7 @@ app.get('/api/item', (req, res) => {
 });
 
 app.use('/api/auth', usersRouter);
+app.use('/', indexRouter);
 
 app.listen(process.env.PORT || 8080, (err) => {
     if (err) {

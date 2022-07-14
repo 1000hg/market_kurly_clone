@@ -3,7 +3,6 @@ const serviceStatus = require('../modules/serviceStatus')
 
 
 async function createProduct(req, res) {
-  console.log(req.body)
     if(!req.body)
         res.status(200).send({ status: 400, message: "data not found" });
 

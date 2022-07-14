@@ -6,6 +6,7 @@ async function createProduct(data) {
     const result = await db.query(
       `INSERT INTO tb_product SET
         category_seq=?,
+        product_name=?,
         product_price=?,
         product_stock=?,
         product_origin=?,
@@ -22,18 +23,19 @@ async function createProduct(data) {
         update_dtm=?`,
         [
           data.category_seq,
+          data.product_name,
           data.product_price,
           data.product_stock,
           data.product_origin,
-          data.product_status,
+          "1",
           data.sales_unit,
           data.sales_weight,
           data.discount_price,
           data.discount_rate,
-          data.is_discount,
+          "1",
           data.accumulate_price,
           data.accumulate_rate,
-          data.is_accumulate,
+          "1",
           new Date(),
           new Date()
         ]
