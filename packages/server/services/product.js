@@ -1,9 +1,23 @@
 const db = require('../db');
+const fs = require("fs");
 const serviceStatus = require('../modules/serviceStatus')
 
 async function createProduct(data) {
+
+  const fileCount = data.img_data.length; //넘어온 이미지 갯수
+  const timeStamp = +new Date();
+    
+  for (let i = 0; i < fileCount; i++) {
+      const imgPathTemp = process.env.DATA_PATH;
+      let fileName = imgPathTemp + "_" + timeStamp + "_" + i + ".jpg";
+
+      /*이미지 저장 */
+      fs.writeFileSync(fileName, data.img_data[i].replace(/^data:image\/jpeg;base64,/, ""), "base64");
+
+
+  }
   try {
-    const result = await db.query(
+    /*const result = await db.query(
       `INSERT INTO tb_product SET
         category_seq=?,
         product_name=?,
@@ -39,7 +53,9 @@ async function createProduct(data) {
           new Date(),
           new Date()
         ]
-      )
+      )*/
+
+      const result = "123";
     
     if(result) {
         serviceStatus.staus = 200
