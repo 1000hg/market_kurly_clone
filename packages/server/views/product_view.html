@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            <span>상품 번호 : </span>
+            <input type="text" name="product_seq" id="product_seq">
+        </div>
+        <div>
+            <span>상품뷰 제목 : </span>
+            <input type="text" name="product_view_title" id="product_view_title">
+        </div>
+        <div>
+            <span>판매처 : </span>
+            <input type="text" name="vender" id="vender">
+        </div>
+        <div>
+            <span>상품뷰 설명 가격 : </span>
+            <input type="text" name="product_view_desc" id="product_view_desc">
+        </div>
+        <div>
+            <span>포장 타입 : </span>
+            <input type="text" name="packaging_type" id="packaging_type">
+        </div>
+        <div>
+            <span>포장 타입 세부사항 : </span>
+            <input type="text" name="packaging_type_detail" id="packaging_type_detail">
+        </div>
+        <div>
+            <span>알르레기 정보 : </span>
+            <input type="text" name="allergy_info" id="allergy_info">
+        </div>
+        <div>
+            <span>유통기한 : </span>
+            <input type="text" name="expiration_date" id="expiration_date">
+        </div>
+        <div>
+            <span>안내사항: </span>
+            <input type="text" name="notification" id="notification">
+        </div>
+        <button class="submit-button" id="createProduct">생성</button>
+    </div>
+</body>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+
+$("#createProduct").click(function() {
+
+    let data = {
+        product_seq: $('#product_seq').val(),
+        product_view_title: $('#product_view_title').val(),
+        vender: $('#vender').val(),
+        product_view_desc: $('#product_view_desc').val(),
+        packaging_type: $('#packaging_type').val(),
+        packaging_type_detail: $('#packaging_type_detail').val(),
+        allergy_info: $('#allergy_info').val(),
+        notification: $('#notification').val()
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/productView/create",
+        data: JSON.stringify(data),
+        enctype: "multipart/form-data",
+        contentType: "application/json",
+        success: function(res) {
+            console.log(res)
+        }
+    })
+})
+
+</script>
+</html>
