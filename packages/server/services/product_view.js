@@ -61,35 +61,17 @@ async function findProductViewList() {
       const result = await db.query(`SELECT * FROM tb_product_view`);
       if(result) {
         serviceStatus.staus = 200
-        serviceStatus.msg = '상품 생성에 성공하였습니다.'
+        serviceStatus.msg = '상품 조회에 성공하였습니다.'
         serviceStatus.responseData = result
     } else {
         serviceStatus.staus = 400
-        serviceStatus.msg = '상품 생성에 실패하였습니다.'
+        serviceStatus.msg = '상품 조회에 실패하였습니다.'
     }
 
     return serviceStatus;
     } catch(error) {
       console.error(error);
     }
-}
-
-async function findProductViewList() {
-  try {
-    const result = await db.query(`SELECT * FROM tb_product_view`);
-    if(result) {
-      serviceStatus.staus = 200
-      serviceStatus.msg = '상품 생성에 성공하였습니다.'
-      serviceStatus.responseData = result
-  } else {
-      serviceStatus.staus = 400
-      serviceStatus.msg = '상품 생성에 실패하였습니다.'
-  }
-
-  return serviceStatus;
-  } catch(error) {
-    console.error(error);
-  }
 }
 
 async function findProductViewCategory(category_seq) {
@@ -100,11 +82,30 @@ async function findProductViewCategory(category_seq) {
 
     if(result) {
       serviceStatus.staus = 200
-      serviceStatus.msg = '상품 생성에 성공하였습니다.'
+      serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
   } else {
       serviceStatus.staus = 400
-      serviceStatus.msg = '상품 생성에 실패하였습니다.'
+      serviceStatus.msg = '상품 조회에 실패하였습니다.'
+  }
+
+  return serviceStatus;
+  } catch(error) {
+    console.error(error);
+  }
+}
+
+async function findProductViewName(name) {
+  try {
+    const result = await db.query(`SELECT * FROM tb_product_view where product_view_title = '${name}';`);
+
+    if(result) {
+      serviceStatus.staus = 200
+      serviceStatus.msg = '상품 조회에 성공하였습니다.'
+      serviceStatus.responseData = result
+  } else {
+      serviceStatus.staus = 400
+      serviceStatus.msg = '상품 조회에 실패하였습니다.'
   }
 
   return serviceStatus;
