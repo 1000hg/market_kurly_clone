@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const usersRouter = require('./routes/auth.js');
+const smsRouter = require('./routes/sms_verify.js');
 const indexRouter = require('./routes');
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.get('/api/item', (req, res) => {
 });
 
 app.use('/api/auth', usersRouter);
+app.use('/api/sms', smsRouter);
 app.use('/', indexRouter);
 
 app.listen(process.env.PORT || 8080, (err) => {
