@@ -117,5 +117,6 @@ async function findProductViewName(name) {
 module.exports = {
   createProductView,
   findProductViewList,
-  findProductViewCategory
+  findProductViewCategory,
+  findProductViewName
 }

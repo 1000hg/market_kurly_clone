@@ -12,6 +12,6 @@ router.post('/create', productViewController.createProductView);
 
 router.get('/findList'. productViewController.findProductViewList);
 
-router.get('/findList'. productViewController.findProductViewCategory);
+router.get('/findCategory'. productViewController.findProductViewCategory);
 
 module.exports = router;
