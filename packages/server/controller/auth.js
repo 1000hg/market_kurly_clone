@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const {} = require('express-async-errors');
-const usersModel = require('../services/auth.js')
+const authModel = require('../services/auth.js')
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,9 +13,8 @@ const bcryptSalt = process.env.BCRYPT_SALT;
 async function signup(req, res) {
   console.log("signupBefore : ", req.body);
   const { user_id, user_password, reffer_id } = req.body;
-  const isValidUser = await usersModel.findByUser(user_id);
-  console.log('signupisValidUser : ', isValidUser)
-
+  const isValidUser = await authModel.findByUser(user_id);
+  
   // 같은 아이디가 있는지 확인
   if (isValidUser) {
     return res.status(409).json({ message: `${user_id}은 이미 있습니다!`});
@@ -23,19 +22,21 @@ async function signup(req, res) {
 
   // 추천인이 있는지 확인
   if (reffer_id) {
-    const isValidUser = await usersModel.findByUser(reffer_id);
+    const isValidUser = await authModel.findByUser(reffer_id);
     if (!isValidUser) {
       return res.status(409).json({ message: `${reffer_id}는 없습니다!`})
     } else {
       // 추천인수 더하기
-      usersModel.addRefferCount(reffer_id);
+      authModel.addRefferCount(reffer_id);
     }
   }
-
+  console.log(">>>>>", user_password)
   // bcrypt로 비밀번호 암호화
-  const hashed = await bcrypt.hash(user_password, bcryptSalt);
+  const hashed = await bcrypt.hash(user_password, parseInt(bcryptSalt));
+  console.log("<<<<<", hashed)
   req.body.user_password = hashed;
-  const user_seq = await usersModel.createUser(req.body);
+  const user_seq = await authModel.createUser(req.body);
+  
   // 클라이언트에게 보내줄 token 생성 및 아이디 클라이언트에 보냄
   const token = createJwtToken(user_seq);
   res.status(200).json({ token, user_id })
@@ -44,7 +45,7 @@ async function signup(req, res) {
 async function login(req, res) {
   console.log("loginBefore : ", req.body);
   const { user_id, user_password } = req.body;
-  const isValidUser = await usersModel.findByUser(user_id);
+  const isValidUser = await authModel.findByUser(user_id);
   console.log('loginisValidUser : ', isValidUser)
 
   // 같은 아이디가 있는지 확인
@@ -65,7 +66,7 @@ async function login(req, res) {
 
 async function me(req, res, next) {
   console.log("me : ", req.userId)
-  const user = await usersModel.findByUser(req.userId);
+  const user = await authModel.findByUser(req.userId);
   if (!user) {
     return res.status(404).json({ message: '로그인 되었는지 확인하세요!'});
   }

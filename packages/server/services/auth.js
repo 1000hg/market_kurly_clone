@@ -1,5 +1,4 @@
 const mysql2 = require('mysql2/promise');
-const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -16,10 +15,9 @@ const dbPool = mysql2.createPool({
 
 // 회원가입시 기존 아이디가 있는지 확인
 async function findByUser(user_id) {
-  console.log(user_id)
+  
   try {
     const result = await dbPool.query(`SELECT * FROM tb_user WHERE user_id = "${user_id}"`);
-    console.log('DB result : ', result[0][0])
     return result[0][0];
   } catch(error) {
     console.error(error);
@@ -34,7 +32,7 @@ async function addRefferCount(user_id) {
     result = Number(result[0][0].reffer_count) + 1;
     dbPool.query(`UPDATE tb_user SET reffer_count="${result}" WHERE user_id = "${user_id}"`)
   } catch(error) {
-    console.error(error)
+    console.error("addreffer_id : ", error)
   }
 }
 
@@ -49,7 +47,7 @@ async function findByUserSeq(user_seq) {
 
 // DB에 회원가입 데이터 저장
 async function createUser(user) {
-  console.log("user : ", user);
+  console.log("user >> : ", user);
   try {
     const result = await dbPool.query(
       `INSERT INTO tb_user SET
