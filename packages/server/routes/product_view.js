@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
 
 router.post('/create', productViewController.createProductView);
 
-router.get('/findList'. productViewController.findProductViewList);
+router.get('/list', productViewController.findProductViewList);
 
-router.get('/findCategory'. productViewController.findProductViewCategory);
+router.get('/findCategory', productViewController.findProductViewCategory);
 
 module.exports = router;
