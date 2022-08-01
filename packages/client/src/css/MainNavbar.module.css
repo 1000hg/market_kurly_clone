@@ -1,0 +1,33 @@
+.nvLnk{
+  font-weight: 700;
+  color:#333;
+}
+
+.nvLnk:hover{
+  text-decoration: underline;
+  color:#5f0080;
+  }
+
+  .search-frm {
+    background-color: white;
+    border-radius: 20px;
+    height: 2.5rem;
+  }
+
+  .bdrNone {
+    border: none;
+    border: 1px solid #f7f7f6;
+    background-color:#f7f7f7;
+    border-radius:18px;
+    color:#666;
+    font-size:12px;
+    outline: none;
+  }
+
+  input .bdr-none:focus{
+    background-color:#f7f7f7;
+    }
+
+    .iconItm {
+      margin: 0 10px;
+    }
