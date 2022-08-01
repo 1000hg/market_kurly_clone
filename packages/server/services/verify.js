@@ -12,7 +12,6 @@ const dbPool = mysql2.createPool({
   connectionLimit: 10,
   waitForConnections: true,
 });
-// const db = require('../db/index.js');
 
 // 회원 아이디 및 비빌번호 확인 인증
 async function findByUser(user) {
