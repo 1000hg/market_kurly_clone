@@ -7,12 +7,12 @@ dotenv.config();
 const myCache = new NodeCache()
 // SMTP 전송구성
 const transporter = nodemailer.createTransport({
-  host: "smtp.naver.com",
+  host: process.env.EMAIL_SERVER,
   port: 587,
   secure: false,
   auth: {
-    user: "gwanmu@naver.com",
-    pass: "1D5TZC3SGDMK",
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PASS,
   },
   tls: {
     // do not fail on invalid certs

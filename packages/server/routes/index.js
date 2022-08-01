@@ -9,6 +9,6 @@ router.use("/auth", authRouter);
 
 router.use("/product", productRouter);
 
-router.use("/productView", productViewRouter);
+router.use("/product/view", productViewRouter);
 
 module.exports = router;
