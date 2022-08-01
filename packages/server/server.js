@@ -2,9 +2,9 @@ const path = require('path');
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
-const authRouter = require('./routes/auth.js');
-const verifyRouter = require('./routes/verify.js');
-const usersRouter = require('./routes/users.js');
+const usersRouter = require('./routes/auth.js');
+const smsRouter = require('./routes/sms_verify.js');
+const indexRouter = require('./routes');
 dotenv.config();
 
 app.use(express.static(path.join(__dirname, '../client/build')));
@@ -31,12 +31,9 @@ app.get('/api/item', (req, res) => {
     });
 });
 
-// 회원가입 및 로그인 생성, 토큰발행
-app.use('/api/auth', authRouter);
-// id 및 비밀번호 찾기
-app.use('/api/verify', verifyRouter);
-// 회원 비밀번호 재설정
-app.use('/api/user', usersRouter);
+app.use('/api/auth', usersRouter);
+app.use('/api/sms', smsRouter);
+app.use('/', indexRouter);
 
 app.listen(process.env.PORT || 8080, (err) => {
     if (err) {

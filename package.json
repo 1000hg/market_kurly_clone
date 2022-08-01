@@ -1,31 +1,32 @@
 {
-  "name": "server",
+  "name": "docker-fullstack",
   "version": "1.0.0",
-  "private": true,
-  "description": "",
+  "description": "> docker 를 활용한 React 및 Express 컨테이너 발행",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server.js"
+    "start": "cd ./packages/server && npm run server",
+    "build": "cd ./packages/client && npm install && npm run build",
+    "server": "cd ./packages/server && npm run server",
+    "client": "cd ./packages/client && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sbjang123456/docker-fullstack.git"
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "axios": "^0.27.2",
-    "bcrypt": "^5.0.1",
-    "crypto-js": "^4.1.1",
-    "dotenv": "^16.0.1",
-    "express": "^4.17.1",
-    "express-async-errors": "^3.1.1",
-    "express-validator": "^6.14.2",
-    "jsonwebtoken": "^8.5.1",
-    "mysql2": "^2.3.3",
-    "node-cache": "^5.1.2",
-    "nodemailer": "^6.7.7",
-    "to": "^0.2.9",
-    "update": "^0.7.4"
+  "bugs": {
+    "url": "https://github.com/sbjang123456/docker-fullstack/issues"
   },
+  "homepage": "https://github.com/sbjang123456/docker-fullstack#readme",
   "devDependencies": {
-    "nodemon": "^2.0.19"
+    "concurrently": "^6.2.0"
+  },
+  "dependencies": {
+    "multer": "^1.4.5-lts.1"
   }
 }
