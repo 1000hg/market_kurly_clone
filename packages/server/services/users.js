@@ -1,5 +1,4 @@
 const mysql2 = require('mysql2/promise');
-const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -14,17 +13,21 @@ const dbPool = mysql2.createPool({
   waitForConnections: true,
 });
 
-async function findById(name, phone) {
-  console.log(name, phone);
+async function resetPw(user) {
+  console.log("user >> : ", user);
   try {
-    const result = await dbPool.query(`SELECT * FROM tb_user WHERE user_name = "${name}" AND user_phone = "${phone}"`);
-    console.log('DB result : ', result[0][0])
-    return result[0][0];
+    const result = await dbPool.query(
+      `UPDATE tb_user 
+      SET user_password = "${user.user_password}" 
+      WHERE user_id = "${user.user_id}"`        
+      )
+      // 수정한 정보반환
+      return result[0].info;
   } catch(error) {
     console.error(error);
   }
 }
 
 module.exports = {
-  findById,
+  resetPw,
 }

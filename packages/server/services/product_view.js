@@ -58,7 +58,7 @@ async function createProductView(data) {
 
 async function findProductViewList() {
     try {
-      const result = await db.query(`SELECT * FROM tb_product_view`);
+      const result = await db.query(`SELECT * FROM tb_product_view where product_view_status = 1`);
       if(result) {
         serviceStatus.staus = 200
         serviceStatus.msg = '상품 조회에 성공하였습니다.'
@@ -78,7 +78,7 @@ async function findProductViewCategory(category_seq) {
   try {
     const result = await db.query(`SELECT * FROM tb_product_view as tb1 
     LEFT JOIN tb_product as tb2
-    on tb1.product_seq = tb2.product_seq where tb2.category_seq = '${category_seq}';`);
+    on tb1.product_seq = tb2.product_seq where tb2.category_seq = '${category_seq}' and tb1.product_status = 1 and tb2.product_view_status = 1;`);
 
     if(result) {
       serviceStatus.staus = 200
@@ -97,7 +97,7 @@ async function findProductViewCategory(category_seq) {
 
 async function findProductViewName(name) {
   try {
-    const result = await db.query(`SELECT * FROM tb_product_view where product_view_title = '${name}';`);
+    const result = await db.query(`SELECT * FROM tb_product_view where product_view_title = '${name}' and product_view_status = 1;`);
 
     if(result) {
       serviceStatus.staus = 200
@@ -117,5 +117,6 @@ async function findProductViewName(name) {
 module.exports = {
   createProductView,
   findProductViewList,
-  findProductViewCategory
+  findProductViewCategory,
+  findProductViewName
 }
