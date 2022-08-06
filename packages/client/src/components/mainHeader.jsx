@@ -1,6 +1,4 @@
 import styles from "../css/MainHeader.module.css";
-import { Container, NavDropdown, Nav, Navbar } from "react-bootstrap";
-import MainNavbar from "./mainNavbar";
 import MainNavbar2 from "./mainNavbar2";
 import { Link } from "react-router-dom";
 import { useState } from "react";
