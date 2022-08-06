@@ -1,6 +1,6 @@
 import styles from "../css/MainNavbar2.module.css";
 import { menuItems } from "../menuItems";
-import MenuItems from "./MenuItems";
+import MenuItems from "./menuItems";
 
 function MainNavbar2() {
   return (
