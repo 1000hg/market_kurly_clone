@@ -77,9 +77,13 @@ function MainPageContent() {
       <p className={styles.sbTitle}>이 상품 어때요?</p>
       <section className="container">
         <div className={`row justify-content-around`}>
-          {itemList.map((item, idx) => {
+          {/* {itemList.map((item, idx) => {
             <CardProduct item={item} />;
-          })}
+          })} */}
+          <CardProduct/>
+          <CardProduct/>
+          <CardProduct/>
+          
           {/* <div className="col-xxl-3 col-md-6">
             <div className={styles.card}>
               <div className={styles.crdBg}>
@@ -99,8 +103,7 @@ function MainPageContent() {
                   Go somewhere
                 </a>
               </div>
-            </div>
-          </div> */}
+            </div> */}
 
           {/* <div className="col-xxl-3 col-md-6">
             <div className={styles.card}>
