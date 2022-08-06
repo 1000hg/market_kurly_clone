@@ -7,11 +7,11 @@ const verifyRouter = require('./verify');
 const usersRouter = require('./users');
 
 // 회원가입 및 로그인 생성, 토큰발행
-app.use('/auth', authRouter);
+router.use('/auth', authRouter);
 // id 및 비밀번호 찾기
-app.use('/verify', verifyRouter);
+router.use('/verify', verifyRouter);
 // 회원 비밀번호 재설정
-app.use('/user', usersRouter);
+router.use('/user', usersRouter);
 
 router.use("/product", productRouter);
 
