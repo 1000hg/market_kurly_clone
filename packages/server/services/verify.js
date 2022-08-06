@@ -4,7 +4,7 @@ dotenv.config();
 
 const dbPool = mysql2.createPool({
   host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
+  //port: process.env.DB_PORT,
   user: process.env.DB_USER,
   password: process.env.DB_PW,
   database: 'market-kurly-clone',
@@ -12,7 +12,6 @@ const dbPool = mysql2.createPool({
   connectionLimit: 10,
   waitForConnections: true,
 });
-
 
 // 회원 아이디 및 비빌번호 확인 인증
 async function findByUser(user) {

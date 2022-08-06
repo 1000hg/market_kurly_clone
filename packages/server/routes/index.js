@@ -3,9 +3,15 @@ const router = express.Router();
 const authRouter = require('./auth');
 const productRouter = require('./product');
 const productViewRouter = require('./product_view');
+const verifyRouter = require('./verify');
+const usersRouter = require('./users');
 
-
-router.use("/auth", authRouter);
+// 회원가입 및 로그인 생성, 토큰발행
+app.use('/auth', authRouter);
+// id 및 비밀번호 찾기
+app.use('/verify', verifyRouter);
+// 회원 비밀번호 재설정
+app.use('/user', usersRouter);
 
 router.use("/product", productRouter);
 

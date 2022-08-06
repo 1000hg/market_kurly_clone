@@ -7,12 +7,12 @@ dotenv.config();
 const myCache = new NodeCache();
 // SMTP 전송구성
 const transporter = nodemailer.createTransport({
-  host: 'smtp.naver.com',
+  host: process.env.EMAIL_SERVER,
   port: 587,
   secure: false,
   auth: {
-    user: 'gwanmu@naver.com',
-    pass: '1D5TZC3SGDMK',
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PASS,
   },
   tls: {
     // do not fail on invalid certs
@@ -40,11 +40,9 @@ async function sendId(req, res) {
   const isValidUser = await emailModel.findByUser(req.body);
   // 이름과 폰번호로 회원이 존재하지 않을 경우
   if (!isValidUser) {
-    return res
-      .status(409)
-      .json({
-        message: '가입시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요!',
-      });
+    return res.status(409).json({
+      message: '가입시 입력하신 회원 정보가 맞는지 다시 한번 확인해 주세요!',
+    });
   }
   const id = hideId(isValidUser.user_id);
 
