@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react";
-import styles from "../css/MenuItems.module.css";
+import { useState, useEffect, useRef } from 'react';
+import styles from '../css/MenuItems.module.css';
 
-import Dropdown from "./Dropdown";
+import Dropdown from './dropdown';
 
 const MenuItems = ({ items, depthLevel }) => {
   const [dropdown, setDropdown] = useState(false);
@@ -14,12 +14,12 @@ const MenuItems = ({ items, depthLevel }) => {
         setDropdown(false);
       }
     };
-    document.addEventListener("mousedown", handler);
-    document.addEventListener("touchstart", handler);
+    document.addEventListener('mousedown', handler);
+    document.addEventListener('touchstart', handler);
     return () => {
       // Cleanup the event listener
-      document.removeEventListener("mousedown", handler);
-      document.removeEventListener("touchstart", handler);
+      document.removeEventListener('mousedown', handler);
+      document.removeEventListener('touchstart', handler);
     };
   }, [dropdown]);
 
@@ -45,13 +45,13 @@ const MenuItems = ({ items, depthLevel }) => {
       {items.url && items.submenu ? (
         <>
           <button
-            type="button"
-            aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}
+            type='button'
+            aria-haspopup='menu'
+            aria-expanded={dropdown ? 'true' : 'false'}
             // onClick={() => setDropdown((prev) => !prev)}
           >
             <a href={items.url}>
-              <img alt="" src={items.img} />
+              <img alt='' src={items.img} />
               {items.title}
             </a>
             {/* {items.title}{" "}
@@ -74,14 +74,14 @@ const MenuItems = ({ items, depthLevel }) => {
       ) : !items.url && items.submenu ? (
         <>
           <button
-            type="button"
-            aria-haspopup="menu"
-            aria-expanded={dropdown ? "true" : "false"}
+            type='button'
+            aria-haspopup='menu'
+            aria-expanded={dropdown ? 'true' : 'false'}
             onClick={() => setDropdown((prev) => !prev)}
           >
             {/* <a href="/#">{items.title}</a> */}
-            {items.title}{" "}
-            {depthLevel > 0 ? <span>&raquo;</span> : <span className="arrow" />}
+            {items.title}{' '}
+            {depthLevel > 0 ? <span>&raquo;</span> : <span className='arrow' />}
           </button>
           <Dropdown
             depthLevel={depthLevel}
