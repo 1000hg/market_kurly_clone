@@ -1,0 +1,160 @@
+.container {
+  display: inline-flex;
+  width: 100%;
+  padding: 10px 20px;
+}
+.labelbox {
+  width: 139px;
+  padding-top: 12px;
+}
+.label {
+  font-weight: 500;
+  color: rgb(51, 51, 51);
+  line-height: 20px;
+}
+.form {
+  flex: 1 1 0%;
+}
+.inputbox {
+  position: relative;
+  height: 48px;
+}
+.input {
+  width: 100%;
+  height: 46px;
+  padding: 0px 11px 1px 15px;
+  border-radius: 4px;
+  border: 1px solid rgb(221, 221, 221);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgb(51, 51, 51);
+  outline: none;
+  box-sizing: border-box;
+}
+.input_birth {
+  display: flex;
+  padding: 0px 15px;
+  -webkit-box-align: center;
+  align-items: center;
+  border: 1px solid rgb(204, 204, 204);
+}
+.input_birth > div {
+  position: relative;
+  height: 40px;
+}
+.input_birth input {
+  text-align: center;
+  border: none;
+  width: 100%;
+  height: 40px;
+  padding: 0px 11px 1px 15px;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 38px;
+  color: rgb(51, 51, 51);
+  outline: none;
+  box-sizing: border-box;
+}
+.input_birth span {
+  height: 100%;
+  font-size: 14px;
+  color: rgb(204, 204, 204);
+  text-align: center;
+  line-height: 40px;
+}
+.buttonbox {
+  width: 120px;
+  margin-left: 8px;
+}
+.button {
+  height: 44px;
+  border-radius: 3px;
+  display: block;
+  padding: 0px 10px;
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+  color: rgb(95, 0, 128);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(95, 0, 128);
+}
+.address_btn {
+  width: 100%;
+  height: 46px;
+  padding: 0px 11px 1px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: rgb(95, 0, 128);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(95, 0, 128);
+}
+.search_icon {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+.invalid {
+  font-size: 13px;
+  color: rgb(240, 63, 64);
+  margin-top: -4px;
+}
+.radiobox {
+  display: flex;
+  padding: 0;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  flex-direction: row;
+  border: none;
+}
+.radiobox_add {
+  flex-direction: column;
+}
+.radiobox label {
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding: 12px 0px 9px;
+}
+.radiobox input {
+  min-width: 24px;
+  min-height: 24px;
+  display: inline-block;
+  position: relative;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid rgb(221, 221, 221);
+}
+
+.radiobox input:checked {
+  background-color: rgb(95, 0, 128);
+}
+.radiobox span {
+  position: relative;
+  font-size: 14px;
+  margin-left: 12px;
+}
+
+.additional {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.extraNotice {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+  line-height: 18px;
+}
+.extraInput {
+  width: 100%;
+  margin: 20px 0px 0px;
+}

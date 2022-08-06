@@ -2,23 +2,42 @@
     background-color: turquoise;
     border: 1px solid;
 } */
-html, body{
-  font-family: 'Noto Sans', sans-serif;
+
+html,
+button,
+input,
+select,
+textarea {
+  font-family: 'Noto Sans', 'malgun gothic', AppleGothic, dotum, sans-serif;
 }
 
+body,
+button,
+input,
+select,
+textarea {
+  font-size: 14px;
+  color: #333;
+}
 
-body{
+body {
   width: auto;
   min-width: fit-content;
+  margin: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-color: #fff;
 }
 
 a {
   text-decoration: none;
-  color:black;
-  cursor:pointer;
+  color: black;
+  cursor: pointer;
 }
 
-li{
-  display:inline;
+li {
+  display: inline;
 }
-

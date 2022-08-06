@@ -1,0 +1,139 @@
+.container {
+  display: inline-flex;
+  width: 100%;
+  padding: 10px 0px 10px 20px;
+}
+.container > div:first-child {
+  width: 139px;
+  padding-top: 12px;
+}
+.lists {
+  width: 100%;
+  flex: 1 1 0%;
+}
+.list {
+  display: flex;
+  padding: 8px 0px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.first_type {
+  align-items: flex-start;
+  flex-direction: column;
+  padding-top: 12px;
+}
+.first_type label:first-child {
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  vertical-align: top;
+  line-height: normal;
+  color: rgb(51, 51, 51);
+  padding: 0px;
+  font-weight: 500;
+  font-size: 18px;
+}
+.first_type p {
+  font-size: 12px;
+  color: rgb(102, 102, 102);
+  padding-top: 4px;
+  padding-left: 36px;
+  margin: 0;
+}
+.second_type > a {
+  padding-right: 22px;
+  color: rgb(95, 0, 128);
+  letter-spacing: 0px;
+}
+.second_type > a::after {
+  content: '';
+  display: inline-block;
+  margin-left: 4px;
+  width: 6px;
+  height: 9px;
+  background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjExIiB2aWV3Qm94PSIwIDAgNiAxMSI+CiAgICA8cGF0aCBmaWxsPSIjNUYwMDgwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xIDExTDYgNS41IDEgMCAwIDEuMSA0IDUuNSAwIDkuOXoiLz4KPC9zdmc+Cg==)
+    50% 50% / 6px 9px no-repeat;
+}
+.se .radio {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+.label {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+}
+.label > input {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0px, 0px, 0px, 0px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+}
+.label > img {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+
+.extraRadio {
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-left: 24px;
+}
+.extraRadio label {
+  padding: 14px 80px 9px 0px;
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  vertical-align: top;
+  line-height: normal;
+  color: rgb(51, 51, 51);
+  font-size: 14px;
+}
+.extraRadio > input {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0px, 0px, 0px, 0px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+}
+.extraRadio > img {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+}
+.reception_notice {
+  position: relative;
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  padding-left: 24px;
+}
+
+.reception_notice > p {
+  margin-left: 36px;
+  padding-left: 16px;
+  background: url(https://res.kurly.com/pc/service/common/2006/ico_sub_dot.svg)
+    0px 0px / 16px 20px no-repeat;
+  font-size: 12px;
+  color: rgb(95, 0, 128);
+  line-height: 18px;
+  letter-spacing: -0.5px;
+}
+.term_option {
+  padding-left: 5px;
+  color: rgb(153, 153, 153);
+}
