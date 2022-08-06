@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 function MainHeader() {
-  const [topbnr, setTopbnr] = useState(true);
+  const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
+
   return (
+    <>
     <header>
-      {topbnr ? (
+      {localStorage.getItem('topbnr') == null ? (
         <div>
           <a
             className="text-center"
@@ -24,7 +26,9 @@ function MainHeader() {
               style={{ width: "42px", height: "42px" }}
             />
             <button
-              onClick={() => setTopbnr(false)}
+              onClick={() => {
+                localStorage.setItem('topbnr','1')
+                setTopBnr(false);}}
               className={styles.btnTopBnr}
               style={{ float: "right" }}
             ></button>
@@ -117,8 +121,10 @@ function MainHeader() {
         </div>
       </div>
       {/* <MainNavbar /> */}
-      <MainNavbar2 />
     </header>
+      <MainNavbar2 />
+    </>
+    
   );
 }
 
