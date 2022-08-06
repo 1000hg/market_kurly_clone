@@ -4,7 +4,7 @@ import MenuItems from "./menuItems";
 
 function MainNavbar2() {
   return (
-    <div className={`nav-area ${styles.nv_area}`}>
+    <div className={`nav-area ${styles.nv_area} sticky-top`}>
       <nav>
         <ul className={`menus ${styles.mns}`}>
           {menuItems.map((menu, index) => {
