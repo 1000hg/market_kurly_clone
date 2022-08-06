@@ -1,7 +1,7 @@
 import React from 'react';
 import MainHeader from '../components/mainHeader';
 import MainFooter from '../components/mainFooter';
-import styles from '../css/signupPage.module.css';
+import styles from '../css/SignupPage.module.css';
 import Info_add_form from '../components/info_add_form';
 import Info_service_term from '../components/info_service_term';
 

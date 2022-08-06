@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import styles from '../css/info_add_form.module.css';
+import styles from '../css/Info_add_form.module.css';
 
 const Info_add_form = ({ name, option, form_msg, required }) => {
   const [radio_add, setRadio_add] = useState('');
