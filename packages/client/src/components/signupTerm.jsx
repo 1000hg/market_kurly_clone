@@ -1,8 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
-import styles from '../css/Info_service_term.module.css';
+import styles from '../css/SignupTerm.module.css';
 
-const Info_service_term = (props) => {
+const SignupTerm = (props) => {
   const [allCheck, setAllCheck] = useState(false);
   const [termCheck, setTermCheck] = useState(false);
   const [infoRequiredCheck, setInfoRequiredCheck] = useState(false);
@@ -285,4 +285,4 @@ const Info_service_term = (props) => {
   );
 };
 
-export default Info_service_term;
+export default SignupTerm;
