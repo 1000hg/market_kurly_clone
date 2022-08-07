@@ -2,12 +2,13 @@
   transition: all 0.5s linear;
 }
 .crd {
-  width: 18rem;
+  border:none;
 }
 
 .crd img:hover {
   transform: scale(1.1);
 }
+
 
 .bnrCrs a {
   display: flex;
@@ -22,7 +23,9 @@
 .crdBg {
   overflow: hidden;
   background-color: white;
-  height: 200px;
+  height:435px;
+  width:338px;
+  position: relative;
 }
 
 .crdBg img {
@@ -38,3 +41,61 @@
   text-align: center;
   margin: 60px 0;
 }
+
+.crdTitle{
+  color:#333333;
+  font-size: 20px;
+}
+
+.cancelPrice{
+  text-decoration: line-through;
+  font-size: 16px;
+  color:#B5B5B5
+}
+
+.crtBg{
+  width: 338px;
+  height: 0;
+  position: relative;
+}
+
+.crtBtn{
+  position: absolute;
+  border:none;
+  background: none;
+  right: 16px;
+  bottom: 16px;
+}
+
+.dcntRate{
+  font-size:18px;
+  font-weight: 700;
+  color:rgb(250, 98, 47);
+}
+
+.dcntPrice{
+  font-size:18px;
+  font-weight: 700;
+  color:rgb(51, 51, 51);
+}
+
+.crdSummary{
+  font-size: 13px;
+  color:rgb(153, 153, 153);
+}
+
+.cpnBg{
+  position:absolute;
+  top:0px;
+  left:0px;
+  background-color:rgb(189, 118, 255);
+  opacity: 0.9;
+  padding:5px 10px;
+}
+
+.dcntCpn{
+  color:white;
+  font-size: 14px;
+  font-weight: bold;
+}
+

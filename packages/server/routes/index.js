@@ -13,8 +13,8 @@ router.use('/verify', verifyRouter);
 // 회원 비밀번호 재설정
 router.use('/user', usersRouter);
 
-router.use("/product", productRouter);
+router.use('/product', productRouter);
 
-router.use("/product/view", productViewRouter);
+router.use('/product/view', productViewRouter);
 
 module.exports = router;
