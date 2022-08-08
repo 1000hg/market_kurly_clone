@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import LoginPage from './routers/LoginPage';
 import SignUpPage from './routers/SignupPage';
+import AddressPage from './routers/AddressPage';
 
 function App({ authService }) {
   return (
@@ -15,6 +16,7 @@ function App({ authService }) {
           path='/signup'
           element={<SignUpPage authService={authService} />}
         ></Route>
+        <Route path='/address/shipping-address' element={<AddressPage />} />
       </Routes>
     </div>
   );

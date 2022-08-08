@@ -308,7 +308,10 @@ const SignupInfo = ({ submit, addInfo, data }) => {
           </div>
           <div className={styles.form}>
             <div className={styles.inputbox}>
-              <button className={styles.address_btn}>
+              <button
+                className={styles.address_btn}
+                onClick={() => window.open('')}
+              >
                 <input
                   className={styles.search_icon}
                   type='image'
