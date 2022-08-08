@@ -11,7 +11,7 @@ const bcryptSalt = process.env.BCRYPT_SALT;
 
 // id: test8 pw: 1234 : $2b$12$Qgc12Z67wpau5U/EtCFDHuYEutfZxH.KQe4SzwBovZnGKVQDcizh2
 async function signup(req, res) {
-  console.log("signupBefore : ", req.body);
+  
   const { user_id, user_password, reffer_id } = req.body;
   const isValidUser = await authModel.findByUser(user_id);
   
@@ -30,10 +30,8 @@ async function signup(req, res) {
       authModel.addRefferCount(reffer_id);
     }
   }
-  console.log(">>>>>", user_password)
   // bcrypt로 비밀번호 암호화
   const hashed = await bcrypt.hash(user_password, parseInt(bcryptSalt));
-  console.log("<<<<<", hashed)
   req.body.user_password = hashed;
   const user_seq = await authModel.createUser(req.body);
   
@@ -43,11 +41,8 @@ async function signup(req, res) {
 }
 
 async function login(req, res) {
-  console.log("loginBefore : ", req.body);
   const { user_id, user_password } = req.body;
   const isValidUser = await authModel.findByUser(user_id);
-  console.log('loginisValidUser : ', isValidUser)
-
   // 같은 아이디가 있는지 확인
   if (!isValidUser) {
     return res.status(409).json({ message: '이아디와 비밀번호가 유효하지 않습니다!'});
@@ -65,7 +60,7 @@ async function login(req, res) {
 }
 
 async function me(req, res, next) {
-  console.log("me : ", req.userId)
+ 
   const user = await authModel.findByUser(req.userId);
   if (!user) {
     return res.status(404).json({ message: '로그인 되었는지 확인하세요!'});

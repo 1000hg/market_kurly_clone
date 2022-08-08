@@ -36,7 +36,7 @@ function hideId(userId) {
 
 // 가려진 아이디 보내기
 async function sendId(req, res) {
-  console.log(req.body);
+  
   const isValidUser = await emailModel.findByUser(req.body);
   // 이름과 폰번호로 회원이 존재하지 않을 경우
   if (!isValidUser) {

@@ -26,13 +26,13 @@ async function findByUser(user_id) {
 
 // 추천인이 있을 경우 추천인수 증가
 async function addRefferCount(user_id) {
-  console.log("reffer_id : ", user_id);
+  
   try {
     let result = await dbPool.query(`SELECT reffer_count FROM tb_user WHERE user_id = "${user_id}"`);
     result = Number(result[0][0].reffer_count) + 1;
     dbPool.query(`UPDATE tb_user SET reffer_count="${result}" WHERE user_id = "${user_id}"`)
   } catch(error) {
-    console.error("addreffer_id : ", error)
+    console.error(error)
   }
 }
 
@@ -47,7 +47,7 @@ async function findByUserSeq(user_seq) {
 
 // DB에 회원가입 데이터 저장
 async function createUser(user) {
-  console.log("user >> : ", user);
+  
   try {
     const result = await dbPool.query(
       `INSERT INTO tb_user SET
