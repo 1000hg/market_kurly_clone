@@ -58,7 +58,9 @@ async function createProductView(data) {
 
 async function findProductViewList() {
     try {
-      const result = await db.query(`SELECT * FROM tb_product_view where product_view_status = 1`);
+      const result = await db.query(`SELECT * FROM tb_product_view as tb1 
+      LEFT JOIN tb_product as tb2
+      on tb1.product_seq = tb2.product_seq where tb1.product_view_status = 1`);
       if(result) {
         serviceStatus.staus = 200
         serviceStatus.msg = '상품 조회에 성공하였습니다.'
