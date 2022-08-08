@@ -1,17 +1,18 @@
 import styles from "../css/MainPageContent.module.css";
 import CardProduct from "./cardProduct";
 import { useState, useEffect } from "react";
-// import axios from "axios";
+import axios from "axios";
 
 function MainPageContent() {
   const [itemList, setItemList] = useState([]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data: result } = await axios.get("/api/itemList");
-  //     setItemList(result);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    (async () => {
+      const { data: result } = await axios.get("http://localhost:8080/product/view/list");
+      // setItemList(result);
+      console.log(result);
+    })();
+  }, []);
   return (
     <>
       <div className="container-fluid" style={{ padding: 0 }}>

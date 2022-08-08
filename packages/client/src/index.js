@@ -4,11 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import AuthService from './services/auth_service';
 
+const baseURL = process.env.REACT_APP_BASE_URL;
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const authService = new AuthService(baseURL);
+
 root.render(
   <BrowserRouter>
-    <App />
+    <App authService={authService} />
   </BrowserRouter>
 );
 

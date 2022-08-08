@@ -4,39 +4,18 @@ import { useEffect, useState } from "react";
 import axios, { Axios } from "axios";
 // import { useDispatch } from "react-redux";
 
-function LoginPage() {
+function LoginPage({authService}) {
   // const dispatch = useDispatch();
   const [seCheck, setSeCheck] = useState(true);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
 
-  // const onSubmitHandler = (e) => {
-  //   e.preventDefault();
-  //   console.log("id", id);
-  //   console.log("pwd", pwd);
-  //   let body = {
-  //     id: id,
-  //     pwd: pwd
-  //   };
+  const onSubmitHandler = (e) =>{
+    e.preventDefault();
+    authService.signIn({user_id:id, user_password:pwd})
 
-  //   dispatch(loginUser(body))
-  //   .then(response=>{
-  //     if(response.payload.loginSuccess){
-  //       props.history.push('/')
-  //     }else{
-  //       alert('아이디 또는 비밀번호 오류입니다')
-  //     }
-  //   })
-  //   Axios.post('/api/auth/login',body)
-  //   .then(response => {
-
-  //   })
-  // };
-  // useEffect(() => {
-  //   axios.get("/api/auth/login").then((response) => {
-  //     console.log(response);
-  //   });
-  // }, []);
+  }
+  
   return (
     <>
       <MainHeader />
@@ -59,7 +38,7 @@ function LoginPage() {
         >
           로그인
         </h3>
-        <form onSubmit>
+        <form onSubmit={onSubmitHandler}>
           <input
             style={{
               height: "54px",
