@@ -10,7 +10,7 @@ function App({ authService }) {
     <div className='App'>
       <Routes>
         <Route path='/' element={<MainPage />}></Route>
-        <Route path='/login' element={<LoginPage />}></Route>
+        <Route path='/login' element={<LoginPage authService={authService}/>}></Route>
         <Route
           path='/signup'
           element={<SignUpPage authService={authService} />}
