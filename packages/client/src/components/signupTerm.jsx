@@ -1,8 +1,9 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import styles from '../css/SignupTerm.module.css';
 
-const SignupTerm = (props) => {
+const SignupTerm = () => {
   const [allCheck, setAllCheck] = useState(false);
   const [termCheck, setTermCheck] = useState(false);
   const [infoRequiredCheck, setInfoRequiredCheck] = useState(false);

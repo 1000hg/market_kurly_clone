@@ -1,16 +1,77 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from '../css/SignupInfo.module.css';
 
-const SignupInfo = () => {
+const SignupInfo = ({ submit, addInfo, data }) => {
   const [radio_add, setRadio_add] = useState('');
-  const [radio_gender, setRadio_gender] = useState('NONE');
+  const [radio_gender, setRadio_gender] = useState('0');
   const [inValid, setInValid] = useState('');
   const [yearValid, setYearValid] = useState();
   const [monthValid, setMonthValid] = useState();
   const yearRef = useRef();
   const monthRef = useRef();
   const dayRef = useRef();
+  const idRef = useRef();
+  const nameRef = useRef();
+  const passwordRef = useRef();
+  const password_ConfirmRef = useRef();
+  const emailRef = useRef();
+  const phoneRef = useRef();
+  const addressRef = useRef();
+  const birthRef = useRef();
+  const additionRef = useRef();
 
+  // user_id: 'albert',
+  // user_password: '1234',
+  // user_name: 'albert',
+  // user_email: '1234567@naver.com',
+  // user_phone: '010-1111-1111',
+  // zip_code: '',
+  // address: '서울특별시 서울구 서울동',
+  // address_detail: '',
+  // user_birth: '20010101',
+  // gender: '0',
+  // reffer_id: '',
+  // join_event_name: '',
+  const [info, setInfo] = useState({
+    ...data,
+    user_id: 'choi',
+    user_password: '1111',
+  });
+
+  useEffect(() => {
+    if (submit == true) {
+      addInfo({
+        user_id: idRef.current.value,
+        user_password: passwordRef.current.value,
+        user_name: nameRef.current.value,
+        user_email: emailRef.current.value,
+        user_phone: phoneRef.current.value,
+        zip_code: '',
+        address: '서울특별시 서울구 서울동',
+        address_detail: '',
+        user_birth:
+          yearRef.current.value + monthRef.current.value + dayRef.current.value,
+        gender: '0',
+        reffer_id: '',
+        join_event_name: '',
+      });
+    }
+    console.log({
+      user_id: idRef.current.value,
+      user_password: passwordRef.current.value,
+      user_name: nameRef.current.value,
+      user_email: emailRef.current.value,
+      user_phone: phoneRef.current.value,
+      zip_code: '',
+      address: '',
+      address_detail: '',
+      user_birth:
+        yearRef.current.value + monthRef.current.value + dayRef.current.value,
+      gender: '',
+      reffer_id: '',
+      join_event_name: '',
+    });
+  }, [submit]);
   /* 생년월일 숫자만 입력 */
   const checkNumber = (e) => {
     const keyCode = e.keyCode;
@@ -103,6 +164,7 @@ const SignupInfo = () => {
                 type='text'
                 required=''
                 className={styles.input}
+                ref={idRef}
               />
             </div>
           </div>
@@ -127,6 +189,7 @@ const SignupInfo = () => {
                 type='text'
                 required=''
                 className={styles.input}
+                ref={passwordRef}
               />
             </div>
           </div>
@@ -151,6 +214,7 @@ const SignupInfo = () => {
                 type='text'
                 required=''
                 className={styles.input}
+                ref={password_ConfirmRef}
               />
             </div>
           </div>
@@ -175,6 +239,7 @@ const SignupInfo = () => {
                 type='text'
                 required=''
                 className={styles.input}
+                ref={nameRef}
               />
             </div>
           </div>
@@ -199,6 +264,7 @@ const SignupInfo = () => {
                 type='text'
                 required=''
                 className={styles.input}
+                ref={emailRef}
               />
             </div>
           </div>
@@ -223,6 +289,7 @@ const SignupInfo = () => {
                 type='text'
                 required=''
                 className={styles.input}
+                ref={phoneRef}
               />
             </div>
           </div>
@@ -267,8 +334,8 @@ const SignupInfo = () => {
                 <label htmlFor='gender-man'>
                   <input
                     type='radio'
-                    value='MALE'
-                    checked={radio_gender == 'MALE' ? true : false}
+                    value='1'
+                    checked={radio_gender == '1' ? true : false}
                     onChange={changeRadio}
                   />
                   <span>남자</span>
@@ -276,8 +343,8 @@ const SignupInfo = () => {
                 <label htmlFor='gender-woman'>
                   <input
                     type='radio'
-                    value='FEMALE'
-                    checked={radio_gender == 'FEMALE' ? true : false}
+                    value='2'
+                    checked={radio_gender == '2' ? true : false}
                     onChange={changeRadio}
                   />
                   <span>여자</span>
@@ -285,8 +352,8 @@ const SignupInfo = () => {
                 <label htmlFor='gender-none'>
                   <input
                     type='radio'
-                    value='NONE'
-                    checked={radio_gender == 'NONE' ? true : false}
+                    value='0'
+                    checked={radio_gender == '0' ? true : false}
                     onChange={changeRadio}
                   />
                   <span>선택안함</span>

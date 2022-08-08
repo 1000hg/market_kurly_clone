@@ -4,9 +4,9 @@ export default class AuthService {
   }
   async postSignup(info) {
     const response = await fetch(`${this.baseURL}/auth/signup`, {
-      methd: 'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ info }),
+      body: JSON.stringify(info),
     });
     const data = await response.json();
     if (response.status !== 201) {
