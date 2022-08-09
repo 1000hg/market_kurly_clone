@@ -9,6 +9,9 @@ const jwtSecretKey = process.env.JWT_SECRET;
 const jwtExpiresInDays = process.env.JWT_EXPIRES_SEC;
 const bcryptSalt = process.env.BCRYPT_SALT;
 
+function createJwtToken(user_seq) {
+  return jwt.sign({ user_seq }, jwtSecretKey, { expiresIn: jwtExpiresInDays })
+}
 // id: test8 pw: 1234 : $2b$12$Qgc12Z67wpau5U/EtCFDHuYEutfZxH.KQe4SzwBovZnGKVQDcizh2
 async function signup(req, res) {
   
@@ -66,10 +69,6 @@ async function me(req, res, next) {
     return res.status(404).json({ message: '로그인 되었는지 확인하세요!'});
   }
   res.status(200).json({ token: req.token, user_id: user.user_id });
-}
-
-function createJwtToken(user_seq) {
-  return jwt.sign({ user_seq }, jwtSecretKey, { expiresIn: jwtExpiresInDays })
 }
 
 module.exports = {

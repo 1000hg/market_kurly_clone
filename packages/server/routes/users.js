@@ -9,4 +9,6 @@ router.get("/check/id", usersController.checkedUserInfo);
 
 router.get("/check/email", usersController.checkedUserInfo);
 
+router.post("/check/pw", isAuth, usersController.checkedUserPw);
+
 module.exports = router;

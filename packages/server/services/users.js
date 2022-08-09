@@ -50,7 +50,31 @@ async function checkedUser(user) {
 	}
 }
 
+async function checkedUserPassword(user) {
+	
+	try {
+		const result = await dbPool.query(
+			`SELECT * 
+      FROM tb_user 
+      WHERE ${Object.keys(user)[0]} = "${Object.values(user)[0]}" 
+      AND ${Object.keys(user)[1]} = "${Object.values(user)[1]}"`
+		);
+		
+		// DB에서 가져온 회원데이터에 메시지 넣기
+		if (Object.keys(user)[0] == "user_name") {
+			result[0][0].message = "아이디로 로그인하세요!";
+			return result[0][0];
+		} else {
+			result[0][0].message = "새로운 비밀빈호를 입력하세요!";
+			return result[0][0];
+		}
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 module.exports = {
 	resetPw,
 	checkedUser,
+	checkedUserPassword,
 };
