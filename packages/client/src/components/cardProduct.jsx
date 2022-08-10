@@ -24,7 +24,7 @@ import styles from "../css/CardProduct.module.css";
 //   );
 // }
 
-function CardProduct() {
+function CardProduct({item}) {
   return (
     <div className="col-xxl-3 col-md-3" styles={{ margin: "0 auto" }}>
       <div className={styles.crd}>
@@ -44,14 +44,16 @@ function CardProduct() {
         </div>
         <div className="card-body">
           <span>샛별배송</span>
-          <h5 className={styles.crdTitle}>[기장물산]비빔밥용 해초 샐러드 5입</h5>
-          <span className={styles.dcntRate}>5%</span>
-          <span className={styles.dcntPrice}>12,825원</span>
-          <p className={styles.cancelPrice}>13,500원</p>
-          <p className={styles.crdSummary}>물에 불려즐기는 7가지 해초!</p>
-          {/* <a href="#" className="btn btn-primary">
-            Go somewhere
-          </a> */}
+          <h5 className={styles.crdTitle}>{item.product_view_title}</h5>
+          {item.discount_rate === ""? 
+          <><span className={styles.dcntPrice}>{parseInt(item.product_price).toLocaleString('ko-kr')} 원</span>
+          <p className={styles.crdSummary}>{item.product_view_desc}</p></>:
+          <><span className={styles.dcntRate}>{item.discount_rate}</span>
+          <span className={styles.dcntPrice}>{parseInt(item.discount_price).toLocaleString('ko-kr')} 원</span>
+          <p className={styles.cancelPrice}>{parseInt(item.product_price).toLocaleString('ko-kr')} 원</p>
+          <p className={styles.crdSummary}>{item.product_view_desc}</p></>
+          }
+          
         </div>
       </div>
     </div>

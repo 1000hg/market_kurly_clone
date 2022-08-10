@@ -9,8 +9,7 @@ function MainPageContent() {
   useEffect(() => {
     (async () => {
       const { data: result } = await axios.get("http://localhost:8080/product/view/list");
-      // setItemList(result);
-      console.log(result);
+      setItemList(result.responseData[0]);
     })();
   }, []);
   return (
@@ -78,77 +77,10 @@ function MainPageContent() {
       <p className={styles.sbTitle}>이 상품 어때요?</p>
       <section className="container">
         <div className={`row justify-content-around`}>
-          {/* {itemList.map((item, idx) => {
-            <CardProduct item={item} />;
-          })} */}
-          <CardProduct/>
-          <CardProduct/>
-          <CardProduct/>
-          
-          {/* <div className="col-xxl-3 col-md-6">
-            <div className={styles.card}>
-              <div className={styles.crdBg}>
-                <img
-                  src="https://cdn.pixabay.com/photo/2017/07/28/14/29/macarons-2548827_960_720.jpg"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div> */}
-
-          {/* <div className="col-xxl-3 col-md-6">
-            <div className={styles.card}>
-              <div className={styles.crdBg}>
-                <img
-                  src="https://cdn.pixabay.com/photo/2017/07/07/12/31/lime-2481346_960_720.jpg"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div>
-          </div> */}
-
-          {/* <div className="col-xxl-3 col-md-6">
-            <div className={styles.card}>
-              <div className={styles.crdBg}>
-                <img
-                  src="https://cdn.pixabay.com/photo/2017/02/15/10/57/pizza-2068272_960_720.jpg"
-                  className="card-img-top"
-                  alt="..."
-                />
-              </div>
-              <div className="card-body">
-                <h5 className="card-title">Card title</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
-                <a href="#" className="btn btn-primary">
-                  Go somewhere
-                </a>
-              </div>
-            </div>
-          </div> */}
+          {itemList.map((item, idx) => {
+            return <CardProduct item={item} />;
+          })}
+         
         </div>
       </section>
     </>
