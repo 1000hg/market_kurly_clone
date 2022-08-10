@@ -47,8 +47,16 @@ async function checkedUserPw(req, res) {
 	res.status(200).json({ userInfo: isValidUser });
 }
 
+async function userAddress(req, res) {
+	console.log("userAddress : ", req.body);
+	const isValidUser = await usersModel.findByAddress(req.body);
+	console.log("userAddress result : ", isValidUser);
+	return res.status(200).json(isValidUser);
+}
+
 module.exports = {
 	resetPassword,
 	checkedUserInfo,
 	checkedUserPw,
+	userAddress,
 };

@@ -73,8 +73,25 @@ async function checkedUserPassword(user) {
 	}
 }
 
+async function findByAddress(user) {
+	
+	try {
+		const result = await dbPool.query(
+			`SELECT *
+			FROM tb_user JOIN tb_user_address
+			ON tb_user.user_seq = tb_user_address.user_seq
+			WHERE tb_user.user_id = "${user.user_id}"`
+		);
+		
+		return result[0];
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 module.exports = {
 	resetPw,
 	checkedUser,
 	checkedUserPassword,
+	findByAddress,
 };

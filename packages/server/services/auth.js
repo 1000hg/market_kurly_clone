@@ -77,23 +77,25 @@ async function createUser(user) {
         ]
       )
       
-      const resultAddress = await dbPool.query(
-        `INSERT INTO tb_user_address SET
+    const resultAddress = await dbPool.query(
+      `INSERT INTO tb_user_address SET
           user_seq=?,
           zip_code=?,
           address=?,
           address_detail=?,
+          default_address=?,
           create_dtm=?,
           update_dtm=?`,
-          [
-            result[0].insertId,
-            user.zip_code,
-            user.address,
-            user.address_detail,
-            new Date(),
-            new Date()
-          ]
-      )
+      [
+        result[0].insertId,
+        user.zip_code,
+        user.address,
+        user.address_detail,
+        1,
+        new Date(),
+        new Date(),
+      ]
+    )
       // 저장한 user_seq 반환
       return result[0].insertId;
   } catch(error) {
