@@ -1,19 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter } from 'react-router-dom';
-import AuthService from './services/auth_service';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import AuthService from "./services/auth_service";
+import { Provider } from "react-redux";
+import store from "./store.js";
 
 const baseURL = process.env.REACT_APP_BASE_URL;
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 const authService = new AuthService(baseURL);
 
 root.render(
-  <BrowserRouter>
-    <App authService={authService} />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App authService={authService} />
+    </BrowserRouter>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
