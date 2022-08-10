@@ -14,4 +14,6 @@ router.post("/check/pw", usersController.checkedUserPw);
 
 router.get("/address", usersController.userAddress);
 
+router.post("/address/add", usersController.addAddress);
+
 module.exports = router;

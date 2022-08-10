@@ -89,9 +89,54 @@ async function findByAddress(user) {
 	}
 }
 
+async function addUserAddress(user) {
+	try {
+		if (user.default_address == 1) {
+			const userAddress = await dbPool.query(
+				`SELECT *
+				FROM tb_user_address
+				WHERE user_seq = "${user.user_seq}"`
+			);
+
+			userAddress[0].forEach(async (item) => {
+				const result = await dbPool.query(
+					`UPDATE tb_user_address
+				  SET default_address = 0
+				  WHERE user_address_seq = "${item.user_address_seq}"`
+				);
+			});
+		}
+
+		const result = await dbPool.query(
+			`INSERT INTO tb_user_address SET
+		      user_seq=?,
+		      zip_code=?,
+		      address=?,
+		      address_detail=?,
+		      default_address=?,
+					create_dtm=?,
+		      update_dtm=?`,
+			[
+				user.user_seq,
+				user.zip_code,
+				user.address,
+				user.address_detail,
+				user.default_address,
+				new Date(),
+				new Date(),
+			]
+		);
+
+		return result[0].insertId;
+	} catch (error) {
+		console.error(error);
+	}
+}
+
 module.exports = {
 	resetPw,
 	checkedUser,
 	checkedUserPassword,
 	findByAddress,
+	addUserAddress,
 };

@@ -48,10 +48,15 @@ async function checkedUserPw(req, res) {
 }
 
 async function userAddress(req, res) {
-	console.log("userAddress : ", req.body);
+	
 	const isValidUser = await usersModel.findByAddress(req.body);
-	console.log("userAddress result : ", isValidUser);
 	return res.status(200).json(isValidUser);
+}
+
+async function addAddress(req, res) {
+	
+	const result = await usersModel.addUserAddress(req.body);
+	return res.status(200).json({ user_address_seq: result, message: "저장 되었습니다." });
 }
 
 module.exports = {
@@ -59,4 +64,5 @@ module.exports = {
 	checkedUserInfo,
 	checkedUserPw,
 	userAddress,
+	addAddress,
 };
