@@ -92,19 +92,15 @@ async function findByAddress(user) {
 async function addUserAddress(user) {
 	try {
 		if (user.default_address == 1) {
-			const userAddress = await dbPool.query(
-				`SELECT *
-				FROM tb_user_address
-				WHERE user_seq = "${user.user_seq}"`
-			);
-
-			userAddress[0].forEach(async (item) => {
-				const result = await dbPool.query(
+			try {
+				const result = dbPool.query(
 					`UPDATE tb_user_address
-				  SET default_address = 0
-				  WHERE user_address_seq = "${item.user_address_seq}"`
+					SET default_address = 0
+					WHERE user_seq = "${user.user_seq}"`
 				);
-			});
+			} catch(error) {
+				console.error(error);
+			}
 		}
 
 		const result = await dbPool.query(
