@@ -20,8 +20,7 @@
   flex: 1 1 0%;
 }
 .inputbox {
-  position: relative;
-  height: 48px;
+  flex: 1 1 0%;
 }
 .input {
   width: 100%;
@@ -96,6 +95,14 @@
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(95, 0, 128);
 }
+.address_btn ~ p {
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgb(102, 102, 102);
+}
 .search_icon {
   display: inline-block;
   width: 20px;
@@ -103,10 +110,14 @@
   margin-right: 4px;
   vertical-align: middle;
 }
-.invalid {
+.inValid {
+  padding: 10px 0px;
+}
+.inValid p {
   font-size: 13px;
   color: rgb(240, 63, 64);
   margin-top: -4px;
+  margin-bottom: 0px;
 }
 .radiobox {
   display: flex;

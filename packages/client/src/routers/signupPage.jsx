@@ -20,7 +20,10 @@ const SignUpPage = ({ authService }) => {
     reffer_id: '',
     join_event_name: '',
   });
-  const [submit, setSubmit] = useState(false);
+  const [valid, setvalid] = useState(false);
+  const [idIsValid, setIdIsValid] = useState(false);
+
+  const [submit, setSubmit] = useState(null);
 
   const addInfo = (info) => {
     setData(info);
@@ -29,6 +32,22 @@ const SignUpPage = ({ authService }) => {
   };
   const onSubmit = () => {
     setSubmit(true);
+  };
+  const checkId = (info) => {
+    const isValid = authService.signupIdCheck(info);
+    if (isValid == true) {
+      console.log('사용 가능 아이디입니다.');
+    } else {
+      console.log('다른 아이디를 사용하십시오');
+    }
+  };
+  const checkEmail = (info) => {
+    const isValid = authService.signupEmailCheck(info);
+    if (isValid == true) {
+      console.log('사용 가능 이메일입니다.');
+    } else {
+      console.log('다른 이메일을 사용하십시오');
+    }
   };
 
   return (
@@ -42,7 +61,13 @@ const SignUpPage = ({ authService }) => {
               <span style={{ color: 'rgb(238, 106, 123)' }}>*</span>
               필수입력사항
             </div>
-            <SignupInfo addInfo={addInfo} submit={submit} data={data} />
+            <SignupInfo
+              addInfo={addInfo}
+              submit={submit}
+              data={data}
+              checkId={checkId}
+              checkEmail={checkEmail}
+            />
             <div className={styles.line}></div>
           </div>
           <div>
