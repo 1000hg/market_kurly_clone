@@ -49,7 +49,7 @@ function CardProduct({item}) {
           <><span className={styles.dcntPrice}>{parseInt(item.product_price).toLocaleString('ko-kr')} 원</span>
           <p className={styles.crdSummary}>{item.product_view_desc}</p></>:
           <><span className={styles.dcntRate}>{item.discount_rate}</span>
-          <span className={styles.dcntPrice}>{parseInt(item.discount_price).toLocaleString('ko-kr')} 원</span>
+          <span className={styles.dcntPrice}>{parseInt(item.product_discount_price).toLocaleString('ko-kr')} 원</span>
           <p className={styles.cancelPrice}>{parseInt(item.product_price).toLocaleString('ko-kr')} 원</p>
           <p className={styles.crdSummary}>{item.product_view_desc}</p></>
           }
