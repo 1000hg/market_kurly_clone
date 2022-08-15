@@ -1,5 +1,7 @@
 import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
+import styles from "../css/LoginPage.module.css"
+import setAuthorizationToken from "../services/setAuthorizationToken";
 import { useEffect, useState } from "react";
 import axios, { Axios } from "axios";
 // import { useDispatch } from "react-redux";
@@ -9,15 +11,52 @@ function LoginPage({authService}) {
   const [seCheck, setSeCheck] = useState(true);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
+  const[loginErr, setLoginErr] = useState(false);
+  const [modalScroll, setModalScroll] = useState(false);
+  
 
   const onSubmitHandler = (e) =>{
     e.preventDefault();
+    
     authService.signIn({user_id:id, user_password:pwd})
+    // .catch((error)=> {
+    //   console.log(error);
+    //   setLoginErr(true);})
+    .then((data)=> {
+      if(data.rsltCd == "E"){
+        setLoginErr(true)
+      }else{
+        setLoginErr(false);
+        console.log(data);
+        const token = data.token;
+        localStorage.setItem('jwtToken',token);
+        setAuthorizationToken(token);
+      }
+      
+    })
+    
+  }
 
+  function Modal(){
+    const onLoginFailed = (e) =>{
+      e.preventDefault();
+      setLoginErr(false);
+    }
+    return(
+      <div className={styles.modalBg}>
+  
+        <div className={styles.modal}>
+          <div className={styles.modalText}>아이디, 비밀번호를 확인해주세요.</div>
+          <div className={styles.modalDiv}><button className={styles.modalButton}onClick={onLoginFailed}>확인</button></div>
+        </div>
+      </div>
+    )
   }
   
+  
   return (
-    <>
+    <div className={`${loginErr? styles.scroll:''}`}>
+    {loginErr == true ? <Modal/> : null }
       <MainHeader />
       <div
         style={{
@@ -128,7 +167,9 @@ function LoginPage({authService}) {
         </button>
       </div>
       <MainFooter />
-    </>
+    </div>
   );
 }
+
+
 export default LoginPage;

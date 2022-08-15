@@ -32,8 +32,9 @@ export default class AuthService {
   async signupEmailCheck(info) {
     const response = await fetch(`${this.baseURL}/user/check/email`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(info),
+      params: {
+        userid: info,
+      },
     });
     const data = await response.json();
     if (response.status !== 200) {
@@ -50,7 +51,8 @@ export default class AuthService {
     });
     const data = await response.json();
     if (response.status !== 200) {
-      throw new Error(data.message);
+      // throw new Error(data.message);
+      return { rsltCd: 'E' };
     }
     return data;
   }
