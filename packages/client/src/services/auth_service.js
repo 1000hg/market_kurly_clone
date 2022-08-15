@@ -16,10 +16,11 @@ export default class AuthService {
   }
 
   async signupIdCheck(info) {
-    const response = await fetch(`${this.baseURL}/user/checked/id`, {
+    const response = await fetch(`${this.baseURL}/user/check/id`, {
       method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(info),
+      params: {
+        userid: info,
+      },
     });
     const data = await response.json();
     if (response.status !== 200) {
@@ -29,7 +30,7 @@ export default class AuthService {
   }
 
   async signupEmailCheck(info) {
-    const response = await fetch(`${this.baseURL}/user/checked/email`, {
+    const response = await fetch(`${this.baseURL}/user/check/email`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info),
