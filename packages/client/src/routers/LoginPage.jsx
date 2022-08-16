@@ -4,7 +4,7 @@ import styles from "../css/LoginPage.module.css"
 import setAuthorizationToken from "../services/setAuthorizationToken";
 import { useState } from "react";
 import {useDispatch, useSelector} from 'react-redux';
-import {SET_TOKEN} from "../store"
+import {SET_TOKEN} from "../reducers/authToken"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
