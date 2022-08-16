@@ -1,6 +1,6 @@
 import styles from "../css/CardProduct.module.css";
-import base64 from 'base-64';
-import {Buffer} from 'buffer';
+// import base64 from 'base-64';
+// import {Buffer} from 'buffer';
 
 function CardProduct({item}) {
   // console.log(item.product_img);
