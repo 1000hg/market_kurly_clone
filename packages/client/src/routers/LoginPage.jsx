@@ -2,39 +2,72 @@ import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
 import styles from "../css/LoginPage.module.css"
 import setAuthorizationToken from "../services/setAuthorizationToken";
-import { useEffect, useState } from "react";
-import axios, { Axios } from "axios";
-// import { useDispatch } from "react-redux";
+import { useState } from "react";
+import {useDispatch, useSelector} from 'react-redux';
+import {SET_TOKEN} from "../store"
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 function LoginPage({authService}) {
-  // const dispatch = useDispatch();
   const [seCheck, setSeCheck] = useState(true);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const[loginErr, setLoginErr] = useState(false);
-  const [modalScroll, setModalScroll] = useState(false);
+  
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  // let a = useSelector((state)=>{return state.loginToken
+  // })
   
 
   const onSubmitHandler = (e) =>{
     e.preventDefault();
     
-    authService.signIn({user_id:id, user_password:pwd})
-    // .catch((error)=> {
-    //   console.log(error);
-    //   setLoginErr(true);})
-    .then((data)=> {
-      if(data.rsltCd == "E"){
-        setLoginErr(true)
-      }else{
-        setLoginErr(false);
-        console.log(data);
-        const token = data.token;
-        localStorage.setItem('jwtToken',token);
-        setAuthorizationToken(token);
-      }
+    axios.post('/api/auth/login',{"user_id":id, "user_password":pwd})
+    .then((res) => {
+      setLoginErr(false);
+      //console.log(res);
+      const token = res.data.token;
+      //console.log(token);
+      localStorage.setItem('jwtToken',token);
+      setAuthorizationToken(token);
+      dispatch(SET_TOKEN(token));
       
+      return navigate('/');
     })
-    
+    .catch(e => {console.log(e);
+    setLoginErr(true);})
+
+    // authService.signIn({user_id:id, user_password:pwd})
+    // .then((data)=> {
+    //   if(data.rsltCd == "E"){
+    //     setLoginErr(true)
+    //   }else{
+    //     setLoginErr(false);
+    //     // console.log(data);
+    //     const token = data.token;
+    //     localStorage.setItem('jwtToken',token);
+
+    //     axios.post('/api/auth/login',{"user_id":id, "user_password":pwd})
+    //     .then(res => {
+    //     console.log(res);
+    //     setAuthorizationToken(token); //헤더에 Autorization : 토큰 
+    //     })
+        
+    //     // console.log(token);
+    //     dispatch(SET_TOKEN(token));
+    //     return navigate('/');
+    //   }
+      
+    // })
+
+    // axios({
+    //   method:'POST',
+    //   url:'/api/auth/login',
+    //   body:{"user_id":id, "user_password":pwd}
+    // }).then(res => console.log(res))
+  
   }
 
   function Modal(){
