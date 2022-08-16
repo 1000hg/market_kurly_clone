@@ -18,7 +18,7 @@ async function resetPassword(req, res) {
 }
 
 async function checkedUserInfo(req, res) {
-	const result = await usersModel.checkedUser(req.body);
+	const result = await usersModel.checkedUser(req.query);
 	res.status(200).json(result);
 }
 
@@ -49,7 +49,7 @@ async function checkedUserPw(req, res) {
 
 async function userAddress(req, res) {
 	
-	const isValidUser = await usersModel.findByAddress(req.body);
+	const isValidUser = await usersModel.findByAddress(req.query);
 	return res.status(200).json(isValidUser);
 }
 

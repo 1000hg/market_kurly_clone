@@ -29,7 +29,18 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
     user_id: 'choi',
     user_password: '1111',
   });
-
+  const submitId = () => {
+    const info = {
+      user_id: idRef.current.value,
+    };
+    checkId(info);
+  };
+  const submitEmail = () => {
+    const info = {
+      user_mail: emailRef.current.value,
+    };
+    checkEmail(info);
+  };
   const checkNumber = (e) => {
     const keyCode = e.keyCode;
     const isValidKey =
@@ -104,7 +115,11 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
   };
   const handleOnInput = (event) => {
     if (event.currentTarget.id == 'ID') {
-      if (event.currentTarget.value.length < 6) {
+      const idRegex = /^[a-zA-Z0-9]+$/;
+      if (
+        event.currentTarget.value.length < 6 ||
+        !idRegex.test(event.currentTarget.value)
+      ) {
         setIdValid(false);
       } else {
         setIdValid(true);
@@ -130,7 +145,8 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
       }
     }
     if (event.currentTarget.id == 'NAME') {
-      if (event.currentTarget.value == '') {
+      const nameRegex = /^[가-힣a-zA-Z0-9]+$/;
+      if (!nameRegex.test(event.currentTarget.value)) {
         setNameValid(false);
       } else {
         setNameValid(true);
@@ -146,7 +162,7 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
       }
     }
     if (event.currentTarget.id == 'PHONE') {
-      const phoneRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+      const phoneRegex = /^[0-9]+$/;
       if (!phoneRegex.test(event.currentTarget.value)) {
         setPhoneValid(false);
       } else {
@@ -220,7 +236,7 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
             </div>
           </div>
           <div className={styles.buttonbox}>
-            <button className={styles.button} onClick={checkId}>
+            <button className={styles.button} onClick={submitId}>
               <span>중복확인</span>
             </button>
           </div>
@@ -308,8 +324,9 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
                 type='text'
                 className={styles.input}
                 ref={nameRef}
+                onChange={handleOnInput}
               />
-              {birthValid == false && (
+              {nameValid == false && (
                 <div className={styles.inValid}>
                   <p>이름을 입력해 주세요.</p>
                 </div>
@@ -348,7 +365,7 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
             </div>
           </div>
           <div className={styles.buttonbox}>
-            <button className={styles.button} onClick={checkEmail}>
+            <button className={styles.button} onClick={submitEmail}>
               <span>중복확인</span>
             </button>
           </div>
@@ -395,7 +412,13 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
             <div className={styles.inputbox}>
               <button
                 className={styles.address_btn}
-                onClick={() => window.open('')}
+                onClick={() =>
+                  window.open(
+                    'http://localhost:3000/address/shipping-address',
+                    '주소검색',
+                    'width=530, height=569, _blank'
+                  )
+                }
               >
                 <input
                   id='ADDRESS'

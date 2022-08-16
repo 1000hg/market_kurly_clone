@@ -3,7 +3,9 @@
     border: 1px solid;
 } */
 
-html,head,body,
+html,
+head,
+body,
 button,
 input,
 select,
@@ -40,4 +42,9 @@ a {
 
 li {
   display: inline;
+}
+
+.app {
+  width: 100vw;
+  height: 100vh;
 }
