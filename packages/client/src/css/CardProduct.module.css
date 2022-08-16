@@ -23,8 +23,8 @@
 .crdBg {
   overflow: hidden;
   background-color: white;
-  height:435px;
-  width:338px;
+  height:320px;
+  width:249px;
   position: relative;
 }
 
@@ -64,8 +64,8 @@
   position: absolute;
   border:none;
   background: none;
-  right: 16px;
-  bottom: 16px;
+  right: 100px;
+  bottom: 10px;
 }
 
 .dcntRate{
@@ -100,3 +100,6 @@
   font-weight: bold;
 }
 
+.cardBody{
+  width: 249px;
+}

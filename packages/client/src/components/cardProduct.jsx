@@ -28,7 +28,7 @@ function CardProduct({ item }) {
             </button>
           </div>
         </div>
-        <div className='card-body'>
+        <div className={styles.cardBody}>
           <span>샛별배송</span>
           <h5 className={styles.crdTitle}>{item.product_view_title}</h5>
           {item.discount_rate === '' ? (
@@ -40,7 +40,7 @@ function CardProduct({ item }) {
             </>
           ) : (
             <>
-              <span className={styles.dcntRate}>{item.discount_rate}</span>
+              <span className={styles.dcntRate}>{item.discount_rate}%</span>
               <span className={styles.dcntPrice}>
                 {parseInt(item.product_discount_price).toLocaleString('ko-kr')}{' '}
                 원
