@@ -19,8 +19,15 @@ async function findProductViewCategory(req, res) {
   res.status(200).json(result)
 }
 
+
+async function findProductImg(req, res) {
+  const result = await productViewModel.findProductImg();
+  res.status(200).json(result)
+}
+
   module.exports = {
     createProductView,
     findProductViewList,
-    findProductViewCategory
+    findProductViewCategory,
+    findProductImg
   }

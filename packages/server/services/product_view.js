@@ -118,9 +118,31 @@ async function findProductViewName(name) {
   }
 }
 
+
+async function findProductImg() {
+  try {
+    const result = await db.query(`SELECT product_img FROM tb_product_img`);
+
+    if(result) {
+      serviceStatus.staus = 200
+      serviceStatus.msg = '상품 조회에 성공하였습니다.'
+      serviceStatus.responseData = result
+  } else {
+      serviceStatus.staus = 400
+      serviceStatus.msg = '상품 조회에 실패하였습니다.'
+  }
+
+  return serviceStatus;
+  } catch(error) {
+    console.error(error);
+  }
+
+}
+
 module.exports = {
   createProductView,
   findProductViewList,
   findProductViewCategory,
-  findProductViewName
+  findProductViewName,
+  findProductImg
 }

@@ -20,8 +20,8 @@ async function createProduct(data) {
         accumulate_price=?,
         accumulate_rate=?,
         is_accumulate=?,
-        create_dtm=?,
-        update_dtm=?`,
+        product_discount_price=?,
+        is_coupon=?`,
         [
           data.category_seq,
           data.product_name,
@@ -37,8 +37,8 @@ async function createProduct(data) {
           data.accumulate_price,
           data.accumulate_rate,
           "1",
-          new Date(),
-          new Date()
+          Number(data.product_price) - Number(data.discount_price),
+          data.is_coupon
         ]
       )
 

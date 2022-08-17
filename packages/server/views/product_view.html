@@ -10,39 +10,39 @@
     <div>
         <div>
             <span>상품 번호 : </span>
-            <input type="text" name="product_seq" id="product_seq">
+            <input type="text" name="product_seq" id="product_seq" placeholder="상품 인덱스 (숫자만)">
         </div>
         <div>
             <span>상품뷰 제목 : </span>
-            <input type="text" name="product_view_title" id="product_view_title">
+            <input type="text" name="product_view_title" id="product_view_title" placeholder="ex) 여름철 매우 시원한 선풍기">
         </div>
         <div>
             <span>판매처 : </span>
-            <input type="text" name="vender" id="vender">
+            <input type="text" name="vender" id="vender" placeholder="ex) (주)포도네">
         </div>
         <div>
-            <span>상품뷰 설명 가격 : </span>
-            <input type="text" name="product_view_desc" id="product_view_desc">
+            <span>상품뷰 설명 : </span>
+            <input type="text" name="product_view_desc" id="product_view_desc" placeholder="ex) 저희 선풍기는 모터가 5개가 달려...">
         </div>
         <div>
             <span>포장 타입 : </span>
-            <input type="text" name="packaging_type" id="packaging_type">
+            <input type="text" name="packaging_type" id="packaging_type" placeholder="ex) 상온(종이포장)">
         </div>
         <div>
             <span>포장 타입 세부사항 : </span>
-            <input type="text" name="packaging_type_detail" id="packaging_type_detail">
+            <input type="text" name="packaging_type_detail" id="packaging_type_detail" placeholder="ex) 택배배송은 에코 포장이 스티로품으로 대체됩니다.">
         </div>
         <div>
             <span>알르레기 정보 : </span>
-            <input type="text" name="allergy_info" id="allergy_info">
+            <input type="text" name="allergy_info" id="allergy_info" placeholder="ex) - 바닐라, 말차앙버터 : 우유, 계란, 대두, 밀 함유">
         </div>
         <div>
             <span>유통기한 : </span>
-            <input type="text" name="expiration_date" id="expiration_date">
+            <input type="text" name="expiration_date" id="expiration_date" placeholder="ex) 수령일 포함 최소 90일 이상 남은 제품을 보내드립니다. ">
         </div>
         <div>
             <span>안내사항: </span>
-            <input type="text" name="notification" id="notification">
+            <input type="text" name="notification" id="notification" placeholder="ex) 다쿠아즈 딸기 바나나  -  2022년 8월 12일 23시 주문건까지, 유통기한 2022년 9월 7일 상품 출고">
         </div>
         <button class="submit-button" id="createProduct">생성</button>
     </div>
@@ -65,7 +65,7 @@ $("#createProduct").click(function() {
 
     $.ajax({
         type: "POST",
-        url: "/productView/create",
+        url: "/product/view/create",
         data: JSON.stringify(data),
         enctype: "multipart/form-data",
         contentType: "application/json",
