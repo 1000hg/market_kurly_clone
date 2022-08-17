@@ -12,7 +12,7 @@ const bcryptSalt = process.env.BCRYPT_SALT;
 function createJwtToken(user_seq) {
   return jwt.sign({ user_seq }, jwtSecretKey, { expiresIn: jwtExpiresInDays });
 }
-// id: test8 pw: 1234 : $2b$12$Qgc12Z67wpau5U/EtCFDHuYEutfZxH.KQe4SzwBovZnGKVQDcizh2
+// id: testtest10 pw: 1234 : $2b$12$Qgc12Z67wpau5U/EtCFDHuYEutfZxH.KQe4SzwBovZnGKVQDcizh2
 async function signup(req, res) {
   const { user_id, user_password, reffer_id } = req.body;
   const isValidUser = await authModel.findByUser(user_id);
@@ -65,7 +65,7 @@ async function login(req, res) {
 
   // 클라이언트에게 보내줄 token 생성 및 아이디 클라이언트에 보냄
   const token = createJwtToken(isValidUser.user_seq);
-  res.status(200).json({ token, user_id });
+  res.status(200).json({ token, isValidUser });
 }
 
 async function me(req, res, next) {
