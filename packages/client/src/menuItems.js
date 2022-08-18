@@ -8,7 +8,7 @@ export const menuItems = [
       {
         title: "채소",
         url: "/web-design",
-        img: "../public/img/1.png",
+        img: "",
         submenu: [
           {
             title: "친환경",
