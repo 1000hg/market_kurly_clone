@@ -9,21 +9,42 @@
   margin: 0 auto;
   display: block;
   cursor:pointer;
+  max-height: 130px;
+  max-width: 160px;
 
 }
-
+.aTopBnr{
+  color: white;
+  background-color : #5f0080;
+  height: 42px;
+  display: block;
+}
 .btnTopBnr{
   background-image: url(https://res.kurly.com/pc/ico/1908/ico_close_fff_42x42.png);
   width: 42px;
   height: 42px;
   background-color: transparent;
   border:0;
+  float: right;
 }
 
-
+.bnrImg{
+ width: 42px; 
+ height: 42px;
+}
+.btnImg{
+  width: 120px;
+}
+.btnCtn{
+  display: flex;
+  justify-content: space-between;
+}
 .tpSz{
   font-size: 12px;
   color:#333333;
+}
+.sgnUpTpSz{
+  color: #5f0080;
 }
 
 .tpSz:hover{
@@ -48,6 +69,10 @@
 }
 .drp_itm {
   font-size: 10px;
+}
+
+.divMainLogo{
+  maxHeight: 130px;
 }
 
 
