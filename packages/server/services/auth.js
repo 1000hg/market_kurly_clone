@@ -17,7 +17,13 @@ const dbPool = mysql2.createPool({
 async function findByUser(user_id) {
   
   try {
-    const result = await dbPool.query(`SELECT * FROM tb_user WHERE user_id = "${user_id}"`);
+    const result = await dbPool.query(
+      `SELECT * 
+      FROM tb_user user INNER JOIN tb_user_address address
+      ON user.user_seq = address.user_seq
+      AND address.default_address = 1
+      WHERE user.user_id = "${user_id}"`
+    );
     return result[0][0];
   } catch(error) {
     console.error(error);
