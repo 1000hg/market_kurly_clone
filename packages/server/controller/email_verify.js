@@ -46,7 +46,11 @@ async function sendId(req, res) {
   }
   const id = hideId(isValidUser.user_id);
 
-  res.status(202).json({ user_id: id, message: isValidUser.message });
+  res.status(202).json({ 
+    user_id: id,
+    create_dtm: isValidUser.create_dtm,
+    message: isValidUser.message 
+  });
 }
 
 // 보낼 메시지 구성
