@@ -7,7 +7,7 @@ export default function FindIdConfirmPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const id = location.state.user_id;
-  const joinDate = "";
+  const joinDate = location.state.create_dtm;
   return (
     <>
       <MainHeader />
@@ -22,7 +22,9 @@ export default function FindIdConfirmPage() {
           />
           <div className={styles.divUserCnt}>
             <div className={styles.userCnt}>{id}</div>
-            <div className={styles.joinDate}>{joinDate}</div>
+            <div className={styles.joinDate}>
+              가입일 {joinDate.substr(0, 10).replaceAll("-", ".")}
+            </div>
           </div>
         </div>
         <button className={styles.allId}>아이디 전체보기</button>
