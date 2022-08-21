@@ -59,10 +59,17 @@ async function addAddress(req, res) {
 	return res.status(200).json({ user_address_seq: result, message: "저장 되었습니다." });
 }
 
+async function delAddress(req, res) {
+
+	const result = await usersModel.delAddress(req.params);
+	return res.status(200).json({ message : "주소가 삭제되었습니다!" });
+}
+
 module.exports = {
 	resetPassword,
 	checkedUserInfo,
 	checkedUserPw,
 	userAddress,
 	addAddress,
+	delAddress
 };

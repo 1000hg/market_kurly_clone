@@ -16,4 +16,6 @@ router.get("/address", usersController.userAddress);
 
 router.post("/address/add", usersController.addAddress);
 
+router.delete("/address/del/:seq", usersController.delAddress);
+
 module.exports = router;

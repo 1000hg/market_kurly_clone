@@ -129,10 +129,23 @@ async function addUserAddress(user) {
 	}
 }
 
+async function delAddress(adr) {
+	try {
+		const result = await dbPool.query(
+			`DELETE FROM tb_user_address
+			WHERE user_address_seq = "${adr.seq}"`
+		);
+		return result[0].affectedRows;
+	} catch(e) {
+		console.error(e);
+	}
+}
+
 module.exports = {
 	resetPw,
 	checkedUser,
 	checkedUserPassword,
 	findByAddress,
 	addUserAddress,
+	delAddress
 };
