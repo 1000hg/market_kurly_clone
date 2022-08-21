@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_TOKEN } from "../reducers/authToken";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginPage({ authService }) {
   const [seCheck, setSeCheck] = useState(true);
@@ -95,55 +95,18 @@ function LoginPage({ authService }) {
     <div className={`${loginErr ? styles.scroll : ""}`}>
       {loginErr == true ? <Modal /> : null}
       <MainHeader />
-      <div
-        style={{
-          width: "340px",
-          padding: "90px 0px",
-          letterSpacing: "-.6px",
-          margin: "0 auto",
-        }}
-        className="text-center"
-      >
-        <h3
-          style={{
-            fontWeight: 800,
-            fontSize: "20px",
-            color: "#333",
-            marginBottom: "30px",
-          }}
-        >
-          로그인
-        </h3>
+      <div className={"text-center " + `${styles.lgContent}`}>
+        <h3 className={styles.lgTitle}>로그인</h3>
         <form onSubmit={onSubmitHandler}>
           <input
-            style={{
-              height: "54px",
-              width: "100%",
-              borderRadius: "3px",
-              backgroundColor: "#fff",
-              fontSize: "14px",
-              outline: "none",
-              border: "1px solid #ccc",
-              margin: "4px",
-              padding: "0 20px",
-            }}
+            className={styles.idInput}
             onChange={(e) => setId(e.currentTarget.value)}
             type="text"
             placeholder="아이디를 입력해주세요"
           ></input>
           <br />
           <input
-            style={{
-              height: "54px",
-              width: "100%",
-              borderRadius: "3px",
-              backgroundColor: "#fff",
-              fontSize: "14px",
-              outline: "none",
-              border: "1px solid #ccc",
-              margin: "4px",
-              padding: "0 20px",
-            }}
+            className={styles.pwdInput}
             onChange={(e) => setPwd(e.currentTarget.value)}
             type="password"
             placeholder="비밀번호를 입력해주세요"
@@ -166,40 +129,15 @@ function LoginPage({ authService }) {
               </label>
             </div>
 
-            <div
-              style={{ fontSize: "13px", color: "#333", marginBottom: "30px" }}
-            >
-              <a>아이디 찾기</a>I<a>비밀번호 찾기</a>
+            <div className={styles.divFind}>
+              <Link to="/login/findId">아이디 찾기</Link>I
+              <Link to="/login/findPwd">비밀번호 찾기</Link>
             </div>
           </div>
-          <button
-            style={{
-              display: "block",
-              width: "100%",
-              height: "54px",
-              borderRadius: "3px",
-              border: "1px solid #5f0081",
-              backgroundColor: "#5f0080",
-              cursor: "pointer",
-              color: "white",
-            }}
-          >
-            로그인
-          </button>
+          <button className={styles.lgBtn}>로그인</button>
         </form>
 
-        <button
-          style={{
-            width: "100%",
-            height: "54px",
-            borderRadius: "3px",
-            border: "1px solid #5f0081",
-            color: "#5f0081",
-            cursor: "pointer",
-            backgroundColor: "white",
-            marginTop: "10px",
-          }}
-        >
+        <button onClick={() => navigate("/signup")} className={styles.snupBtn}>
           회원가입
         </button>
       </div>
