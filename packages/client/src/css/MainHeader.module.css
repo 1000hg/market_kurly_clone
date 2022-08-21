@@ -72,7 +72,11 @@
 }
 
 .divMainLogo{
-  maxHeight: 130px;
+  max-height: 130px;
+}
+
+.aTopBnr:hover{
+  color:white;
 }
 
 
