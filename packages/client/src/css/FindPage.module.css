@@ -1,0 +1,75 @@
+.divContent{
+  /* text-align:center; */
+  width:340px;
+  margin: auto;
+  padding:50px 0px;
+}
+
+.inputForm{
+  width:100%;
+  padding:24px 0px;
+}
+
+.inputTitle{
+  display:block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.inputContent{
+  width: -webkit-fill-available;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 10px
+}
+
+.findTitle{
+  text-align: center;
+  padding-bottom: 30px;
+  font-weight: 600;
+  font-size: 28px;
+  color:#333333;
+}
+.findBtn{
+  width:170px;
+  height: 48px;
+    font-weight: 600;
+    font-size: 16px;
+    color:#666;
+    border:none;
+    background-color: white;
+    border-bottom: 2px solid rgb(241, 241, 241);
+}
+
+.submitBtn{
+  width: -webkit-fill-available;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    color:white;
+    background-color: #ddd;
+}
+
+.required{
+  color:#F03F40;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.clickFocus{
+  color: rgb(95, 0, 128);
+  border-bottom: 2px solid rgb(95, 0, 128);
+}
+
+.inputContent:focus{
+  outline: 1px solid #666;
+}
+
+.hidden{
+  display:none;
+}
