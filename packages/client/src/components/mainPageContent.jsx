@@ -8,8 +8,11 @@ function MainPageContent() {
 
   useEffect(() => {
     (async () => {
-      const { data: result } = await axios.get("http://localhost:8080/product/view/list");
-      setItemList(result.responseData[0]);
+      const { data: result } = await axios.get(
+        "http://localhost:8080/product/view/list"
+      );
+      // console.log(result.responseData);
+      setItemList(result.responseData);
     })();
   }, []);
   return (
@@ -80,7 +83,6 @@ function MainPageContent() {
           {itemList.map((item, idx) => {
             return <CardProduct item={item} />;
           })}
-         
         </div>
       </section>
     </>
