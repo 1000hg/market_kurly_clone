@@ -5,6 +5,7 @@ const productRouter = require('./product');
 const productViewRouter = require('./product_view');
 const verifyRouter = require('./verify');
 const usersRouter = require('./users');
+const categoryRouter = require('./category');
 
 // 회원가입 및 로그인 생성, 토큰발행
 router.use('/auth', authRouter);
@@ -16,5 +17,7 @@ router.use('/user', usersRouter);
 router.use('/product', productRouter);
 
 router.use('/product/view', productViewRouter);
+
+router.use('/category', categoryRouter);
 
 module.exports = router;
