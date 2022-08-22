@@ -1,7 +1,6 @@
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import { useNavigate } from 'react-router-dom';
-import AddressResult from '../components/addressResult';
 
 const AddressPage = (props) => {
   const navigate = useNavigate();

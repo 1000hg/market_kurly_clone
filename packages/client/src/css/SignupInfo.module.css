@@ -95,13 +95,21 @@
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(95, 0, 128);
 }
-.address_btn ~ p {
+.address_p {
   display: block;
   margin-top: 10px;
   margin-bottom: 0px;
   font-size: 12px;
   line-height: 18px;
   color: rgb(102, 102, 102);
+}
+
+.extraAddress_inputbox {
+  display: flex;
+  flex-direction: column;
+}
+.extraAddress_inputbox div {
+  padding-bottom: 12px;
 }
 .search_icon {
   display: inline-block;

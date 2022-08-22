@@ -1,4 +1,4 @@
-import React, { useRef, createContext } from 'react';
+import React, { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../css/AddressResult.module.css';
 
@@ -10,6 +10,11 @@ const AddressResult = () => {
 
   const onSearch = () => {
     navigate('/address/shipping-address');
+  };
+  const onSubmit = () => {
+    if (extraAddressRef.current.value == '') {
+      console.log('모달창');
+    }
   };
 
   return (
@@ -36,13 +41,11 @@ const AddressResult = () => {
       <div className={styles.extraAddress}>
         <div>
           <input
-            data-testid='input-box'
             id='addressDetail'
             name='addressDetail'
             placeholder='나머지 주소를 입력해 주세요'
             type='text'
             height='44'
-            value=''
             ref={extraAddressRef}
           />
         </div>
@@ -53,7 +56,7 @@ const AddressResult = () => {
           로그인 할 경우, 회원님의 배송지 목록에 추가됩니다.
         </p>
       </div>
-      <button className={styles.submit}>
+      <button className={styles.submit} onClick={onSubmit}>
         <span>저장</span>
       </button>
     </div>

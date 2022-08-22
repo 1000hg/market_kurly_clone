@@ -1,19 +1,42 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDaumPostcodePopup } from 'react-daum-postcode';
+import SignupModal from './signupModal';
 import styles from '../css/SignupInfo.module.css';
 
-const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
+const SignupInfo = ({ submit, setSubmit, authService }) => {
+  const open = useDaumPostcodePopup(
+    '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
+  );
+  const [data, setData] = useState({
+    user_id: 'albert',
+    user_password: '1234',
+    user_name: 'albert',
+    user_email: '1234567@naver.com',
+    user_phone: '010-1111-1111',
+    zip_code: '',
+    address: '서울특별시 서울구 서울동',
+    address_detail: '',
+    user_birth: '20010101',
+    gender: '0',
+    reffer_id: '',
+    join_event_name: '',
+  });
+  const [modalOpen, setModalOpen] = useState(false);
   const [radio_add, setRadio_add] = useState('');
   const [radio_gender, setRadio_gender] = useState('0');
   const [birthValid, setBirthValid] = useState('');
   const [yearValid, setYearValid] = useState();
   const [monthValid, setMonthValid] = useState();
-  const [idValid, setIdValid] = useState();
+  const [idValid, setIdValid] = useState(false);
   const [pwValid, setPwValid] = useState();
   const [pwCheckValid, setPwCheckValid] = useState();
   const [nameValid, setNameValid] = useState();
   const [emailValid, setEmailValid] = useState();
   const [phoneValid, setPhoneValid] = useState();
-  const [addressValid, setAddressValid] = useState();
+  const [addressValid, setAddressValid] = useState(false);
+  const [addressValue, setAddressValue] = useState();
+  const [modalMessage, setModalMessage] = useState();
+  const [zipCode, setZipCode] = useState();
   const yearRef = useRef();
   const monthRef = useRef();
   const dayRef = useRef();
@@ -23,17 +46,24 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
   const pwCheckRef = useRef();
   const emailRef = useRef();
   const phoneRef = useRef();
-
-  const [info, setInfo] = useState({
-    ...data,
-    user_id: 'choi',
-    user_password: '1111',
-  });
+  const extraAddressRef = useRef('');
+  const eventNameRef = useRef('');
+  const refferIdRef = useRef('');
   const submitId = () => {
-    const info = {
-      user_id: idRef.current.value,
-    };
-    checkId(info);
+    const idRegex = /^[a-zA-Z0-9]+$/;
+    if (
+      idRef.current.value.length < 6 ||
+      idRef.current.value.length > 16 ||
+      !idRegex.test(idRef.current.value)
+    ) {
+      showModal();
+      setModalMessage('6자 이상 16자 이하의 영문 혹은 영문과 숫자를 조합');
+    } else {
+      const info = {
+        user_id: idRef.current.value,
+      };
+      checkId(info);
+    }
   };
   const submitEmail = () => {
     const info = {
@@ -105,7 +135,28 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
       }
     }
   };
-
+  const checkId = (info) => {
+    const response = authService.signupIdCheck(info);
+    response.then((data) => setIdValid(data));
+    if (idValid == true) {
+      showModal();
+      setModalMessage('사용 할 수 있는 아이디 입니다');
+    } else if (idValid == false) {
+      showModal();
+      setModalMessage('사용 불가능한 아이디 입니다');
+    }
+  };
+  const checkEmail = (info) => {
+    const response = authService.signupEmailCheck(info);
+    response.then((data) => setEmailValid(data));
+    if (idValid == true) {
+      showModal();
+      setModalMessage('사용 할 수 있는 이메일 입니다');
+    } else if (idValid == false) {
+      showModal();
+      setModalMessage('사용 불가능한 이메일 입니다');
+    }
+  };
   const changeRadio = (e) => {
     if (e.target.value == 'RECOMMENDER' || e.target.value == 'EVENT') {
       setRadio_add(e.target.value);
@@ -118,6 +169,7 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
       const idRegex = /^[a-zA-Z0-9]+$/;
       if (
         event.currentTarget.value.length < 6 ||
+        idRef.current.value.length > 16 ||
         !idRegex.test(event.currentTarget.value)
       ) {
         setIdValid(false);
@@ -170,42 +222,82 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
       }
     }
   };
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+    let extraAddress = '';
+    if (data.addressType === 'R') {
+      if (data.bname !== '') {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== '') {
+        extraAddress +=
+          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+    }
+    console.log(fullAddress);
+    setAddressValue(fullAddress);
+    setAddressValid(true);
+    setZipCode(data.zonecode);
+  };
+
+  const handleClick = () => {
+    open({ onComplete: handleComplete, popupKey: 'Address' });
+  };
+  const showModal = () => {
+    setModalOpen(true);
+    setSubmit(false);
+  };
 
   useEffect(() => {
     if (submit == true) {
-      addInfo({
-        user_id: idRef.current.value,
-        user_password: pwRef.current.value,
-        user_name: nameRef.current.value,
-        user_email: emailRef.current.value,
-        user_phone: phoneRef.current.value,
-        zip_code: '',
-        address: '서울특별시 서울구 서울동',
-        address_detail: '',
-        user_birth:
-          yearRef.current.value + monthRef.current.value + dayRef.current.value,
-        gender: '0',
-        reffer_id: '',
-        join_event_name: '',
-      });
-      console.log({
-        user_id: idRef.current.value,
-        user_password: pwRef.current.value,
-        user_name: nameRef.current.value,
-        user_email: emailRef.current.value,
-        user_phone: phoneRef.current.value,
-        zip_code: '',
-        address: '',
-        address_detail: '',
-        user_birth:
-          yearRef.current.value + monthRef.current.value + dayRef.current.value,
-        gender: '',
-        reffer_id: '',
-        join_event_name: '',
-      });
+      if (idValid == false) {
+        showModal();
+        setModalMessage('아이디 중복 체크를 해주세요.');
+      } else if (emailValid == false) {
+        showModal();
+        setModalMessage('이메일 중복 체크를 해주세요.');
+      } else if (phoneValid == false) {
+        showModal();
+        setModalMessage('휴대폰 인증을 진행해 주세요.');
+      } else if (pwValid == false) {
+        showModal();
+        setModalMessage('최소 10자 이상 입력');
+      } else if (pwCheckValid == false) {
+        showModal();
+        setModalMessage('동일한 비밀번호를 입력');
+      } else if (nameValid == false) {
+        showModal();
+        setModalMessage('이름을 입력해 주세요');
+      } else if (addressValid == false) {
+        showModal();
+        setModalMessage('주소를 검색하여 입력해 주세요.');
+      } else {
+        setData({
+          user_id: idRef.current.value,
+          user_password: pwRef.current.value,
+          user_name: nameRef.current.value,
+          user_email: emailRef.current.value,
+          user_phone: phoneRef.current.value,
+          zip_code: zipCode,
+          address: addressValue,
+          address_detail: extraAddressRef.current.value,
+          user_birth:
+            yearRef.current.value +
+            monthRef.current.value +
+            dayRef.current.value,
+          gender: radio_gender,
+          reffer_id: refferIdRef.current.value,
+          join_event_name: eventNameRef.current.value,
+        });
+        authService.postSignup(data);
+        authService.signIn({
+          user_id: idRef.current.value,
+          user_password: pwRef.current.value,
+        });
+      }
     }
   }, [submit]);
-  /* 생년월일 숫자만 입력 */
 
   return (
     <div className={styles.container}>
@@ -410,32 +502,72 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
           </div>
           <div className={styles.form}>
             <div className={styles.inputbox}>
-              <button
-                className={styles.address_btn}
-                onClick={() =>
-                  window.open(
-                    'http://localhost:3000/address/shipping-address',
-                    '주소검색',
-                    'width=530, height=569, _blank'
-                  )
-                }
-              >
-                <input
-                  id='ADDRESS'
-                  className={styles.search_icon}
-                  type='image'
-                  src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
-                />
-                <span>주소 검색</span>
-              </button>
-              <p>배송지에 따라 상품 정보가 달라질 수 있습니다.</p>
+              {addressValid == false && (
+                <button className={styles.address_btn} onClick={handleClick}>
+                  <input
+                    id='ADDRESS'
+                    className={styles.search_icon}
+                    type='image'
+                    src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
+                  />
+                  <span>주소 검색</span>
+                </button>
+              )}
+              <div className={styles.form}>
+                {addressValid == true && (
+                  <div className={styles.inputbox}>
+                    <div className={styles.extraAddress_inputbox}>
+                      <div>
+                        <input
+                          id='ADDRESS'
+                          data-testid='input-box'
+                          type='text'
+                          className={styles.input}
+                          readOnly
+                          value={addressValue}
+                        />
+                      </div>
+                      <div>
+                        <input
+                          id='EXTRA_ADDRESS'
+                          data-testid='input-box'
+                          type='text'
+                          className={styles.input}
+                          ref={extraAddressRef}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <p className={styles.address_p} style={{ fontWeight: '600' }}>
+                택배배송
+              </p>
+              <p className={styles.address_p}>
+                배송지에 따라 상품 정보가 달라질 수 있습니다.
+              </p>
             </div>
           </div>
-          <div className={styles.buttonbox}>
-            <button className={styles.button} style={{ display: 'none' }}>
-              <span></span>
-            </button>
-          </div>
+          {addressValid == true && (
+            <div className={styles.buttonbox}>
+              <button className={styles.button} onClick={handleClick}>
+                <span>
+                  <img
+                    src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
+                    alt=''
+                  />
+                  재검색
+                </span>
+              </button>
+            </div>
+          )}
+          {addressValid == false && (
+            <div className={styles.buttonbox}>
+              <button className={styles.button} style={{ display: 'none' }}>
+                <span></span>
+              </button>
+            </div>
+          )}
         </div>
         <div className={styles.list}>
           <div className={styles.labelbox}>
@@ -576,8 +708,10 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
                       ? '참여 이벤트명을 입력해주세요.'
                       : '추천인 아이디를 입력해주세요'
                   }
+                  ref={radio_add == 'EVENT' ? eventNameRef : refferIdRef}
                   type='text'
                   className={styles.input}
+                  onChange={handleOnInput}
                 />
                 <span className={styles.extraNotice}>
                   추천인 아이디와 참여 이벤트명 중 하나만 선택 가능합니다.
@@ -595,6 +729,9 @@ const SignupInfo = ({ submit, addInfo, data, checkId, checkEmail }) => {
           </div>
         </div>
       </div>
+      {modalOpen == true && (
+        <SignupModal setModalOpen={setModalOpen} title={modalMessage} />
+      )}
     </div>
   );
 };
