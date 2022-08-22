@@ -42,8 +42,11 @@ export default function FindIdPage() {
 
 function TabContent({ tab }) {
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const [rqFirst, setRqFirst] = useState(false);
+  const [rqSecond, setRqSecond] = useState(false);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -60,42 +63,72 @@ function TabContent({ tab }) {
         });
     }
   };
+
+  const onInit = (e) => {
+    if (name != "" && phone != "") {
+      return true;
+    } else {
+      return false;
+    }
+  };
   if (tab == 0) {
     //휴대폰 인증
     return (
       <div>
         <form className={styles.inputForm} onSubmit={onSubmitHandler}>
-          <div>
+          <div className={styles.divInput}>
             <label className={styles.inputTitle} htmlFor="name">
               이름
             </label>
-            <input
-              onChange={(e) => setName(e.currentTarget.value)}
-              className={styles.inputContent}
-              type="text"
-              id="name"
-              placeholder="이름을 입력해주세요"
-            />
-            <p className={styles.required}>
+            <div className={styles.relDiv}>
+              <input
+                onBlur={() =>
+                  name == "" ? setRqFirst(true) : setRqFirst(false)
+                }
+                onChange={(e) => setName(e.currentTarget.value)}
+                className={styles.inputContent}
+                type="text"
+                id="name"
+                placeholder="이름을 입력해주세요"
+              />
+              <button className={styles.delBtn}></button>
+            </div>
+            <p className={rqFirst ? `${styles.required}` : `${styles.hidden}`}>
               가입 시 등록한 이름을 입력해 주세요.
             </p>
           </div>
-          <div>
+          <div className={styles.divInput}>
             <label className={styles.inputTitle} htmlFor="phone">
               휴대폰 번호
             </label>
-            <input
-              className={styles.inputContent}
-              type="number"
-              id="phone"
-              placeholder="이름을 입력해주세요"
-            />
-            <p className={styles.required}>
+            <div className={styles.relDiv}>
+              <input
+                onBlur={() =>
+                  phone == "" ? setRqSecond(true) : setRqSecond(false)
+                }
+                onChange={(e) => setPhone(e.currentTarget.value)}
+                className={styles.inputContent}
+                type="tel"
+                id="phone"
+                placeholder="휴대폰 번호를 입력해주세요"
+              />
+              <button className={styles.delBtn}></button>
+            </div>
+            <p className={rqSecond ? `${styles.required}` : `${styles.hidden}`}>
               가입 시 등록한 휴대폰 번호를 입력해 주세요.
             </p>
           </div>
 
-          <button className={styles.submitBtn}>인증번호 받기</button>
+          <button
+            className={
+              !rqFirst && !rqSecond && onInit()
+                ? `${styles.submitBtn}`
+                : `${styles.submitBtnDis}`
+            }
+            disabled={!rqFirst && !rqSecond && onInit() ? false : true}
+          >
+            인증번호 받기
+          </button>
         </form>
       </div>
     );
