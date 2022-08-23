@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import SignupModal from './signupModal';
+import Modal from './modal';
 import styles from '../css/SignupInfo.module.css';
 
 const SignupInfo = ({ submit, setSubmit, authService }) => {
@@ -736,7 +736,7 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
         </div>
       </div>
       {modalOpen == true && (
-        <SignupModal setModalOpen={setModalOpen} title={modalMessage} />
+        <Modal setModalOpen={setModalOpen} title={modalMessage} />
       )}
     </div>
   );
