@@ -68,6 +68,14 @@
   bottom: 10px;
 }
 
+.crtBtnNull{
+  position: absolute;
+  border:none;
+  background: none;
+  right: 100px;
+  top: 239px;
+}
+
 .dcntRate{
   font-size:18px;
   font-weight: 700;
