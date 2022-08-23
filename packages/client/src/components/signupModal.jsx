@@ -1,9 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
 import styles from '../css/SignupModal.module.css';
 
 const SignupModal = ({ setModalOpen, title }) => {
-  const [notice, SetNotice] = useState();
   const closeModal = () => {
     setModalOpen(false);
   };
