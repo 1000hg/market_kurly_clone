@@ -3,7 +3,7 @@ import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
 import axios from "axios";
 import styles from "../css/FindIdConfirmPage.module.css";
-import ConfirmModal from "../components/signupModal";
+import ConfirmModal from "../components/modal";
 import { useState } from "react";
 
 export default function FindIdConfirmPage() {
