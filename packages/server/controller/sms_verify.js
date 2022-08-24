@@ -79,7 +79,10 @@ async function smsVerify(req, res) {
 
   if (verify_code == myCache.get("code")) {
     const isValidUser = await smsModel.findByUser(req.body);
-    res.status(200).json({ user_id : isValidUser.user_id, massage: isValidUser.message });
+    res.status(200).json({ 
+      user_id : isValidUser.user_id,
+      create_dtm: isValidUser.create_dtm,
+      massage: isValidUser.message });
   } else {
     res.status(400).json({ message : "입력하신 번호가 맞는지 확인해주세요!"});
   }
