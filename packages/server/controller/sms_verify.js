@@ -30,7 +30,7 @@ function makeSignature(user_phone) {
 
   const hash = hmac.finalize();
   const signature = hash.toString(CryptoJS.enc.Base64);
-  const verifyCode = Math.floor(Math.random() * 1000000);
+  const verifyCode = Math.floor(Math.random() * 9000000) + 1000000;
   // cache에 인증코드 저장과 만료시간 3분 설정
   myCache.set( "code", verifyCode, 180);
 

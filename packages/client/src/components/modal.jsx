@@ -1,9 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
-import styles from '../css/SignupModal.module.css';
+import styles from '../css/Modal.module.css';
 
-const SignupModal = ({ setModalOpen, title }) => {
-  const [notice, SetNotice] = useState();
+const Modal = ({ setModalOpen, title }) => {
   const closeModal = () => {
     setModalOpen(false);
   };
@@ -24,4 +22,4 @@ const SignupModal = ({ setModalOpen, title }) => {
   );
 };
 
-export default SignupModal;
+export default Modal;

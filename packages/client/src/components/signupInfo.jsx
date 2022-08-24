@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-import SignupModal from './signupModal';
+import Modal from './modal';
 import styles from '../css/SignupInfo.module.css';
 
 const SignupInfo = ({ submit, setSubmit, authService }) => {
@@ -137,25 +137,31 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
   };
   const checkId = (info) => {
     const response = authService.signupIdCheck(info);
-    response.then((data) => setIdValid(data));
-    if (idValid == true) {
-      showModal();
-      setModalMessage('사용 할 수 있는 아이디 입니다');
-    } else if (idValid == false) {
-      showModal();
-      setModalMessage('사용 불가능한 아이디 입니다');
-    }
+    response.then((data) => {
+      if (data == true) {
+        setModalMessage('사용 할 수 있는 아이디 입니다');
+        showModal();
+        setIdValid(data);
+      } else if (data == false) {
+        setModalMessage('사용 불가능한 아이디 입니다');
+        showModal();
+        setIdValid(data);
+      }
+    });
   };
   const checkEmail = (info) => {
     const response = authService.signupEmailCheck(info);
-    response.then((data) => setEmailValid(data));
-    if (idValid == true) {
-      showModal();
-      setModalMessage('사용 할 수 있는 이메일 입니다');
-    } else if (idValid == false) {
-      showModal();
-      setModalMessage('사용 불가능한 이메일 입니다');
-    }
+    response.then((data) => {
+      if (data == true) {
+        setModalMessage('사용 할 수 있는 이메일 입니다');
+        showModal();
+        setEmailValid(data);
+      } else if (data == false) {
+        setModalMessage('사용 불가능한 이메일 입니다');
+        showModal();
+        setEmailValid(data);
+      }
+    });
   };
   const changeRadio = (e) => {
     if (e.target.value == 'RECOMMENDER' || e.target.value == 'EVENT') {
@@ -730,7 +736,7 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
         </div>
       </div>
       {modalOpen == true && (
-        <SignupModal setModalOpen={setModalOpen} title={modalMessage} />
+        <Modal setModalOpen={setModalOpen} title={modalMessage} />
       )}
     </div>
   );
