@@ -1,13 +1,36 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
+import axios from "axios";
 import styles from "../css/FindIdConfirmPage.module.css";
+import ConfirmModal from "../components/signupModal";
+import { useState } from "react";
 
 export default function FindIdConfirmPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const id = location.state.user_id;
+  const name = location.state.name;
   const joinDate = location.state.create_dtm;
+  const email = location.state.email;
+  const id = location.state.user_id;
+  const tab = location.state.tab;
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const findPwdPage = (e) => {
+    e.preventDefault();
+    navigate("/login/findPwd");
+  };
+  const getIdTotalList = (e) => {
+    e.preventDefault();
+    axios
+      .post("/api/verify/email/id", { user_name: name, user_email: email })
+      .then((res) => {
+        setModalOpen(true);
+      })
+      .catch((e) => {
+        alert("다시 확인");
+      });
+  };
   return (
     <>
       <MainHeader />
@@ -27,10 +50,26 @@ export default function FindIdConfirmPage() {
             </div>
           </div>
         </div>
-        <button className={styles.allId}>아이디 전체보기</button>
+        {tab == 0 ? (
+          <button onClick={findPwdPage} className={styles.allId}>
+            비밀번호 찾기
+          </button>
+        ) : (
+          <button onClick={getIdTotalList} className={styles.allId}>
+            아이디 전체보기
+          </button>
+        )}
         <button onClick={() => navigate("/login")} className={styles.login}>
           로그인
         </button>
+        {modalOpen ? (
+          <ConfirmModal
+            setModalOpen={setModalOpen}
+            title={
+              "가입하신 이메일로 아이디가 발송되었습니다.\n메일을 받지 못하셨다면 스팸함을 확인해 보세요.\n\n*휴대폰 인증으로 아이디 찾기 시에도 전체 아이디 확인이 가능해요."
+            }
+          />
+        ) : null}
       </div>
       <MainFooter />
     </>
