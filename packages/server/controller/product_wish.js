@@ -2,6 +2,8 @@ const productWishModel = require("../services/product_wish");
 
 async function getWishList(req, res) {
 	
+	const resultList = await productWishModel.getWishList(req.query);
+	res.status(200).json({ wishList: resultList });
 }
 
 async function addWishProduct(req, res) {
@@ -14,6 +16,8 @@ async function addWishProduct(req, res) {
 
 async function delWishProduct(req, res) {
 	
+	const resultDel = await productWishModel.delWishProduct(req.params);
+	return res.status(200).json({ message: "찜 상품이 삭제되었습니다!" });
 }
 
 module.exports = {
