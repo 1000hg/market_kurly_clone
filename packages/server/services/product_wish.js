@@ -27,6 +27,42 @@ async function addWishProduct(item) {
 	}
 }
 
+async function getWishList(user) {
+	
+	try {
+		const result = await dbPool.query(
+			`SELECT *
+			FROM tb_wish_item tb2
+			INNER JOIN tb_product tb1
+			ON tb1.product_seq = tb2.product_seq
+			INNER JOIN tb_product_img tb3
+			ON tb2.product_seq = tb3.product_seq
+			WHERE tb2.user_seq = "${user.user_seq}"
+			AND tb3.product_img_type = "0"`
+		);
+		
+		return result[0];
+	} catch (e) {
+		console.error(e);
+	}
+}
+
+async function delWishProduct(item) {
+	
+	try {
+		const result = await dbPool.query(
+			`DELETE FROM tb_wish_item
+			WHERE wish_item_seq = "${item.seq}"`
+		);
+		
+		return result[0].affectedRows;
+	} catch (e) {
+		console.log.error(e);
+	}
+}
+
 module.exports = {
 	addWishProduct,
+	getWishList,
+	delWishProduct,
 };
