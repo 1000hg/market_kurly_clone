@@ -2,10 +2,17 @@ import styles from "../css/MainHeader.module.css";
 import MainNavbar2 from "./mainNavbar2";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function MainHeader() {
   const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
+  const [myKurlyShown, setMyKurlyShown] = useState(false);
+  const [custSvc, setCustSvc] = useState(false);
   const navigate = useNavigate();
+  let { user_name, address, address_detail } = useSelector((state) => {
+    return state.userData;
+  });
+
   const onLogOut = () => {
     localStorage.removeItem("accessToken");
     navigate("/");
@@ -17,7 +24,9 @@ function MainHeader() {
         {sessionStorage.getItem("topbnr") == null ? (
           <div>
             <a className={"text-center " + `${styles.aTopBnr}`}>
-              지금 가입하고 인기상품 <b>100원</b>에 받아가세요!
+              <span>
+                지금 가입하고 인기상품 <b>100원</b>에 받아가세요!
+              </span>
               <img
                 src="https://res.kurly.com/pc/ico/1908/ico_arrow_fff_84x84.png"
                 className={styles.bnrImg}
@@ -42,7 +51,7 @@ function MainHeader() {
               />
             </a>
           </div>
-          <div>
+          <div className={styles.myKurly_menu}>
             <ul className="nav">
               {localStorage.getItem("accessToken") === null ||
               localStorage.getItem("accessToken") === "" ? (
@@ -70,42 +79,90 @@ function MainHeader() {
                   </li>
                 </>
               ) : (
-                <>
-                  <button onClick={onLogOut}>로그아웃</button>
-                </>
-              )}
-              <li className="nav-item">
-                <div className={`dropdown ${styles.drpdwn}`}>
-                  <a
-                    className={"nav-link dropdown-toggle " + `${styles.tpSz}`}
-                    href="#"
-                  >
-                    고객센터
-                  </a>
-                  <div
-                    className={`dropdown-menu ${styles.drpdwn_menu}`}
-                    aria-labelledby="dropdownMenuButton"
-                  >
-                    <a className={`dropdown-item ${styles.drp_itm}`} href="#">
-                      공지사항
-                    </a>
-                    <a className={`dropdown-item ${styles.drp_itm}`} href="#">
-                      자주하는 질문
-                    </a>
-                    <a className={`dropdown-item ${styles.drp_itm}`} href="#">
-                      1:1 문의
-                    </a>
-                    <a className={`dropdown-item ${styles.drp_itm}`} href="#">
-                      대량주문 문의
-                    </a>
-                    <a className={`dropdown-item ${styles.drp_itm}`} href="#">
-                      상품 제안
-                    </a>
-                    <a className={`dropdown-item ${styles.drp_itm}`} href="#">
-                      에코포장 피드백
-                    </a>
-                  </div>
+                <div
+                  onMouseEnter={() => setMyKurlyShown(true)}
+                  onMouseLeave={() => setMyKurlyShown(false)}
+                >
+                  <Link to="/mycurly/order-history" className={styles.welLink}>
+                    <div className={"dropdown-toggle " + `${styles.tpSz}`}>
+                      <span className={styles.welcome}>웰컴</span>
+                      <span>{user_name}님 </span>
+                      <img
+                        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHJlY3QgZmlsbD0iI0ZBNjIyRiIgZmlsbC1ydWxlPSJub256ZXJvIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHJ4PSI3Ii8+CiAgICAgICAgPHBhdGggZD0iTTguMzg1IDEwdi0uMDA2TDUuNjQ1IDYuMjFWMTBoLTEuNlY0aDEuNmwyLjc0IDMuNzg4VjRoMS42djZoLTEuNnoiIGZpbGw9IiNGRkYiLz4KICAgIDwvZz4KPC9zdmc+Cg=="
+                        alt="New"
+                        className={styles.nImg}
+                      ></img>
+                    </div>
+                  </Link>
+                  {myKurlyShown && (
+                    <div className={styles.drpdwn_mycurly}>
+                      <div className={styles.list}>
+                        <Link to="/mycurly/order-history">
+                          <div className={styles.drpdwnItem_mycurly}>
+                            주문 내역
+                          </div>
+                        </Link>
+                        <div className={styles.drpdwnItem_mycurly}>
+                          선물 내역
+                        </div>
+                        <div className={styles.drpdwnItem_mycurly}>
+                          찜한 상품
+                        </div>
+                        <div className={styles.drpdwnItem_mycurly}>
+                          배송지 관리
+                        </div>
+                        <div className={styles.drpdwnItem_mycurly}>
+                          상품 후기
+                        </div>
+                        <div className={styles.drpdwnItem_mycurly}>
+                          상품 문의
+                        </div>
+                        <div className={styles.drpdwnItem_mycurly}>적립금</div>
+                        <div className={styles.drpdwnItem_mycurly}>쿠폰</div>
+                        <div className={styles.drpdwnItem_mycurly}>
+                          개인 정보 수정
+                        </div>
+                        <div
+                          className={styles.drpdwnItem_mycurly}
+                          onClick={onLogOut}
+                        >
+                          로그아웃
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
+              )}
+              <span className={styles.midBar}>|</span>
+              <li
+                className="nav-item menu"
+                onMouseEnter={() => setCustSvc(true)}
+                onMouseLeave={() => setCustSvc(false)}
+              >
+                <Link to="/mycurly/order-history" className={styles.welLink}>
+                  <span className={"dropdown-toggle " + `${styles.tpSz}`}>
+                    고객센터
+                  </span>
+                </Link>
+                {custSvc && (
+                  <div className={styles.drpdwn_cstsvc}>
+                    <div className={styles.list}>
+                      <Link to="/mycurly/order-history">
+                        <div className={styles.drpdwnItem_mycurly}>
+                          공지사항
+                        </div>
+                      </Link>
+                      <div className={styles.drpdwnItem_mycurly}>
+                        자주하는 질문
+                      </div>
+                      <div className={styles.drpdwnItem_mycurly}>1:1 문의</div>
+                      <div className={styles.drpdwnItem_mycurly}>
+                        대량주문 문의
+                      </div>
+                      <div className={styles.drpdwnItem_mycurly}>상품 제안</div>
+                    </div>
+                  </div>
+                )}
               </li>
             </ul>
           </div>
