@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SET_TOKEN } from "../reducers/authToken";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { SET_USER_INFO } from "../reducers/userData";
 
 function LoginPage({ authService }) {
   const [seCheck, setSeCheck] = useState(true);
@@ -16,8 +17,6 @@ function LoginPage({ authService }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // let a = useSelector((state)=>{return state.loginToken
-  // })
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
@@ -32,6 +31,9 @@ function LoginPage({ authService }) {
         localStorage.setItem("accessToken", token);
         setAuthorizationToken(token);
         dispatch(SET_TOKEN(token));
+        const userData = res.data.isValidUser;
+        dispatch(SET_USER_INFO(userData));
+        console.log(userData);
 
         return navigate("/");
       })

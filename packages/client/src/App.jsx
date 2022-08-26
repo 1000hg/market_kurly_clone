@@ -9,6 +9,7 @@ import AddressResult from "./components/addressResult";
 import FindIdPage from "./routers/FindIdPage";
 import FindPwdPage from "./routers/FindPwdPage";
 import FindIdConfirmPage from "./routers/FindIdConfirmPage";
+import MyCurlyPage from "./routers/MyCurlyPage";
 
 function App({ authService }) {
   return (
@@ -29,6 +30,7 @@ function App({ authService }) {
           path="/signup"
           element={<SignUpPage authService={authService} />}
         ></Route>
+        <Route path="/mycurly/order-history" element={<MyCurlyPage />}></Route>
         <Route
           path="/address/shipping-address"
           element={<AddressPage />}
