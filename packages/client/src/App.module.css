@@ -45,6 +45,7 @@ li {
 }
 
 .app {
+  min-width: fit-content;
   width: 100vw;
   height: 100vh;
 }
