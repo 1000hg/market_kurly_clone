@@ -75,6 +75,7 @@ async function delWishProduct(item) {
 	}
 }
 
+
 module.exports = {
 	addWishProduct,
 	getWishList,
