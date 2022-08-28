@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MainHeader from '../components/mainHeader';
 import MainFooter from '../components/mainFooter';
 import styles from '../css/SignupPage.module.css';
-import Info_service_term from '../components/signupTerm';
 import SignupInfo from '../components/signupInfo';
 
 const SignUpPage = ({ authService }) => {
