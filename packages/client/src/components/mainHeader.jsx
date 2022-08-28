@@ -9,7 +9,7 @@ function MainHeader() {
   const [myKurlyShown, setMyKurlyShown] = useState(false);
   const [custSvc, setCustSvc] = useState(false);
   const navigate = useNavigate();
-  let { user_name, address, address_detail } = useSelector((state) => {
+  let { user_name } = useSelector((state) => {
     return state.userData;
   });
 
