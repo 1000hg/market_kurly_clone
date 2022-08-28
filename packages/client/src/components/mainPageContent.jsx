@@ -81,7 +81,7 @@ function MainPageContent() {
       <section className="container">
         <div className={`row justify-content-around`}>
           {itemList.map((item, idx) => {
-            return <CardProduct item={item} />;
+            return <CardProduct key={idx} item={item} />;
           })}
         </div>
       </section>

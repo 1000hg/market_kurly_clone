@@ -146,7 +146,5 @@ function MainNavbar2() {
     </div>
   );
 }
-// const isValid = () =>{
-//   if
-// }
+
 export default MainNavbar2;
