@@ -1,28 +1,15 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
+import Info_service_term from '../components/signupTerm';
 import Modal from './modal';
 import styles from '../css/SignupInfo.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const SignupInfo = ({ submit, setSubmit, authService }) => {
+const SignupInfo = ({ authService }) => {
   const navigate = useNavigate();
   const open = useDaumPostcodePopup(
     '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
   );
-  const [data, setData] = useState({
-    user_id: 'albert',
-    user_password: '1234',
-    user_name: 'albert',
-    user_email: '1234567@naver.com',
-    user_phone: '010-1111-1111',
-    zip_code: '',
-    address: '서울특별시 서울구 서울동',
-    address_detail: '',
-    user_birth: '20010101',
-    gender: '0',
-    reffer_id: '',
-    join_event_name: '',
-  });
   const [modalOpen, setModalOpen] = useState(false);
   const [radio_add, setRadio_add] = useState('');
   const [radio_gender, setRadio_gender] = useState('0');
@@ -65,6 +52,47 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
         user_id: idRef.current.value,
       };
       checkId(info);
+    }
+  };
+  const onSubmit = () => {
+    if (idValid != true) {
+      showModal();
+      setModalMessage('아이디 중복 체크를 해주세요.');
+    } else if (emailValid != true) {
+      showModal();
+      setModalMessage('이메일 중복 체크를 해주세요.');
+    } else if (phoneValid != true) {
+      showModal();
+      setModalMessage('휴대폰 인증을 진행해 주세요.');
+    } else if (pwValid != true) {
+      showModal();
+      setModalMessage('최소 10자 이상 입력');
+    } else if (pwCheckValid != true) {
+      showModal();
+      setModalMessage('동일한 비밀번호를 입력');
+    } else if (nameValid != true) {
+      showModal();
+      setModalMessage('이름을 입력해 주세요');
+    } else if (addressValid != true) {
+      showModal();
+      setModalMessage('주소를 검색하여 입력해 주세요.');
+    } else {
+      authService.postSignup({
+        user_id: idRef.current.value,
+        user_password: pwRef.current.value,
+        user_name: nameRef.current.value,
+        user_email: emailRef.current.value,
+        user_phone: phoneRef.current.value,
+        zip_code: zipCode,
+        address: addressValue,
+        address_detail: extraAddressRef.current.value,
+        user_birth:
+          yearRef.current.value + monthRef.current.value + dayRef.current.value,
+        gender: radio_gender,
+        reffer_id: refferIdRef.current.value,
+        join_event_name: eventNameRef.current.value,
+      });
+      navigate('/');
     }
   };
   const submitEmail = () => {
@@ -262,59 +290,7 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
   };
   const showModal = () => {
     setModalOpen(true);
-    setSubmit(false);
   };
-
-  useEffect(() => {
-    if (submit == true) {
-      if (idValid == false) {
-        showModal();
-        setModalMessage('아이디 중복 체크를 해주세요.');
-      } else if (emailValid == false) {
-        showModal();
-        setModalMessage('이메일 중복 체크를 해주세요.');
-      } else if (phoneValid == false) {
-        showModal();
-        setModalMessage('휴대폰 인증을 진행해 주세요.');
-      } else if (pwValid == false) {
-        showModal();
-        setModalMessage('최소 10자 이상 입력');
-      } else if (pwCheckValid == false) {
-        showModal();
-        setModalMessage('동일한 비밀번호를 입력');
-      } else if (nameValid == false) {
-        showModal();
-        setModalMessage('이름을 입력해 주세요');
-      } else if (addressValid == false) {
-        showModal();
-        setModalMessage('주소를 검색하여 입력해 주세요.');
-      } else {
-        setData({
-          user_id: idRef.current.value,
-          user_password: pwRef.current.value,
-          user_name: nameRef.current.value,
-          user_email: emailRef.current.value,
-          user_phone: phoneRef.current.value,
-          zip_code: zipCode,
-          address: addressValue,
-          address_detail: extraAddressRef.current.value,
-          user_birth:
-            yearRef.current.value +
-            monthRef.current.value +
-            dayRef.current.value,
-          gender: radio_gender,
-          reffer_id: refferIdRef.current.value,
-          join_event_name: eventNameRef.current.value,
-        });
-        authService.postSignup(data);
-        authService.signIn({
-          user_id: idRef.current.value,
-          user_password: pwRef.current.value,
-        });
-        navigate('/');
-      }
-    }
-  }, [submit]);
 
   return (
     <div className={styles.container}>
@@ -745,6 +721,14 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
             </button>
           </div>
         </div>
+      </div>
+      <div className={styles.line}></div>
+      <div>
+        <Info_service_term />
+      </div>
+
+      <div className={styles.submit}>
+        <button onClick={onSubmit}>가입하기</button>
       </div>
       {modalOpen == true && (
         <Modal setModalOpen={setModalOpen} title={modalMessage} />

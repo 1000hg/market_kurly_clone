@@ -8,7 +8,9 @@ export default class AuthService {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(info),
     });
+
     const data = await response.json();
+    console.log(data);
     if (response.status !== 200) {
       throw new Error(data.message);
     }
@@ -41,6 +43,7 @@ export default class AuthService {
       }
     );
     const data = await response.json();
+    console.log(data.message);
     if (data.message == '사용 할 수 있습니다.') {
       return true;
     } else if (data.message != '사용 할 수 있습니다.') {
