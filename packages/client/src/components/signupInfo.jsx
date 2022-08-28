@@ -2,8 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import Modal from './modal';
 import styles from '../css/SignupInfo.module.css';
+import { useNavigate } from 'react-router-dom';
 
 const SignupInfo = ({ submit, setSubmit, authService }) => {
+  const navigate = useNavigate();
   const open = useDaumPostcodePopup(
     '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
   );
@@ -27,7 +29,7 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
   const [birthValid, setBirthValid] = useState('');
   const [yearValid, setYearValid] = useState();
   const [monthValid, setMonthValid] = useState();
-  const [idValid, setIdValid] = useState(false);
+  const [idValid, setIdValid] = useState();
   const [pwValid, setPwValid] = useState();
   const [pwCheckValid, setPwCheckValid] = useState();
   const [nameValid, setNameValid] = useState();
@@ -66,10 +68,20 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
     }
   };
   const submitEmail = () => {
-    const info = {
-      user_mail: emailRef.current.value,
-    };
-    checkEmail(info);
+    const emailRegex =
+      /(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+    if (emailRef.current.value.length == 0) {
+      showModal();
+      setModalMessage('이메일을 입력해 주세요');
+    } else if (!emailRegex.test(emailRef.current.value)) {
+      showModal();
+      setModalMessage('이메일 형식으로 입력해 주세요.');
+    } else {
+      const info = {
+        user_email: emailRef.current.value,
+      };
+      checkEmail(info);
+    }
   };
   const checkNumber = (e) => {
     const keyCode = e.keyCode;
@@ -138,28 +150,26 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
   const checkId = (info) => {
     const response = authService.signupIdCheck(info);
     response.then((data) => {
+      setIdValid(data);
       if (data == true) {
         setModalMessage('사용 할 수 있는 아이디 입니다');
         showModal();
-        setIdValid(data);
       } else if (data == false) {
         setModalMessage('사용 불가능한 아이디 입니다');
         showModal();
-        setIdValid(data);
       }
     });
   };
   const checkEmail = (info) => {
     const response = authService.signupEmailCheck(info);
     response.then((data) => {
+      setEmailValid(data);
       if (data == true) {
         setModalMessage('사용 할 수 있는 이메일 입니다');
         showModal();
-        setEmailValid(data);
       } else if (data == false) {
         setModalMessage('사용 불가능한 이메일 입니다');
         showModal();
-        setEmailValid(data);
       }
     });
   };
@@ -301,6 +311,7 @@ const SignupInfo = ({ submit, setSubmit, authService }) => {
           user_id: idRef.current.value,
           user_password: pwRef.current.value,
         });
+        navigate('/');
       }
     }
   }, [submit]);
