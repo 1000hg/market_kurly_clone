@@ -3,6 +3,11 @@ const dbPool = require("../db");
 async function addWishProduct(item) {
 	
 	try {
+		dbPool.query(
+			`UPDATE tb_product_view
+			SET dib_count = dib_count + 1
+			WHERE product_seq = "${item.product_seq}"`
+		);
 		const result = await dbPool.query(
 			`INSERT INTO tb_wish_item SET
         user_seq=?,
@@ -50,6 +55,15 @@ async function getWishList(user) {
 async function delWishProduct(item) {
 	
 	try {
+		dbPool.query(
+			`UPDATE tb_product_view
+			SET dib_count = dib_count - 1
+			WHERE product_seq = (
+				SELECT product_seq
+				FROM tb_wish_item
+				WHERE wish_item_seq = "${item.seq}"
+			)`
+		);
 		const result = await dbPool.query(
 			`DELETE FROM tb_wish_item
 			WHERE wish_item_seq = "${item.seq}"`
@@ -60,6 +74,7 @@ async function delWishProduct(item) {
 		console.log.error(e);
 	}
 }
+
 
 module.exports = {
 	addWishProduct,

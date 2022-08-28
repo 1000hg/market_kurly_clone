@@ -69,5 +69,72 @@
         display: block;
       }
     }
+    .address{
+      z-index: 997;
+      position: absolute;
+      background-color: white;
+      border:1px solid rgb(221,221,221);
+      width:267px;
+      font-size: 16px;
+      color:#333333;
+      padding:10px;
+      top:19px;
+      left:-105px;
+    }
+.triangle{
+  z-index: 998;
+  background:url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMThweCIgaGVpZ2h0PSIxMXB4IiB2aWV3Qm94PSIwIDAgMTggMTEiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8dGl0bGU+ZHJvcGRvd25fdGFpbDwvdGl0bGU+CiAgICA8ZyBpZD0i67ew7Yuw7Lus66asLVBoYXNlLTEiIHN0cm9rZT0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIxIiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPgogICAgICAgIDxnIGlkPSJQQ19Ib21lX01hcmtldF/sp4TsnoXsi5wiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xMTExLjAwMDAwMCwgLTEzMi4wMDAwMDApIj4KICAgICAgICAgICAgPGcgaWQ9ImRyb3Bkb3duX2JveCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOTc4LjAwMDAwMCwgMTMyLjAwMDAwMCkiPgogICAgICAgICAgICAgICAgPGcgaWQ9ImRyb3Bkb3duX3RhaWwiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEzMy4wMDAwMDAsIDAuMDAwMDAwKSI+CiAgICAgICAgICAgICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZSIgZmlsbD0iI0ZGRkZGRiIgeD0iMCIgeT0iMCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjExIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZSIgZmlsbD0iI0RERERERCIgeD0iMCIgeT0iMTAiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxIj48L3JlY3Q+CiAgICAgICAgICAgICAgICAgICAgPHBhdGggZD0iTTksMCBMMTcuMjUsMTEgTDAuNzUsMTEgTDksMCBaIiBpZD0iQ29tYmluZWQtU2hhcGUiIGZpbGw9IiNEREREREQiPjwvcGF0aD4KICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNOSwxLjY1IEwxNi4wMTYsMTAuOTk5IEwyLjAwOCwxMC45OTkgTDksMS42NSBaIiBpZD0iQ29tYmluZWQtU2hhcGUiIGZpbGw9IiNGRkZGRkYiPjwvcGF0aD4KICAgICAgICAgICAgICAgIDwvZz4KICAgICAgICAgICAgPC9nPgogICAgICAgIDwvZz4KICAgIDwvZz4KPC9zdmc+") 50% 50% no-repeat;
+  height:11px;
+  width:18px;
+  top:10px;
+  left :18px;
+  position: absolute;
+  /* left:133px; */
+}
 
-    
+.adrLgBtn{
+border-radius: 3px;
+border-color: #5F0080;
+color:#5F0080;
+background-color: white;
+margin-top: 20px;
+margin-right:10px;
+padding:5px 18px;
+border-width: 1px;
+
+}
+.adrFindAdrBtn{
+  border-radius: 3px;
+  color:white;
+  background-color: #5F0080;
+  margin-top:20px; 
+  padding:8px 45px;
+  border:none;
+}
+
+.adrP{
+    margin:0;
+  }
+  .btnDiv{
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .adrDiv{
+    position: absolute;
+  }
+  .sp{
+    margin:3px 0px;
+    color: #5F0080;
+  }
+  .adrChgBtn{
+    border-radius: 3px;
+border-color: #5F0080;
+color:#5F0080;
+background-color: white;
+margin-top: 20px;
+margin-right:10px;
+padding:5px 18px;
+width:100%;
+border-width: 1px;
+  }
