@@ -173,7 +173,7 @@ function TabContent({ tab }) {
       .then((res) => {
         console.log(res);
         res.data.tab = tab;
-        return navigate("/login/findPwdConfirm", {
+        return navigate("/login/pwdRePage", {
           state: res.data,
         });
       })
