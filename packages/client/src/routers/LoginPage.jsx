@@ -8,23 +8,23 @@ import { SET_TOKEN } from "../reducers/authToken";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { SET_USER_INFO } from "../reducers/userData";
+import Modal from "../components/modal";
 
 function LoginPage({ authService }) {
   const [seCheck, setSeCheck] = useState(true);
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
-  const [loginErr, setLoginErr] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
     axios
       .post("/api/auth/login", { user_id: id, user_password: pwd })
       .then((res) => {
-        setLoginErr(false);
+        setModalOpen(false);
         //console.log(res);
         const token = res.data.token;
         //console.log(token);
@@ -39,7 +39,7 @@ function LoginPage({ authService }) {
       })
       .catch((e) => {
         console.log(e);
-        setLoginErr(true);
+        setModalOpen(true);
       });
 
     // authService.signIn({user_id:id, user_password:pwd})
@@ -72,30 +72,15 @@ function LoginPage({ authService }) {
     // }).then(res => console.log(res))
   };
 
-  function Modal() {
-    const onLoginFailed = (e) => {
-      e.preventDefault();
-      setLoginErr(false);
-    };
-    return (
-      <div className={styles.modalBg}>
-        <div className={styles.modal}>
-          <div className={styles.modalText}>
-            아이디, 비밀번호를 확인해주세요.
-          </div>
-          <div className={styles.modalDiv}>
-            <button className={styles.modalButton} onClick={onLoginFailed}>
-              확인
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={`${loginErr ? styles.scroll : ""}`}>
-      {loginErr == true ? <Modal /> : null}
+    <div>
+      {modalOpen == true ? (
+        <Modal
+          setModalOpen={setModalOpen}
+          title={"아이디, 비밀번호를 확인해주세요."}
+          option={"rCfm"}
+        />
+      ) : null}
       <MainHeader />
       <div className={"text-center " + `${styles.lgContent}`}>
         <h3 className={styles.lgTitle}>로그인</h3>

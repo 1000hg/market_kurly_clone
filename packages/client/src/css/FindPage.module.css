@@ -26,7 +26,27 @@
     font-size: 16px;
     padding-left: 10px
 }
+.inputCdCnt{
+  width: 72%;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 10px
+}
+.reSendBtn{
+  width: 25%;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    padding: 0px 10px;
+    margin-left: 3%;
+    background-color: white;
 
+}
 .findTitle{
   text-align: center;
   padding-bottom: 30px;
