@@ -9,7 +9,7 @@ import AddressResult from './components/addressResult';
 import FindIdPage from './routers/FindIdPage';
 import FindPwdPage from './routers/FindPwdPage';
 import FindIdConfirmPage from './routers/FindIdConfirmPage';
-import FindPwdConfirmPage from './routers/FindPwdConfirmPage';
+import PwdRePage from './routers/PwdRePage';
 import PwdReMailPage from './routers/PwdReMailPage';
 import MyCurlyPage from './routers/MyCurlyPage';
 import MainHeader from './components/mainHeader';
@@ -31,10 +31,7 @@ function App({ authService }) {
           path='/login/findIdConfirm'
           element={<FindIdConfirmPage />}
         ></Route>
-        <Route
-          path='/login/findPwdConfirm'
-          element={<FindPwdConfirmPage />}
-        ></Route>
+        <Route path='/login/pwdRePage' element={<PwdRePage />}></Route>
 
         <Route path='/login/pwdReMail' element={<PwdReMailPage />}></Route>
         <Route
