@@ -1,12 +1,9 @@
 import React from 'react';
-import MainHeader from '../components/mainHeader';
-import MainFooter from '../components/mainFooter';
 import styles from '../css/MyCurlyPage.module.css';
 
 const MyCurlyPage = () => {
   return (
     <>
-      <MainHeader />
       <div className={styles.signup}>
         <div className={styles.title}>회원가입</div>
         <div className={styles.container}>
@@ -18,7 +15,6 @@ const MyCurlyPage = () => {
           </div>
         </div>
       </div>
-      <MainFooter />
     </>
   );
 };
