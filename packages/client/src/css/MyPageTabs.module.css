@@ -1,0 +1,84 @@
+.container {
+  width: 200px;
+}
+.container ul {
+  border: 1px solid rgb(242, 242, 242);
+  list-style-type: none;
+  padding: 0;
+}
+.title {
+  height: 75px;
+  padding: 5px px 0px 35px 1px;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 35px;
+  color: rgb(51, 51, 51);
+  letter-spacing: -1px;
+}
+.active,
+.list a:hover {
+  background-color: rgb(250, 250, 250) !important;
+  color: rgb(95, 0, 128) !important;
+  font-weight: 600 !important;
+}
+.list a {
+  cursor: pointer;
+  border-bottom: 1px solid rgb(242, 242, 242);
+  padding: 14px 20px 16px;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  line-height: 19px;
+  letter-spacing: -0.3px;
+  font-size: 14px;
+  color: rgb(102, 102, 102);
+}
+.list span {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjExIiB2aWV3Qm94PSIwIDAgNiAxMSI+CiAgICA8cGF0aCBmaWxsPSIjOTk5IiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xIDExTDYgNS41IDEgMCAwIDEuMSA0IDUuNSAwIDkuOXoiLz4KPC9zdmc+Cg==);
+  background-size: cover;
+  background-position: center center;
+}
+.inquiry {
+  width: 100%;
+  height: 60px;
+  padding: 0px 20px;
+  margin-top: 20px;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  border-radius: 0px 100px 100px 0px;
+  background-color: rgb(250, 250, 250);
+  line-height: 20px;
+}
+.inquiry span {
+  display: flex;
+  flex-direction: column;
+  color: rgb(51, 51, 51);
+}
+.inquiry_content {
+  display: flex;
+  flex-direction: column;
+  color: rgb(51, 51, 51);
+}
+.inquiry_content :first-child {
+  font-size: 14px;
+  font-weight: 600;
+}
+.inquiry_content :last-child {
+  font-size: 12px;
+}
+.arrow {
+  display: inline-block;
+  width: 6px;
+  height: 11px;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjExIiB2aWV3Qm94PSIwIDAgNiAxMSI+CiAgICA8cGF0aCBmaWxsPSIjNUYwMDgwIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xIDExTDYgNS41IDEgMCAwIDEuMSA0IDUuNSAwIDkuOXoiLz4KPC9zdmc+Cg==);
+  background-size: cover;
+  background-position: center center;
+}
