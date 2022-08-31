@@ -10,7 +10,7 @@ import FindIdPage from "./routers/FindIdPage";
 import FindPwdPage from "./routers/FindPwdPage";
 import FindIdConfirmPage from "./routers/FindIdConfirmPage";
 import PwdRePage from "./routers/PwdRePage";
-import PwdReMailPage from "./routers/PwdReMailPage";
+import PwdRemailPage from "./routers/PwdRemailPage";
 import OrderPage from "./routers/mykurly/OrderPage";
 import MainHeader from "./components/mainHeader";
 import MainFooter from "./components/mainFooter";
