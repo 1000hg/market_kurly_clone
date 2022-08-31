@@ -1,0 +1,115 @@
+.page {
+  position: relative;
+  min-width: 1050px;
+}
+.container {
+  display: flex;
+  width: 1050px;
+  padding: 50px 0px 80px;
+  margin: 0px auto;
+  flex-direction: row;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+}
+.title {
+  padding: 5px 0 34px;
+  height: 36px;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 36px;
+  color: #333;
+  letter-spacing: -0.5px;
+  display: block;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+.table {
+  width: 820px;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+.thead {
+  display: table-header-group;
+  vertical-align: middle;
+  border-color: inherit;
+}
+.thead tr {
+  border-bottom: 1px solid rgb(51, 51, 51);
+  border-top: 2px solid rgb(51, 51, 51);
+  display: table-row;
+  vertical-align: inherit;
+  border-color: inherit;
+}
+.thead th {
+  padding: 20px 0;
+  display: table-cell;
+  border-top: 2px solid #333;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  letter-spacing: -0.5px;
+  text-align: center;
+}
+.thead :first-of-type {
+  width: 100px;
+}
+.thead :nth-last-of-type(3) {
+  width: 520px;
+  padding-right: 20px;
+}
+.thead :nth-last-of-type(2) {
+  width: 100px;
+}
+.tbody_tr {
+  position: relative;
+}
+.tbody_td {
+  width: 820px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  padding: 117px 0;
+  text-align: center;
+  cursor: default;
+  border-bottom: 1px solid #f4f4f4;
+}
+.inquiry_area {
+  width: 100%;
+  padding-top: 20px;
+  text-align: center;
+}
+.navigation {
+  padding-top: 20px;
+  text-align: center;
+}
+.navigation button {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  background: 0;
+  border: 1px solid #eee;
+  border-radius: 3px;
+}
+.navigation span {
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  border-color: #eee;
+  cursor: default;
+}
+.paging_prev {
+  margin-right: 12px !important;
+  background: url(https://res.kurly.com/kurly/img/2021/direction_prev_24_44_black.svg)
+    50% 0 no-repeat !important;
+}
+.paging_next {
+  background: url(https://res.kurly.com/kurly/img/2021/direction_next_24_44_black.svg)
+    50% 0 no-repeat !important;
+}
