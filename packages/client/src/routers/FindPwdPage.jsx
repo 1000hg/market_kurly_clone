@@ -1,9 +1,9 @@
-import axios from 'axios';
-import { useEffect, useRef } from 'react';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styles from '../css/FindPage.module.css';
-import ConfirmModal from '../components/modal';
+import axios from "axios";
+import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "../css/FindPage.module.css";
+import ConfirmModal from "../components/modal";
 
 export default function FindPwdPage() {
   const [tab, setTab] = useState(0);
@@ -40,35 +40,35 @@ export default function FindPwdPage() {
 
 function TabContent({ tab }) {
   //input control
-  const [id, setId] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
   //modal control
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState('');
+  const [modalTitle, setModalTitle] = useState("");
   //validation control
   const [rqFirst, setRqFirst] = useState(false);
   const [rqSecond, setRqSecond] = useState(false);
   const [verify, setVerify] = useState(false); //인증번호 입력창 스위치
-  const [verifyCd, setVerifyCd] = useState('');
+  const [verifyCd, setVerifyCd] = useState("");
   const [rqVerify, setRqVerify] = useState(false);
   const [verifyIdContent, setVerifyIdContent] = useState(
-    '가입 시 등록한 아이디를 입력해 주세요.'
+    "가입 시 등록한 아이디를 입력해 주세요."
   );
   const [verifyPhoneContent, setVerifyPhoneContent] = useState(
-    '가입 시 등록한 휴대폰 번호를 입력해 주세요.'
+    "가입 시 등록한 휴대폰 번호를 입력해 주세요."
   );
   const [verifyCdContent, setVerifyCdContent] =
-    useState('인증번호를 입력해주세요');
+    useState("인증번호를 입력해주세요");
   const verifyCdRef = useRef(null);
   const verifyIdRef = useRef(null);
   const verifyPhoneRef = useRef(null);
   useEffect(() => {
-    setId('');
-    setPhone('');
-    setEmail('');
-    setVerifyCd('');
+    setId("");
+    setPhone("");
+    setEmail("");
+    setVerifyCd("");
     setRqFirst(false);
     setRqSecond(false);
     setVerify(false);
@@ -80,31 +80,31 @@ function TabContent({ tab }) {
 
     if (tab === 0) {
       axios
-        .post('/api/verify/sms', { user_id: id, user_phone: phone })
+        .post("/api/verify/sms", { user_id: id, user_phone: phone })
         .then((res) => {
           console.log(res);
           setVerify(true);
           setModalTitle(
-            '인증번호가 발송되었습니다. 3분 안에 인증번호를 입력해 주세요.\n\n카카오톡이 설치된 경우 카카오 알림톡으로 발송됩니다.'
+            "인증번호가 발송되었습니다. 3분 안에 인증번호를 입력해 주세요.\n\n카카오톡이 설치된 경우 카카오 알림톡으로 발송됩니다."
           );
           setModalOpen(true);
         })
         .catch((e) => {
-          alert('다시 확인');
+          alert("다시 확인");
         });
     } else if (tab === 1) {
       axios
-        .post('/api/verify/email/pw', { user_id: id, user_email: email })
+        .post("/api/verify/email/pw", { user_id: id, user_email: email })
         .then((res) => {
           console.log(res);
-          res.data.email = email; //서버에서 넘어오나?
+          res.data.email = email;
 
-          return navigate('/login/pwdReMail', {
+          return navigate("/login/pwdRemail", {
             state: res.data,
           });
         })
         .catch((e) => {
-          alert('다시 확인');
+          alert("다시 확인");
         });
     }
   };
@@ -112,56 +112,58 @@ function TabContent({ tab }) {
   const onPhoneChangeHandler = (e) => {
     setPhone(e.currentTarget.value);
 
-    if (verifyPhoneRef.current.value === '') {
-      setVerifyPhoneContent('가입 시 등록한 휴대폰 번호를 입력해 주세요.');
+    if (verifyPhoneRef.current.value === "") {
+      setVerifyPhoneContent("가입 시 등록한 휴대폰 번호를 입력해 주세요.");
       setRqSecond(true);
     } else if (verifyPhoneRef.current.value.length < 10) {
-      setVerifyPhoneContent('휴대폰 번호를 정확히 입력해 주세요.');
+      setVerifyPhoneContent("휴대폰 번호를 정확히 입력해 주세요.");
     } else {
-      setVerifyPhoneContent('');
+      setVerifyPhoneContent("");
       setRqSecond(false);
     }
   };
   const onIdChangeHandler = (e) => {
     setId(e.currentTarget.value);
 
-    if (verifyIdRef.current.value === '') {
-      setVerifyIdContent('가입 시 등록한 아이디를 입력해 주세요.');
+    if (verifyIdRef.current.value === "") {
+      setVerifyIdContent("가입 시 등록한 아이디를 입력해 주세요.");
       setRqFirst(true);
     } else {
-      setVerifyIdContent('');
+      setVerifyIdContent("");
       setRqFirst(false);
     }
   };
   const onCdChangeHandler = (e) => {
     setVerifyCd(e.currentTarget.value);
 
-    if (verifyCdRef.current.value === '') {
-      setVerifyCdContent('인증번호를 입력해주세요');
+    if (verifyCdRef.current.value === "") {
+      setVerifyCdContent("인증번호를 입력해주세요");
       setRqVerify(false);
     } else if (verifyCdRef.current.value.length < 7) {
-      setVerifyCdContent('7자리를 입력해주세요');
+      setVerifyCdContent("7자리를 입력해주세요");
     } else {
-      setVerifyCdContent('');
+      setVerifyCdContent("");
       setRqVerify(true);
     }
   };
   const onClearBtn = (value) => {
-    if (value === 'id') {
-      setVerifyIdContent('가입 시 등록한 아이디를 입력해 주세요.');
-      setId('');
+    if (value === "id") {
+      setVerifyIdContent("가입 시 등록한 아이디를 입력해 주세요.");
+      setId("");
       setRqFirst(true);
-    } else if (value === 'phone') {
-      setVerifyPhoneContent('가입 시 등록한 휴대폰 번호를 입력해 주세요.');
-      setPhone('');
+    } else if (value === "phone") {
+      setVerifyPhoneContent("가입 시 등록한 휴대폰 번호를 입력해 주세요.");
+      setPhone("");
       setRqSecond(true);
-    } else if (value === 'email') {
+    } else if (value === "email") {
+      setEmail("");
+      setRqSecond("");
     }
   };
   const sendIdVerify = () => {
-    //아이디 sms인증번호 입력 완료 후 확인버튼
+    //비번 sms인증번호 입력 완료 후 확인버튼
     axios
-      .post('/api/verify/sms/pw', {
+      .post("/api/verify/sms/pw", {
         user_id: id,
         user_phone: phone,
         verify_code: verifyCd,
@@ -169,12 +171,13 @@ function TabContent({ tab }) {
       .then((res) => {
         console.log(res);
         res.data.tab = tab;
-        return navigate('/login/findPwdConfirm', {
+        res.data.id = id;
+        return navigate("/login/pwdRePage", {
           state: res.data,
         });
       })
       .catch((e) => {
-        alert('다시 확인');
+        alert("다시 확인");
       });
   };
   const inputFocus = () => {
@@ -182,8 +185,8 @@ function TabContent({ tab }) {
   };
   const onInit = (e) => {
     if (
-      (id !== '' && phone !== '' && phone.length >= 10) ||
-      (id !== '' && email !== '')
+      (id !== "" && phone !== "" && phone.length >= 10) ||
+      (id !== "" && email !== "")
     ) {
       return true;
     } else {
@@ -197,56 +200,56 @@ function TabContent({ tab }) {
       <div>
         <form className={styles.inputForm} onSubmit={onSubmitHandler}>
           <div className={styles.divInput}>
-            <label className={styles.inputTitle} htmlFor='id'>
+            <label className={styles.inputTitle} htmlFor="id">
               아이디
             </label>
             <div className={styles.relDiv}>
               <input
                 onBlur={() =>
-                  id === '' ? setRqFirst(true) : setRqFirst(false)
+                  id === "" ? setRqFirst(true) : setRqFirst(false)
                 }
                 onChange={onIdChangeHandler}
                 className={styles.inputContent}
-                type='text'
-                id='id'
-                placeholder='아이디를 입력해주세요'
+                type="text"
+                id="id"
+                placeholder="아이디를 입력해주세요"
                 value={id}
                 ref={verifyIdRef}
               />
               <button
-                type='button'
+                type="button"
                 onClick={() => {
-                  onClearBtn('id');
+                  onClearBtn("id");
                 }}
-                className={id === '' ? styles.delBtnNone : styles.delBtn}
+                className={id === "" ? styles.delBtnNone : styles.delBtn}
               ></button>
             </div>
             {rqFirst && <p className={styles.required}>{verifyIdContent}</p>}
           </div>
           <div className={styles.divInput}>
-            <label className={styles.inputTitle} htmlFor='phone'>
+            <label className={styles.inputTitle} htmlFor="phone">
               휴대폰 번호
             </label>
             <div className={styles.relDiv}>
               <input
                 onBlur={() =>
-                  phone === '' ? setRqSecond(true) : setRqSecond(false)
+                  phone === "" ? setRqSecond(true) : setRqSecond(false)
                 }
                 onChange={onPhoneChangeHandler}
                 className={styles.inputContent}
-                type='tel'
-                id='phone'
-                placeholder='휴대폰 번호를 입력해주세요'
+                type="tel"
+                id="phone"
+                placeholder="휴대폰 번호를 입력해주세요"
                 value={phone}
-                maxLength='11'
+                maxLength="11"
                 ref={verifyPhoneRef}
               />
               <button
-                type='button'
+                type="button"
                 onClick={() => {
-                  onClearBtn('phone');
+                  onClearBtn("phone");
                 }}
-                className={phone === '' ? styles.hidden : styles.delBtn}
+                className={phone === "" ? styles.hidden : styles.delBtn}
               ></button>
             </div>
             {rqSecond && (
@@ -256,16 +259,16 @@ function TabContent({ tab }) {
 
           {verify && (
             <div className={styles.divInput}>
-              <label className={styles.inputTitle} htmlFor='verifyCd'>
+              <label className={styles.inputTitle} htmlFor="verifyCd">
                 인증번호
               </label>
               <div className={styles.relDiv}>
                 <input
                   onChange={onCdChangeHandler}
                   className={styles.inputCdCnt}
-                  type='text'
-                  id='verifyCd'
-                  placeholder='인증번호 7자리'
+                  type="text"
+                  id="verifyCd"
+                  placeholder="인증번호 7자리"
                   ref={verifyCdRef}
                 />
                 <button onClick={onSubmitHandler} className={styles.reSendBtn}>
@@ -314,25 +317,25 @@ function TabContent({ tab }) {
       <div>
         <form className={styles.inputForm} onSubmit={onSubmitHandler}>
           <div className={styles.divInput}>
-            <label className={styles.inputTitle} htmlFor='id'>
+            <label className={styles.inputTitle} htmlFor="id">
               아이디
             </label>
             <div className={styles.relDiv}>
               <input
                 onBlur={() =>
-                  id === '' ? setRqFirst(true) : setRqFirst(false)
+                  id === "" ? setRqFirst(true) : setRqFirst(false)
                 }
                 onChange={(e) => setId(e.currentTarget.value)}
                 className={styles.inputContent}
-                type='text'
-                id='id'
-                placeholder='아이디를 입력해주세요'
+                type="text"
+                id="id"
+                placeholder="아이디를 입력해주세요"
                 value={id}
               />
               <button
-                type='button'
-                onClick={() => setId('')}
-                className={id === '' ? styles.hidden : styles.delBtn}
+                type="button"
+                onClick={() => setId("")}
+                className={id === "" ? styles.hidden : styles.delBtn}
               ></button>
             </div>
             <p className={rqFirst ? `${styles.required}` : `${styles.hidden}`}>
@@ -340,25 +343,25 @@ function TabContent({ tab }) {
             </p>
           </div>
           <div className={styles.divInput}>
-            <label className={styles.inputTitle} htmlFor='phone'>
+            <label className={styles.inputTitle} htmlFor="phone">
               이메일
             </label>
             <div className={styles.relDiv}>
               <input
                 onBlur={() =>
-                  email === '' ? setRqSecond(true) : setRqSecond(false)
+                  email === "" ? setRqSecond(true) : setRqSecond(false)
                 }
                 onChange={(e) => setEmail(e.currentTarget.value)}
                 className={styles.inputContent}
-                type='email'
-                id='email'
-                placeholder='이메일을 입력해주세요'
+                type="email"
+                id="email"
+                placeholder="이메일을 입력해주세요"
                 value={email}
               />
               <button
-                type='button'
-                onClick={() => setEmail('')}
-                className={email === '' ? styles.delBtnNone : styles.delBtn}
+                type="button"
+                onClick={() => setEmail("")}
+                className={email === "" ? styles.delBtnNone : styles.delBtn}
               ></button>
             </div>
             <p className={rqSecond ? `${styles.required}` : `${styles.hidden}`}>
