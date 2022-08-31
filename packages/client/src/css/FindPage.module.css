@@ -36,6 +36,8 @@
     padding-left: 10px
 }
 .reSendBtn{
+  position: absolute;
+  right: 0;
   width: 25%;
   height: 48px;
   border-radius: 4px;
@@ -130,4 +132,10 @@
 
 .delBtnNone{
   display: none;
+}
+
+.timer{
+  position:relative;
+  left:-70px;
+  color:#F03F40;
 }
