@@ -21,7 +21,7 @@ const MyPageTabs = ({ active }) => {
             </a>
           </li>
         </Link>
-        <Link to='/mypage/coupon'>
+        <Link to='/mypage/mypick'>
           <li className={styles.list}>
             <a className={active == 'mypick' ? styles.active : ''}>
               찜한 상품<span></span>
