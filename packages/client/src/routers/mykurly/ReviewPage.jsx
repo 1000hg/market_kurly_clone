@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import styles from '../../css/mykurly/ReviewPage.module.css';
 
 const ReviewPage = (props) => {
+  const [reviewTab, setReviewTab] = useState('before');
+  const changeTab = (e) => {
+    if (e == 'before') {
+      setReviewTab('before');
+    } else {
+      setReviewTab('after');
+    }
+  };
   return (
     <>
       <div className={styles.page}>
@@ -12,34 +20,44 @@ const ReviewPage = (props) => {
           <MyPageTabs active={'review'} />
           <div className={styles.contentbox}>
             <div className={styles.content_header}>
-              <h2 className={styles.title}>상품후기</h2>
-            </div>
-            <div className={styles.content}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr className={styles.thead_tr}>
-                    <th className={styles.thead_th}></th>
-                    <th className={styles.thead_th}>제목</th>
-                    <th className={styles.thead_th}>작성일</th>
-                    <th className={styles.thead_th}>답변상태</th>
-                  </tr>
-                </thead>
-                <tbody className={styles.tbody}>
-                  <tr className={styles.tbody_tr}>
-                    <td colspan='5' className={styles.tbody_td}>
-                      작성한 상품 문의가 없습니다.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className={styles.inquiry_area}>
-                <div className={styles.navigation}>
-                  <button className={styles.paging_prev}>
-                    <span>이전</span>
-                  </button>
-                  <button className={styles.paging_next}>
-                    <span>다음</span>
-                  </button>
+              <div className={styles.article}>
+                <h2 className={styles.title}>상품후기</h2>
+              </div>
+              <div className={styles.review}>
+                <div className={styles.notice}>
+                  <p>
+                    <b>
+                      후기 작성 시 사진후기 100원, 글후기 50원을 적립해드립니다.
+                    </b>
+                    <br></br>- 퍼플, 더퍼플은 <b>2배</b> 적립 (사진 200원, 글
+                    100원)<br></br>- 주간 베스트 후기로 선정 시 <b>5,000원</b>을
+                    추가 적립<br></br>
+                    <b>* 후기 작성은 배송 완료일로부터 30일 이내 가능합니다.</b>
+                  </p>
+                </div>
+                <div className={styles.review_tab}>
+                  <div className={styles.buttonbox}>
+                    <button
+                      id='before'
+                      className={
+                        reviewTab == 'before' ? styles.active : styles.button
+                      }
+                      onClick={() => changeTab('before')}
+                    >
+                      작성가능 후기(0)
+                    </button>
+                  </div>
+                  <div className={styles.buttonbox}>
+                    <button
+                      id='after'
+                      className={
+                        reviewTab == 'after' ? styles.active : styles.button
+                      }
+                      onClick={() => changeTab('after')}
+                    >
+                      작성완료 후기(0)
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

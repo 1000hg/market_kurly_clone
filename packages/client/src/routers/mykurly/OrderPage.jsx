@@ -45,11 +45,11 @@ const OrderPage = () => {
             </div>
             <div className={styles.line}></div>
             <div className={styles.content}>
-              <div class={styles.warning}>
+              <div className={styles.warning}>
                 <div>
                   <p>3개월간의 주문내역이 없습니다.</p>
                   <button type='button' width='150' height='44' radius='3'>
-                    <span class='css-ymwvow e4nu7ef1'>베스트 상품 보기</span>
+                    <span className={styles.best_items}>베스트 상품 보기</span>
                   </button>
                 </div>
               </div>

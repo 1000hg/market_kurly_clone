@@ -1,46 +1,79 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styles from '../../css/mykurly/InfoEditPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 
 const InfoEditPage = (props) => {
+  const passwordRef = useRef();
   return (
     <>
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
-          <MyPageTabs active={'infoedit'} />
+          <MyPageTabs active={'review'} />
           <div className={styles.contentbox}>
             <div className={styles.content_header}>
-              <h2 className={styles.title}>개인 정보 수정</h2>
-            </div>
-            <div className={styles.content}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr className={styles.thead_tr}>
-                    <th className={styles.thead_th}></th>
-                    <th className={styles.thead_th}>제목</th>
-                    <th className={styles.thead_th}>작성일</th>
-                    <th className={styles.thead_th}>답변상태</th>
-                  </tr>
-                </thead>
-                <tbody className={styles.tbody}>
-                  <tr className={styles.tbody_tr}>
-                    <td colspan='5' className={styles.tbody_td}>
-                      작성한 상품 문의가 없습니다.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className={styles.inquiry_area}>
-                <div className={styles.navigation}>
-                  <button className={styles.paging_prev}>
-                    <span>이전</span>
-                  </button>
-                  <button className={styles.paging_next}>
-                    <span>다음</span>
-                  </button>
+              <div className={styles.article}>
+                <h2 className={styles.title}>개인 정보 수정</h2>
+              </div>
+              <div className={styles.info}>
+                <div className={styles.notice}>
+                  <h4>비밀번호 재확인</h4>
+                  <p>
+                    회원님의 정보를 안전하게 보호하기 위해 비밀번호를 다시 한번
+                    확인해주세요.
+                  </p>
                 </div>
+              </div>
+              <div className={styles.infoedit}>
+                <div className={styles.list}>
+                  <div className={styles.labelbox}>
+                    <label className={styles.label}>아이디</label>
+                  </div>
+                  <div className={styles.form}>
+                    <div className={styles.inputbox}>
+                      <input
+                        id='ID'
+                        data-testid='input-box'
+                        placeholder='아이디를 입력해주세요'
+                        type='text'
+                        className={styles.input}
+                        readOnly
+                        value='id'
+                      />
+                    </div>
+                  </div>
+                  <div className={styles.space}></div>
+                </div>
+                <div className={styles.list}>
+                  <div className={styles.labelbox}>
+                    <label className={styles.label}>비밀번호</label>
+                    <span style={{ color: 'rgb(238, 106, 123)' }}>*</span>
+                  </div>
+                  <div className={styles.form}>
+                    <div className={styles.inputbox}>
+                      <input
+                        id='PASSWORD'
+                        data-testid='input-box'
+                        placeholder='현재 비밀번호를 입력해주세요'
+                        type='text'
+                        className={styles.input}
+                        ref={passwordRef}
+                      />
+                    </div>
+                    {passwordRef && (
+                      <div className={styles.invalid}>
+                        <p>비밀번호를 입력해 주세요.</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.space}></div>
+                </div>
+              </div>
+              <div className={styles.submit}>
+                <button>
+                  <span>확인</span>
+                </button>
               </div>
             </div>
           </div>
