@@ -10,7 +10,9 @@ const InfoEditPage = (props) => {
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
-          <MyPageTabs active={'review'} />
+          <div className={styles.myTabs}>
+            <MyPageTabs active={'infoedit'} />
+          </div>
           <div className={styles.contentbox}>
             <div className={styles.content_header}>
               <div className={styles.article}>

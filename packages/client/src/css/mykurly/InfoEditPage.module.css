@@ -9,13 +9,14 @@
   margin: 0px auto;
   flex-direction: row;
   -webkit-box-pack: justify;
+  justify-content: space-between;
 }
 .contentbox {
   margin-left: 30px;
 }
 .title {
   height: 36px;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 24px;
   line-height: 36px;
   color: #333;
