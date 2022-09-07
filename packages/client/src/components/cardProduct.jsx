@@ -1,11 +1,20 @@
 import styles from "../css/CardProduct.module.css";
-import base64 from "base-64";
 import { Buffer } from "buffer";
 
+import { useNavigate } from "react-router-dom";
+
 function CardProduct({ item }) {
-  //console.log(item.imgList[0]);
+  const navigate = useNavigate();
+  const onClick = () => {
+    console.log(item.product_view_seq);
+    return navigate("/product/detail/" + item.product_view_seq);
+  };
   return (
-    <div className="col-xxl-3 col-md-3" styles={{ margin: "0 auto" }}>
+    <div
+      onClick={onClick}
+      className="col-xxl-3 col-md-3"
+      styles={{ margin: "0 auto" }}
+    >
       <div className={styles.crd}>
         <div className={styles.crdBg}>
           <img
