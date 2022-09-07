@@ -1,0 +1,120 @@
+.divContent{
+  /* text-align:center; */
+  width:340px;
+  margin: auto;
+  padding:50px 0px;
+}
+.findTitle{
+  text-align: center;
+  padding-bottom: 30px;
+  font-weight: 600;
+  font-size: 28px;
+  color:#333333;
+}
+
+.inputForm{
+  width:100%;
+  padding:24px 0px;
+}
+.divInput{
+  height:150px;
+  margin-bottom: 10px;
+}
+.inputTitle{
+  display:block;
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 10px;
+}
+.relDiv{
+  position: relative;
+}
+
+.inputContent{
+  width: -webkit-fill-available;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    padding-left: 10px;
+    margin-bottom : 15px;
+}
+
+.inputContent:focus{
+  outline: 1px solid #666;
+}
+.delBtn{
+  background:url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPGNpcmNsZSBmaWxsPSIjOTk5IiBvcGFjaXR5PSIuNSIgY3g9IjgiIGN5PSI4IiByPSI4Ii8+CiAgICAgICAgPGcgc3Ryb2tlPSIjRkZGIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij4KICAgICAgICAgICAgPHBhdGggZD0ibTEwLjg5NyAxMC43ODYtNS43Ny01Ljc2OU01LjEyMiAxMC43ODVsNS43NzUtNS43NzUiLz4KICAgICAgICA8L2c+CiAgICA8L2c+Cjwvc3ZnPgo=')0% 0% / 16px 16px no-repeat transparent;
+  position: absolute;
+    top: 35%;
+    /* transform: translateY(-50%); */
+    right: 12px;
+    height: 16px;
+    width: 16px;
+    border-width: initial;
+    border-style: none;
+    border-color: initial;
+    border-image: initial;
+}
+.delBtnNone{
+  display: none;
+}
+.required{
+  color:#F03F40;
+  font-size: 13px;
+  margin-top:5px;
+}
+
+.hidden{
+  display:none;
+}
+.submitBtnDis{
+  width: -webkit-fill-available;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    color:white;
+    background-color: #ddd;
+}
+.submitBtn{
+  width: -webkit-fill-available;
+  height: 48px;
+  border-radius: 4px;
+    border: 1px solid #ddd;
+    font-weight: 400;
+    font-size: 16px;
+    color:white;
+    background-color: #5F0080;
+}
+.pRqContent0::before {
+  content: "ㆍ";
+}
+.pRqContent1::before {
+  content: " X ";
+}
+.pRqContent2::before {
+  content: " V ";
+}
+.pRqContent0{
+  color : #333333;
+  font-size: 12px;
+  margin: 0;
+}
+.pRqContent1{
+  color : red;
+  font-size: 12px;
+  margin: 0;
+}
+.pRqContent2{
+  color : green;
+  font-size: 12px;
+  margin: 0;
+}
+
+
+.hidden{
+  display: none;
+}

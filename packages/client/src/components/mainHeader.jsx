@@ -1,8 +1,8 @@
-import styles from '../css/MainHeader.module.css';
-import MainNavbar2 from './mainNavbar2';
-import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import styles from "../css/MainHeader.module.css";
+import MainNavbar2 from "./mainNavbar2";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function MainHeader() {
   const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
@@ -14,26 +14,26 @@ function MainHeader() {
   });
 
   const onLogOut = () => {
-    localStorage.removeItem('accessToken');
-    navigate('/');
+    localStorage.removeItem("accessToken");
+    navigate("/");
   };
 
   return (
     <>
       <header>
-        {sessionStorage.getItem('topbnr') == null ? (
+        {sessionStorage.getItem("topbnr") == null ? (
           <div>
-            <a className={'text-center ' + `${styles.aTopBnr}`}>
+            <a className={"text-center " + `${styles.aTopBnr}`}>
               <span>
                 지금 가입하고 인기상품 <b>100원</b>에 받아가세요!
               </span>
               <img
-                src='https://res.kurly.com/pc/ico/1908/ico_arrow_fff_84x84.png'
+                src="https://res.kurly.com/pc/ico/1908/ico_arrow_fff_84x84.png"
                 className={styles.bnrImg}
               />
               <button
                 onClick={() => {
-                  sessionStorage.setItem('topbnr', '1');
+                  sessionStorage.setItem("topbnr", "1");
                   setTopBnr(false);
                 }}
                 className={styles.btnTopBnr}
@@ -41,38 +41,38 @@ function MainHeader() {
             </a>
           </div>
         ) : null}
-        <div className={'container-fluid ' + `${styles.btnCtn}`}>
+        <div className={"container-fluid " + `${styles.btnCtn}`}>
           <div>
-            <a href='#'>
+            <a href="#">
               <img
                 className={styles.btnImg}
-                src='https://res.kurly.com/pc/service/common/2011/delivery_210801.png'
-                alt='샛별, 택배 배송안내'
+                src="https://res.kurly.com/pc/service/common/2011/delivery_210801.png"
+                alt="샛별, 택배 배송안내"
               />
             </a>
           </div>
           <div className={styles.myKurly_menu}>
-            <ul className='nav'>
-              {localStorage.getItem('accessToken') === null ||
-              localStorage.getItem('accessToken') === '' ? (
+            <ul className="nav">
+              {localStorage.getItem("accessToken") === null ||
+              localStorage.getItem("accessToken") === "" ? (
                 <>
-                  <li className='nav-item menu'>
+                  <li className="nav-item menu">
                     <Link
-                      to='/signup'
+                      to="/signup"
                       className={
-                        'nav-link active ' +
+                        "nav-link active " +
                         `${styles.tpSz} ${styles.sgnUpTpSz}`
                       }
-                      href='#'
+                      href="#"
                     >
                       회원가입
                     </Link>
                   </li>
-                  <li className='nav-item menu'>
+                  <li className="nav-item menu">
                     <Link
-                      to='/login'
-                      className={'nav-link ' + `${styles.tpSz}`}
-                      href='#'
+                      to="/login"
+                      className={"nav-link " + `${styles.tpSz}`}
+                      href="#"
                     >
                       로그인
                     </Link>
@@ -83,13 +83,13 @@ function MainHeader() {
                   onMouseEnter={() => setMyKurlyShown(true)}
                   onMouseLeave={() => setMyKurlyShown(false)}
                 >
-                  <Link to='/mycurly/order-history' className={styles.welLink}>
-                    <div className={'dropdown-toggle ' + `${styles.tpSz}`}>
+                  <Link to="/mypage/order" className={styles.welLink}>
+                    <div className={"dropdown-toggle " + `${styles.tpSz}`}>
                       <span className={styles.welcome}>웰컴</span>
                       <span>{user_name}님 </span>
                       <img
-                        src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHJlY3QgZmlsbD0iI0ZBNjIyRiIgZmlsbC1ydWxlPSJub256ZXJvIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHJ4PSI3Ii8+CiAgICAgICAgPHBhdGggZD0iTTguMzg1IDEwdi0uMDA2TDUuNjQ1IDYuMjFWMTBoLTEuNlY0aDEuNmwyLjc0IDMuNzg4VjRoMS42djZoLTEuNnoiIGZpbGw9IiNGRkYiLz4KICAgIDwvZz4KPC9zdmc+Cg=='
-                        alt='New'
+                        src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHZpZXdCb3g9IjAgMCAxNCAxNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHJlY3QgZmlsbD0iI0ZBNjIyRiIgZmlsbC1ydWxlPSJub256ZXJvIiB3aWR0aD0iMTQiIGhlaWdodD0iMTQiIHJ4PSI3Ii8+CiAgICAgICAgPHBhdGggZD0iTTguMzg1IDEwdi0uMDA2TDUuNjQ1IDYuMjFWMTBoLTEuNlY0aDEuNmwyLjc0IDMuNzg4VjRoMS42djZoLTEuNnoiIGZpbGw9IiNGRkYiLz4KICAgIDwvZz4KPC9zdmc+Cg=="
+                        alt="New"
                         className={styles.nImg}
                       ></img>
                     </div>
@@ -97,45 +97,45 @@ function MainHeader() {
                   {myKurlyShown && (
                     <div className={styles.drpdwn_mycurly}>
                       <div className={styles.list}>
-                        <Link to='/mypage/order'>
+                        <Link to="/mypage/order">
                           <div className={styles.drpdwnItem_mycurly}>
                             주문 내역
                           </div>
                         </Link>
-                        <Link to='/mypage/gift'>
+                        <Link to="/mypage/gift">
                           <div className={styles.drpdwnItem_mycurly}>
                             선물 내역
                           </div>
                         </Link>
-                        <Link to='/mypage/mypick'>
+                        <Link to="/mypage/mypick">
                           <div className={styles.drpdwnItem_mycurly}>
                             찜한 상품
                           </div>
                         </Link>
-                        <Link to='/mypage/destination'>
+                        <Link to="/mypage/destination">
                           <div className={styles.drpdwnItem_mycurly}>
                             배송지 관리
                           </div>
                         </Link>
-                        <Link to='/mypage/review'>
+                        <Link to="/mypage/review">
                           <div className={styles.drpdwnItem_mycurly}>
                             상품 후기
                           </div>
                         </Link>
-                        <Link to='/mypage/inquiry'>
+                        <Link to="/mypage/inquiry">
                           <div className={styles.drpdwnItem_mycurly}>
                             상품 문의
                           </div>
                         </Link>
-                        <Link to='/mypage/emoney'>
+                        <Link to="/mypage/emoney">
                           <div className={styles.drpdwnItem_mycurly}>
                             적립금
                           </div>
                         </Link>
-                        <Link to='/mypage/coupon'>
+                        <Link to="/mypage/coupon">
                           <div className={styles.drpdwnItem_mycurly}>쿠폰</div>
                         </Link>
-                        <Link to='/mypage/infoedit'>
+                        <Link to="/mypage/infoedit">
                           <div className={styles.drpdwnItem_mycurly}>
                             개인 정보 수정
                           </div>
@@ -153,19 +153,19 @@ function MainHeader() {
               )}
               <span className={styles.midBar}>|</span>
               <li
-                className='nav-item menu'
+                className="nav-item menu"
                 onMouseEnter={() => setCustSvc(true)}
                 onMouseLeave={() => setCustSvc(false)}
               >
-                <Link to='/mycurly/order-history' className={styles.welLink}>
-                  <span className={'dropdown-toggle ' + `${styles.tpSz}`}>
+                <Link to="/mycurly/order-history" className={styles.welLink}>
+                  <span className={"dropdown-toggle " + `${styles.tpSz}`}>
                     고객센터
                   </span>
                 </Link>
                 {custSvc && (
                   <div className={styles.drpdwn_cstsvc}>
                     <div className={styles.list}>
-                      <Link to='/mycurly/order-history'>
+                      <Link to="/mycurly/order-history">
                         <div className={styles.drpdwnItem_mycurly}>
                           공지사항
                         </div>
@@ -188,13 +188,13 @@ function MainHeader() {
 
         <div>
           <div className={styles.divMainLogo}>
-            <Link to='/'>
+            <Link to="/">
               <img
                 className={
-                  'img-responsive ' + `${styles.mainLogo}` + ' w-25 mb-4'
+                  "img-responsive " + `${styles.mainLogo}` + " w-25 mb-4"
                 }
-                src='https://res.kurly.com/images/marketkurly/logo/logo_x2.png'
-                alt='마켓컬리 로고'
+                src="https://res.kurly.com/images/marketkurly/logo/logo_x2.png"
+                alt="마켓컬리 로고"
               />
             </Link>
           </div>

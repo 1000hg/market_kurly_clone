@@ -96,7 +96,7 @@
   /* align-items: center; */
   border-radius: 10px;
   width: 360px;
-  height: 117px;
+  height: auto;
   border-radius:8px;
   font-size:16px;
   font-weight:500;
@@ -110,7 +110,7 @@
  
  .rmodalDiv{
    float:right;
-   padding : 10px ;
+   padding : 5px ;
  }
  
  .rmodalButton{
