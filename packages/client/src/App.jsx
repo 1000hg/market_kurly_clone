@@ -22,6 +22,7 @@ import InquiryPage from "./routers/mykurly/InquiryPage";
 import MyPickPage from "./routers/mykurly/MyPickPage";
 import ReviewPage from "./routers/mykurly/ReviewPage";
 import DestinationPage from "./routers/mykurly/DestinationPage";
+import ProductDetailPage from "./routers/ProductDetailPage";
 
 function App({ authService }) {
   return (
@@ -63,6 +64,10 @@ function App({ authService }) {
         <Route
           path="/address/shipping-address/result"
           element={<AddressResult />}
+        ></Route>
+        <Route
+          path="/product/detail/:product_view_seq"
+          element={<ProductDetailPage />}
         ></Route>
         <Route path="*" element={<Navigate replace to="/" />}></Route>
       </Routes>
