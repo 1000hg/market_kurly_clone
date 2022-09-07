@@ -144,7 +144,6 @@ async function findProductImg() {
 }
 
 async function findProductView(data) {
-  console.log(data)
   try {
     let [result] = await db.query(`SELECT * FROM tb_product_view as tb1  
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq

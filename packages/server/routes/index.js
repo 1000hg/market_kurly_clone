@@ -7,6 +7,7 @@ const verifyRouter = require('./verify');
 const usersRouter = require('./users');
 const categoryRouter = require('./category');
 const couponRouter = require('./coupon');
+const reviewRouter = require('./review');
 
 // 회원가입 및 로그인 생성, 토큰발행
 router.use('/auth', authRouter);
@@ -20,6 +21,8 @@ router.use('/product', productRouter);
 router.use('/product/view', productViewRouter);
 
 router.use('/category', categoryRouter);
+
+router.use('/review', reviewRouter);
 
 router.use('/coupon', couponRouter);
 
