@@ -47,6 +47,12 @@ function TabContent({ tab }) {
   //modal control
   const [modalOpen, setModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
+  const [opt, setOpt] = useState("");
+  //timeout control
+  const [timer, setTimer] = useState(false);
+  const [min, setMin] = useState(3);
+  const [sec, setSec] = useState(0);
+  const time = useRef(null);
   //validation control
   const [rqFirst, setRqFirst] = useState(false);
   const [rqSecond, setRqSecond] = useState(false);
@@ -61,9 +67,14 @@ function TabContent({ tab }) {
   );
   const [verifyCdContent, setVerifyCdContent] =
     useState("인증번호를 입력해주세요");
+  const [verifyEmailContent, setVerifyEmailContent] = useState(
+    "가입 시 등록한 이메일을 입력해 주세요."
+  );
   const verifyCdRef = useRef(null);
   const verifyIdRef = useRef(null);
   const verifyPhoneRef = useRef(null);
+  const verifyEmailRef = useRef(null);
+
   useEffect(() => {
     setId("");
     setPhone("");
@@ -73,32 +84,45 @@ function TabContent({ tab }) {
     setRqSecond(false);
     setVerify(false);
     setRqVerify(false);
+    setTimer(false);
   }, [tab]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
     if (tab === 0) {
-      axios
-        .post("/api/verify/sms", { user_id: id, user_phone: phone })
-        .then((res) => {
-          console.log(res);
-          setVerify(true);
-          setModalTitle(
-            "인증번호가 발송되었습니다. 3분 안에 인증번호를 입력해 주세요.\n\n카카오톡이 설치된 경우 카카오 알림톡으로 발송됩니다."
-          );
-          setModalOpen(true);
-        })
-        .catch((e) => {
-          alert("다시 확인");
-        });
+      //인증번호 유효시간이 남아있는 경우
+      if (time.current > 120) {
+        setModalTitle(
+          "재발송 요청이 너무 빠릅니다.\n잠시 후 다시 시도해 주세요."
+        );
+        setOpt("rCfm");
+        setModalOpen(true);
+      } else {
+        axios //인증번호 받기 및 재발송 버튼
+          .post("/api/verify/sms", { user_id: id, user_phone: phone })
+          .then((res) => {
+            console.log(res);
+            setTimer(true);
+            setVerify(true);
+            setModalTitle(
+              "인증번호가 발송되었습니다. 3분 안에 인증번호를 입력해 주세요.\n\n카카오톡이 설치된 경우 카카오 알림톡으로 발송됩니다."
+            );
+            time.current = 180;
+            setModalOpen(true);
+          })
+          .catch((e) => {
+            // alert("다시 확인");
+          });
+      }
     } else if (tab === 1) {
       axios
         .post("/api/verify/email/pw", { user_id: id, user_email: email })
         .then((res) => {
           console.log(res);
           res.data.email = email;
-
+          // res.data.name = name;
+          res.data.tab = tab;
           return navigate("/login/pwdRemail", {
             state: res.data,
           });
@@ -110,13 +134,16 @@ function TabContent({ tab }) {
   };
 
   const onPhoneChangeHandler = (e) => {
-    setPhone(e.currentTarget.value);
-
+    const regex = /^[0-9]{0,11}$/;
+    if (regex.test(e.target.value)) {
+      setPhone(e.currentTarget.value);
+    }
     if (verifyPhoneRef.current.value === "") {
       setVerifyPhoneContent("가입 시 등록한 휴대폰 번호를 입력해 주세요.");
       setRqSecond(true);
     } else if (verifyPhoneRef.current.value.length < 10) {
       setVerifyPhoneContent("휴대폰 번호를 정확히 입력해 주세요.");
+      setRqSecond(true);
     } else {
       setVerifyPhoneContent("");
       setRqSecond(false);
@@ -133,9 +160,24 @@ function TabContent({ tab }) {
       setRqFirst(false);
     }
   };
-  const onCdChangeHandler = (e) => {
-    setVerifyCd(e.currentTarget.value);
 
+  const onEmailChangeHandler = (e) => {
+    setEmail(e.currentTarget.value);
+
+    if (verifyEmailRef.current.value === "") {
+      setVerifyEmailContent("가입 시 등록한 이메일을 입력해 주세요.");
+      setRqSecond(true);
+    } else {
+      setVerifyEmailContent("");
+      setRqSecond(false);
+    }
+  };
+  const onCdChangeHandler = (e) => {
+    const regex = /^[0-9]{0,7}$/;
+    // setVerifyCd(e.currentTarget.value);
+    if (regex.test(e.target.value)) {
+      setVerifyCd(e.target.value);
+    }
     if (verifyCdRef.current.value === "") {
       setVerifyCdContent("인증번호를 입력해주세요");
       setRqVerify(false);
@@ -145,6 +187,15 @@ function TabContent({ tab }) {
       setVerifyCdContent("");
       setRqVerify(true);
     }
+  };
+  const onIdBlurHandler = (e) => {
+    onIdChangeHandler(e);
+  };
+  const onPhoneBlurHandler = (e) => {
+    onPhoneChangeHandler(e);
+  };
+  const onEmailBlurHandler = (e) => {
+    onEmailChangeHandler(e);
   };
   const onClearBtn = (value) => {
     if (value === "id") {
@@ -156,11 +207,16 @@ function TabContent({ tab }) {
       setPhone("");
       setRqSecond(true);
     } else if (value === "email") {
+      setVerifyEmailContent("가입 시 등록한 이메일을 입력해 주세요.");
       setEmail("");
-      setRqSecond("");
+      setRqSecond(true);
+    } else if (value === "verifyCd") {
+      setVerifyCdContent("인증번호를 입력해주세요");
+      setVerifyCd("");
+      setRqVerify(false);
     }
   };
-  const sendIdVerify = () => {
+  const sendPwVerify = () => {
     //비번 sms인증번호 입력 완료 후 확인버튼
     axios
       .post("/api/verify/sms/pw", {
@@ -177,7 +233,20 @@ function TabContent({ tab }) {
         });
       })
       .catch((e) => {
-        alert("다시 확인");
+        console.log(e.message);
+        if (time.current === -2) {
+          setModalTitle(
+            "유효 시간이 만료되었습니다.\n재발송 후 다시 시도해 주세요."
+          );
+          setOpt("rCfm");
+          setModalOpen(true);
+        } else {
+          setModalTitle(
+            "인증번호가 일치하지 않습니다.\n\n가입 후 번호가 변경되었다면 이메일로 아이디 찾기를 시도해보세요."
+          );
+          setOpt("rCfm");
+          setModalOpen(true);
+        }
       });
   };
   const inputFocus = () => {
@@ -193,6 +262,39 @@ function TabContent({ tab }) {
       return false;
     }
   };
+  const Timer = (e) => {
+    const timerId = useRef(null);
+    useEffect(() => {
+      if (timer) {
+        timerId.current = setInterval(() => {
+          setMin(parseInt(time.current / 60));
+          setSec(time.current % 60);
+          time.current -= 1;
+        }, 1000);
+
+        return () => clearInterval(timerId.current);
+      }
+    }, []);
+
+    useEffect(() => {
+      if (time.current === -1) {
+        //모달창 띄우기
+        clearInterval(timerId.current);
+        setModalTitle(
+          "유효 시간이 만료되었습니다.\n재발송 후 다시 시도해 주세요."
+        );
+        setOpt("rCfm");
+        setModalOpen(true);
+        setTimer(false);
+        time.current = -2;
+      }
+    }, [sec]);
+    return (
+      <span className={styles.timer}>
+        {min}분 {sec}초
+      </span>
+    );
+  };
   if (tab === 0) {
     //휴대폰 인증
 
@@ -205,9 +307,7 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  id === "" ? setRqFirst(true) : setRqFirst(false)
-                }
+                onBlur={onIdBlurHandler}
                 onChange={onIdChangeHandler}
                 className={styles.inputContent}
                 type="text"
@@ -232,9 +332,7 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  phone === "" ? setRqSecond(true) : setRqSecond(false)
-                }
+                onBlur={onPhoneBlurHandler}
                 onChange={onPhoneChangeHandler}
                 className={styles.inputContent}
                 type="tel"
@@ -262,18 +360,36 @@ function TabContent({ tab }) {
               <label className={styles.inputTitle} htmlFor="verifyCd">
                 인증번호
               </label>
-              <div className={styles.relDiv}>
-                <input
-                  onChange={onCdChangeHandler}
-                  className={styles.inputCdCnt}
-                  type="text"
-                  id="verifyCd"
-                  placeholder="인증번호 7자리"
-                  ref={verifyCdRef}
-                />
-                <button onClick={onSubmitHandler} className={styles.reSendBtn}>
-                  재발송
-                </button>
+              <div>
+                <div className={styles.relDiv}>
+                  <input
+                    onChange={onCdChangeHandler}
+                    className={styles.inputCdCnt}
+                    type="text"
+                    id="verifyCd"
+                    placeholder="인증번호 7자리"
+                    maxLength="7"
+                    ref={verifyCdRef}
+                    value={verifyCd}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onClearBtn("verifyCd");
+                    }}
+                    className={
+                      verifyCd === "" ? styles.delBtnNone : styles.delBtn
+                    }
+                    style={{ right: "170px" }}
+                  ></button>
+                  <Timer />
+                  <button
+                    onClick={onSubmitHandler}
+                    className={styles.reSendBtn}
+                  >
+                    재발송
+                  </button>
+                </div>
                 <p className={styles.required}>{verifyCdContent}</p>
               </div>
             </div>
@@ -281,7 +397,8 @@ function TabContent({ tab }) {
 
           {verify ? (
             <button
-              onClick={sendIdVerify}
+              onClick={sendPwVerify}
+              type="button"
               className={
                 rqVerify ? `${styles.submitBtn}` : `${styles.submitBtnDis}`
               }
@@ -307,6 +424,7 @@ function TabContent({ tab }) {
             title={modalTitle}
             setModalOpen={setModalOpen}
             callBackfn={inputFocus}
+            option={opt}
           />
         )}
       </div>
@@ -322,24 +440,23 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  id === "" ? setRqFirst(true) : setRqFirst(false)
-                }
-                onChange={(e) => setId(e.currentTarget.value)}
+                onBlur={onIdBlurHandler}
+                onChange={onIdChangeHandler}
                 className={styles.inputContent}
                 type="text"
                 id="id"
                 placeholder="아이디를 입력해주세요"
                 value={id}
+                ref={verifyIdRef}
               />
               <button
                 type="button"
-                onClick={() => setId("")}
+                onClick={() => onClearBtn("id")}
                 className={id === "" ? styles.hidden : styles.delBtn}
               ></button>
             </div>
             <p className={rqFirst ? `${styles.required}` : `${styles.hidden}`}>
-              가입 시 등록한 아이디를 입력해 주세요.
+              {verifyIdContent}
             </p>
           </div>
           <div className={styles.divInput}>
@@ -348,24 +465,23 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  email === "" ? setRqSecond(true) : setRqSecond(false)
-                }
-                onChange={(e) => setEmail(e.currentTarget.value)}
+                onBlur={onEmailBlurHandler}
+                onChange={onEmailChangeHandler}
                 className={styles.inputContent}
                 type="email"
                 id="email"
                 placeholder="이메일을 입력해주세요"
                 value={email}
+                ref={verifyEmailRef}
               />
               <button
                 type="button"
-                onClick={() => setEmail("")}
+                onClick={() => onClearBtn("email")}
                 className={email === "" ? styles.delBtnNone : styles.delBtn}
               ></button>
             </div>
             <p className={rqSecond ? `${styles.required}` : `${styles.hidden}`}>
-              가입 시 등록한 이메일을 입력해 주세요.
+              {verifyEmailContent}
             </p>
           </div>
 
