@@ -135,7 +135,8 @@
 }
 
 .timer{
-  position:relative;
-  left:-70px;
+  position:absolute;
+  right :105px;
+  top:13px;
   color:#F03F40;
 }

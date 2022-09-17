@@ -12,33 +12,19 @@ const MyPickPage = (props) => {
           <MyPageTabs active={'mypick'} />
           <div className={styles.contentbox}>
             <div className={styles.content_header}>
-              <h2 className={styles.title}>찜한 상품</h2>
+              <div className={styles.title}>
+                <h2>찜한 상품(0)</h2>
+                <span>찜한 상품은 최대 200개까지 저장됩니다.</span>
+              </div>
             </div>
+            <div className={styles.line}></div>
             <div className={styles.content}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr className={styles.thead_tr}>
-                    <th className={styles.thead_th}></th>
-                    <th className={styles.thead_th}>제목</th>
-                    <th className={styles.thead_th}>작성일</th>
-                    <th className={styles.thead_th}>답변상태</th>
-                  </tr>
-                </thead>
-                <tbody className={styles.tbody}>
-                  <tr className={styles.tbody_tr}>
-                    <td colspan='5' className={styles.tbody_td}>
-                      작성한 상품 문의가 없습니다.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className={styles.inquiry_area}>
-                <div className={styles.navigation}>
-                  <button className={styles.paging_prev}>
-                    <span>이전</span>
-                  </button>
-                  <button className={styles.paging_next}>
-                    <span>다음</span>
+              <div className={styles.warning}>
+                <div>
+                  <img src='https://res.kurly.com/pc/service/pick/icon-empty-like.svg' />
+                  <p>찜한 상품이 없습니다.</p>
+                  <button type='button' width='150' height='44' radius='3'>
+                    <span className={styles.best_items}>베스트 상품 보기</span>
                   </button>
                 </div>
               </div>

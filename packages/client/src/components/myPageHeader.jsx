@@ -73,10 +73,7 @@ const MypageHeader = (props) => {
         </div>
       </div>
       <div className={styles.adv}>
-        <a
-          href='https://www.kurly.com/shop/main/html.php?htmid=event/kurly.htm&amp;name=friend'
-          class='css-1khmcew eyulecr1'
-        >
+        <a href='https://www.kurly.com/shop/main/html.php?htmid=event/kurly.htm&amp;name=friend'>
           <img
             src='https://img-cf.kurly.com/shop/data/skin/designgj/img/banner/87be10a8b7a30ef20427d24a00671607.jpg'
             alt='마이 컬리 배너 WELCOME'

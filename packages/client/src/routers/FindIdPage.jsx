@@ -67,9 +67,13 @@ function TabContent({ tab }) {
   );
   const [verifyCdContent, setVerifyCdContent] =
     useState("인증번호를 입력해주세요");
+  const [verifyEmailContent, setVerifyEmailContent] = useState(
+    "가입 시 등록한 이메일을 입력해 주세요."
+  );
   const verifyCdRef = useRef(null);
   const verifyNameRef = useRef(null);
   const verifyPhoneRef = useRef(null);
+  const verifyEmailRef = useRef(null);
   useEffect(() => {
     setName("");
     setPhone("");
@@ -129,13 +133,17 @@ function TabContent({ tab }) {
   };
 
   const onPhoneChangeHandler = (e) => {
-    setPhone(e.currentTarget.value);
-
+    const regex = /^[0-9]{0,11}$/;
+    // setVerifyCd(e.currentTarget.value);
+    if (regex.test(e.target.value)) {
+      setPhone(e.currentTarget.value);
+    }
     if (verifyPhoneRef.current.value === "") {
       setVerifyPhoneContent("가입 시 등록한 휴대폰 번호를 입력해 주세요.");
       setRqSecond(true);
     } else if (verifyPhoneRef.current.value.length < 10) {
       setVerifyPhoneContent("휴대폰 번호를 정확히 입력해 주세요.");
+      setRqSecond(true);
     } else {
       setVerifyPhoneContent("");
       setRqSecond(false);
@@ -152,10 +160,19 @@ function TabContent({ tab }) {
       setRqFirst(false);
     }
   };
+  const onEmailChangeHandler = (e) => {
+    setEmail(e.currentTarget.value);
 
+    if (verifyEmailRef.current.value === "") {
+      setVerifyEmailContent("가입 시 등록한 이메일을 입력해 주세요.");
+      setRqSecond(true);
+    } else {
+      setVerifyEmailContent("");
+      setRqSecond(false);
+    }
+  };
   const onCdChangeHandler = (e) => {
     const regex = /^[0-9]{0,7}$/;
-    // setVerifyCd(e.currentTarget.value);
     if (regex.test(e.target.value)) {
       setVerifyCd(e.target.value);
     }
@@ -169,6 +186,15 @@ function TabContent({ tab }) {
       setRqVerify(true);
     }
   };
+  const onNameBlurHandler = (e) => {
+    onNameChangeHandler(e);
+  };
+  const onPhoneBlurHandler = (e) => {
+    onPhoneChangeHandler(e);
+  };
+  const onEmailBlurHandler = (e) => {
+    onEmailChangeHandler(e);
+  };
   const onClearBtn = (value) => {
     if (value === "name") {
       setVerifyNameContent("가입 시 등록한 이름을 입력해 주세요.");
@@ -179,9 +205,9 @@ function TabContent({ tab }) {
       setPhone("");
       setRqSecond(true);
     } else if (value === "email") {
-      // setVerifyEmailContent("가입 시 등록한 휴대폰 번호를 입력해 주세요.");
-      // setPhone("");
-      // setRqSecond(true);
+      setVerifyEmailContent("가입 시 등록한 이메일을 입력해 주세요.");
+      setEmail("");
+      setRqSecond(true);
     } else if (value === "verifyCd") {
       setVerifyCdContent("인증번호를 입력해주세요");
       setVerifyCd("");
@@ -249,10 +275,8 @@ function TabContent({ tab }) {
     }, []);
 
     useEffect(() => {
-      console.log(time.current);
       if (time.current === -1) {
         //모달창 띄우기
-        console.log("타임 아웃");
         clearInterval(timerId.current);
         setModalTitle(
           "유효 시간이 만료되었습니다.\n재발송 후 다시 시도해 주세요."
@@ -281,9 +305,7 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  name === "" ? setRqFirst(true) : setRqFirst(false)
-                }
+                onBlur={onNameBlurHandler}
                 onChange={onNameChangeHandler}
                 className={styles.inputContent}
                 type="text"
@@ -308,9 +330,7 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  phone === "" ? setRqSecond(true) : setRqSecond(false)
-                }
+                onBlur={onPhoneBlurHandler}
                 onChange={onPhoneChangeHandler}
                 className={styles.inputContent}
                 type="tel"
@@ -358,7 +378,7 @@ function TabContent({ tab }) {
                     className={
                       verifyCd === "" ? styles.delBtnNone : styles.delBtn
                     }
-                    style={{ right: "80px", position: "relative" }}
+                    style={{ right: "170px" }}
                   ></button>
                   <Timer />
                   <button
@@ -418,51 +438,45 @@ function TabContent({ tab }) {
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  name === "" ? setRqFirst(true) : setRqFirst(false)
-                }
-                onChange={(e) => setName(e.currentTarget.value)}
+                onBlur={onNameBlurHandler}
+                onChange={onNameChangeHandler}
                 className={styles.inputContent}
                 type="text"
                 id="name"
                 placeholder="이름을 입력해주세요"
                 value={name}
+                ref={verifyNameRef}
               />
               <button
                 type="button"
-                onClick={() => setName("")}
+                onClick={() => onClearBtn("name")}
                 className={name === "" ? styles.hidden : styles.delBtn}
               ></button>
             </div>
-            <p className={rqFirst ? `${styles.required}` : `${styles.hidden}`}>
-              가입 시 등록한 이름을 입력해 주세요.
-            </p>
+            <p className={styles.required}>{verifyNameContent}</p>
           </div>
           <div className={styles.divInput}>
-            <label className={styles.inputTitle} htmlFor="phone">
+            <label className={styles.inputTitle} htmlFor="email">
               이메일
             </label>
             <div className={styles.relDiv}>
               <input
-                onBlur={() =>
-                  email === "" ? setRqSecond(true) : setRqSecond(false)
-                }
-                onChange={(e) => setEmail(e.currentTarget.value)}
+                onBlur={onEmailBlurHandler}
+                onChange={onEmailChangeHandler}
                 className={styles.inputContent}
                 type="email"
                 id="email"
                 placeholder="이메일을 입력해주세요"
                 value={email}
+                ref={verifyEmailRef}
               />
               <button
                 type="button"
-                onClick={() => setEmail("")}
+                onClick={() => onClearBtn("email")}
                 className={email === "" ? styles.delBtnNone : styles.delBtn}
               ></button>
             </div>
-            <p className={rqSecond ? `${styles.required}` : `${styles.hidden}`}>
-              가입 시 등록한 이메일을 입력해 주세요.
-            </p>
+            <p className={styles.required}>{verifyEmailContent}</p>
           </div>
 
           <button

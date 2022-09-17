@@ -12,34 +12,45 @@ const GiftPage = (props) => {
           <MyPageTabs active={'gift'} />
           <div className={styles.contentbox}>
             <div className={styles.content_header}>
-              <h2 className={styles.title}>선물내역</h2>
+              <div className={styles.title}>
+                <h2>선물 내역</h2>
+                <span>지난 3년간의 선물 내역 조회가 가능합니다.</span>
+              </div>
+              <div className={styles.dropbox}>
+                <div className={styles.outline}>
+                  <div
+                    tabIndex='0'
+                    role='button'
+                    aria-expanded='false'
+                    aria-haspopup='listbox'
+                    aria-label='Without label'
+                    className={styles.selector}
+                  >
+                    {' '}
+                    3개월
+                  </div>
+                  <input
+                    aria-hidden='true'
+                    tabIndex='-1'
+                    className={styles.inputbox}
+                    value='3'
+                    readOnly
+                  />
+                </div>
+                <fieldset aria-hidden='true' className={styles.fieldset}>
+                  <legend className={styles.legend}>
+                    <span></span>
+                  </legend>
+                </fieldset>
+              </div>
             </div>
+            <div className={styles.line}></div>
             <div className={styles.content}>
-              <table className={styles.table}>
-                <thead className={styles.thead}>
-                  <tr className={styles.thead_tr}>
-                    <th className={styles.thead_th}></th>
-                    <th className={styles.thead_th}>제목</th>
-                    <th className={styles.thead_th}>작성일</th>
-                    <th className={styles.thead_th}>답변상태</th>
-                  </tr>
-                </thead>
-                <tbody className={styles.tbody}>
-                  <tr className={styles.tbody_tr}>
-                    <td colspan='5' className={styles.tbody_td}>
-                      작성한 상품 문의가 없습니다.
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className={styles.inquiry_area}>
-                <div className={styles.navigation}>
-                  <button className={styles.paging_prev}>
-                    <span>이전</span>
-                  </button>
-                  <button className={styles.paging_next}>
-                    <span>다음</span>
-                  </button>
+              <div className={styles.warning_orders}>
+                <div className={styles.warning}>
+                  <span></span>
+                  3개월간의 주문내역이 없습니다.
+                  <p>선물하기 서비스는 마켓컬리 앱에서 이용할 수 있습니다.</p>
                 </div>
               </div>
             </div>

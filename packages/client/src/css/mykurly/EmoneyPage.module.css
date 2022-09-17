@@ -11,20 +11,62 @@
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
-.title {
+.article {
   padding: 5px 0 34px;
+}
+.title {
   height: 36px;
-  font-weight: 500;
+  font-weight: 700;
   font-size: 24px;
   line-height: 36px;
   color: #333;
   letter-spacing: -0.5px;
-  display: block;
-  margin-block-start: 0.83em;
-  margin-block-end: 0.83em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
 }
+.subtitle {
+  padding-left: 11px;
+  font-size: 14px;
+  color: #999;
+  line-height: 20px;
+  letter-spacing: -0.3px;
+  vertical-align: 3px;
+}
+.point_header {
+  overflow: hidden;
+  height: 100px;
+  border: 1px solid #ddd;
+}
+.point_header h3 {
+  float: left;
+  padding: 38px 0 0 60px;
+  font-size: 14px;
+  color: #000;
+  line-height: 20px;
+}
+.point_view {
+  height: 100%;
+  float: left;
+  width: 409px;
+  border-right: 1px solid #ddd;
+}
+.point_expired {
+  height: 100%;
+  float: left;
+  width: 409px;
+}
+.point {
+  float: right;
+  width: 200px;
+  padding: 34px 58px 36px 0;
+  font-size: 20px;
+  line-height: 30px;
+  font-weight: 700;
+  color: #5f0080;
+  text-align: right;
+}
+.content_header {
+  padding: 5px 0 34px;
+}
+
 .table {
   width: 820px;
   border-collapse: collapse;
@@ -54,62 +96,26 @@
   text-align: center;
 }
 .thead :first-of-type {
-  width: 100px;
+  width: 120px;
 }
 .thead :nth-last-of-type(3) {
-  width: 520px;
-  padding-right: 20px;
+  width: 438px;
+  text-align: left;
+  padding-left: 20px;
 }
 .thead :nth-last-of-type(2) {
-  width: 100px;
+  width: 122px;
+}
+.thead :nth-last-of-type(1) {
+  width: 140px;
 }
 .tbody_tr {
-  position: relative;
+  border: 0px;
 }
 .tbody_td {
-  width: 820px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  padding: 117px 0;
+  border-bottom: 1px solid rgb(244, 244, 244);
   text-align: center;
-  cursor: default;
-  border-bottom: 1px solid #f4f4f4;
-}
-.inquiry_area {
-  width: 100%;
-  padding-top: 20px;
-  text-align: center;
-}
-.navigation {
-  padding-top: 20px;
-  text-align: center;
-}
-.navigation button {
-  display: inline-block;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  margin: 0;
-  background: 0;
-  border: 1px solid #eee;
-  border-radius: 3px;
-}
-.navigation span {
-  overflow: hidden;
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  clip: rect(0, 0, 0, 0);
-  border-color: #eee;
-  cursor: default;
-}
-.paging_prev {
-  margin-right: 12px !important;
-  background: url(https://res.kurly.com/kurly/img/2021/direction_prev_24_44_black.svg)
-    50% 0 no-repeat !important;
-}
-.paging_next {
-  background: url(https://res.kurly.com/kurly/img/2021/direction_next_24_44_black.svg)
-    50% 0 no-repeat !important;
+  padding: 50px 0px;
+  font-size: 13px;
+  color: rgb(102, 102, 102);
 }
