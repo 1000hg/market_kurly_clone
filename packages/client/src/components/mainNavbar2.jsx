@@ -24,7 +24,7 @@ function MainNavbar2() {
     }
   }, [location.pathname]);
   return (
-    <div className={`nav-area ${styles.nv_area} sticky-top`}>
+    <div className={styles.nv_area}>
       <nav>
         <ul className={`menus ${styles.mns}`}>
           {menuItems.map((menu, index) => {

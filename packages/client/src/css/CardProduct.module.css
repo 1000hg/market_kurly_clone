@@ -24,7 +24,7 @@
   overflow: hidden;
   background-color: white;
   height:320px;
-  width:249px;
+  width:250px;
   position: relative;
 }
 
@@ -109,5 +109,5 @@
 }
 
 .cardBody{
-  width: 249px;
+  width: 80%;
 }
