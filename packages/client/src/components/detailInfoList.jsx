@@ -1,16 +1,16 @@
 import styles from "../css/ProductDetailPage.module.css";
 
-export default function detailInfoList({ item }) {
+export default function DetailInfoList({ item }) {
   if (item.value !== null && item.value !== "") {
-    console.log(item.value.length);
     if (Array.isArray(item.value)) {
       return (
         <>
           <dl className={styles.dlContainer}>
             <dt>{item.key}</dt>
             <dd>
-              <p>{item.value[0]}</p>
-              <p>{item.value[1]}</p>
+              {item.value.map((item) => {
+                return <p>{item}</p>;
+              })}
             </dd>
           </dl>
         </>
