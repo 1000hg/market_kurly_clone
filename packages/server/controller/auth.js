@@ -65,6 +65,14 @@ async function login(req, res) {
 
   // 클라이언트에게 보내줄 token 생성 및 아이디 클라이언트에 보냄
   const token = createJwtToken(isValidUser.user_seq);
+  req.session.user = {
+    user_seq: isValidUser.user_seq,
+    user_id: isValidUser.user_id,
+    token: token,
+    authorized: true
+  };
+
+  console.log(req.session);
   res.status(200).json({ token, isValidUser });
 }
 

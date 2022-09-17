@@ -1,11 +1,22 @@
 const path = require("path");
 const express = require("express");
+const session = require("express-session");
+
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const indexRouter = require("./routes");
+
 dotenv.config();
 
+app.use(session({
+  HttpOnly: true,
+  secure: true,
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: {maxAge: 24000 * 60 * 60}
+}));
 app.use(cors());
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(express.json({limit : "50mb"}));

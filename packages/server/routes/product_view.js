@@ -16,7 +16,7 @@ router.get('/findCategory', productViewController.findProductViewCategory);
 
 router.get('/img', productViewController.findProductImg);
 
-router.get('/product/:product_view_seq', productViewController.findProductView);
+router.get('/data/:product_view_seq', productViewController.findProductView);
 
 
 module.exports = router;
