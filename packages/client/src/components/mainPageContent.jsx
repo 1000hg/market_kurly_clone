@@ -11,7 +11,7 @@ function MainPageContent() {
       const { data: result } = await axios.get(
         "http://localhost:8080/product/view/list"
       );
-      // console.log(result.responseData);
+      console.log(result.responseData);
       setItemList(result.responseData);
     })();
   }, []);
@@ -78,8 +78,8 @@ function MainPageContent() {
         </div>
       </div>
       <p className={styles.sbTitle}>이 상품 어때요?</p>
-      <section className="container">
-        <div className={`row justify-content-around`}>
+      <section className={styles.mainProductSec}>
+        <div className={styles.mainProductView}>
           {itemList.map((item, idx) => {
             return <CardProduct key={idx} item={item} />;
           })}
