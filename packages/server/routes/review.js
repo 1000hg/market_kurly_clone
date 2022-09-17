@@ -6,6 +6,8 @@ const router = express.Router();
 
 router.post('/create', reviewController.createProduct);
 
-router.post('/data', reviewController.createProduct);
+router.post('/data', reviewController.findReview);
+
+router.post('/list', reviewController.findReviewList);
 
 module.exports = router;
