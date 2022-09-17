@@ -19,10 +19,15 @@ async function findByUser(user_id) {
   try {
     const result = await dbPool.query(
       `SELECT * 
-      FROM tb_user user INNER JOIN tb_user_address address
+      FROM tb_user user 
+      INNER JOIN tb_user_address address
       ON user.user_seq = address.user_seq
-      AND address.default_address = 1
-      WHERE user.user_id = "${user_id}"`
+      INNER JOIN tb_cart cart
+      ON user.user_seq = cart.user_seq
+      INNER JOIN tb_cart_detail detail
+      ON cart.cart_seq = detail.cart_seq
+      WHERE user.user_id = "${user_id}"
+      AND address.default_address = 1`
     );
     return result[0][0];
   } catch(error) {
@@ -38,7 +43,7 @@ async function addRefferCount(user_id) {
     result = Number(result[0][0].reffer_count) + 1;
     dbPool.query(`UPDATE tb_user SET reffer_count="${result}" WHERE user_id = "${user_id}"`)
   } catch(error) {
-    console.error(error)
+    console.error("addReffer_id : ", error)
   }
 }
 

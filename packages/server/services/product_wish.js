@@ -65,7 +65,8 @@ async function delWishProduct(item) {
 			)`
 		);
 		const result = await dbPool.query(
-			`DELETE FROM tb_wish_item
+			`UPDATE tb_wish_item
+			SET is_delete = 0
 			WHERE wish_item_seq = "${item.seq}"`
 		);
 		
