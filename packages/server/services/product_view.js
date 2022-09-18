@@ -103,11 +103,11 @@ async function findProductViewCategory(category_seq) {
   }
 }
 
-async function findProductViewName(name) {
+async function findProductViewName(product_name) {
   try {
-    const result = await db.query(`SELECT * FROM tb_product_view where product_view_title = '${name}' and product_view_status = 1;`);
+    const [result]= await db.query(`SELECT * FROM tb_product_view where product_view_title LIKE '%${product_name}%' and product_view_status = 1;`);
 
-    if(result) {
+  if(result) {
       serviceStatus.staus = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
@@ -145,7 +145,8 @@ async function findProductImg() {
 
 async function findProductView(data) {
   try {
-    let [result] = await db.query(`SELECT * FROM tb_product_view as tb1  
+    let [result] = await db.query(`SELECT *
+    FROM tb_product_view as tb1  
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
     where tb1.product_view_seq = ${data.product_view_seq}`);
 

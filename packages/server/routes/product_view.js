@@ -14,6 +14,8 @@ router.get('/list', productViewController.findProductViewList);
 
 router.get('/findCategory', productViewController.findProductViewCategory);
 
+router.get('/search', productViewController.findProductViewName);
+
 router.get('/img', productViewController.findProductImg);
 
 router.get('/data/:product_view_seq', productViewController.findProductView);

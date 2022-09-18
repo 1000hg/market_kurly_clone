@@ -5,8 +5,10 @@ const productRouter = require('./product');
 const productViewRouter = require('./product_view');
 const verifyRouter = require('./verify');
 const usersRouter = require('./users');
+const productWishRouter = require('./product_wish');
 const categoryRouter = require('./category');
 const couponRouter = require('./coupon');
+const cartRouter = require('./cart');
 const reviewRouter = require('./review');
 
 // 회원가입 및 로그인 생성, 토큰발행
@@ -20,10 +22,14 @@ router.use('/product', productRouter);
 
 router.use('/product/view', productViewRouter);
 
+router.use('/product/wish', productWishRouter);
+
 router.use('/category', categoryRouter);
 
 router.use('/review', reviewRouter);
 
 router.use('/coupon', couponRouter);
+
+router.use('/cart', cartRouter);
 
 module.exports = router;

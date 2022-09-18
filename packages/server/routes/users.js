@@ -10,12 +10,12 @@ router.get("/check/id", usersController.checkedUserInfo);
 
 router.get("/check/email", usersController.checkedUserInfo);
 
-router.post("/check/pw", usersController.checkedUserPw);
+router.post("/check/pw", isAuth, usersController.checkedUserPw);
 
-router.get("/address", usersController.userAddress);
+router.get("/address", isAuth, usersController.userAddress);
 
-router.post("/address/add", usersController.addAddress);
+router.post("/address/add", isAuth, usersController.addAddress);
 
-router.delete("/address/del/:seq", usersController.delAddress);
+router.delete("/address/del/:seq", isAuth, usersController.delAddress);
 
 module.exports = router;
