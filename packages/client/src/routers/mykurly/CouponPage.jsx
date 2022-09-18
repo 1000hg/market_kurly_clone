@@ -21,10 +21,9 @@ const CouponPage = (props) => {
                     data-testid='input-box'
                     placeholder='발급된 쿠폰번호를 입력해 주세요'
                     type='text'
-                    className='css-1bkd15f e1uzxhvi2'
-                    value=''
+                    readOnly
                   />
-                  <button className='css-nrfvjw e1f6nbik0'>쿠폰 등록</button>
+                  <button>쿠폰 등록</button>
                   <p>
                     쿠폰에 하이픈 '-'이 포함되어 있을 경우, 하이픈 '-'을 반드시
                     입력해주세요.
@@ -51,7 +50,7 @@ const CouponPage = (props) => {
               </thead>
               <tbody className={styles.tbody}>
                 <tr className={styles.tbody_tr}>
-                  <td colspan='5' className={styles.tbody_td}>
+                  <td colSpan='5' className={styles.tbody_td}>
                     쿠폰 내역이 존재하지 않습니다.
                   </td>
                 </tr>

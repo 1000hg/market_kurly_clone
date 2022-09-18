@@ -42,7 +42,7 @@ const EmoneyPage = (props) => {
               </thead>
               <tbody className={styles.tbody}>
                 <tr className={styles.tbody_tr}>
-                  <td colspan='4' className={styles.tbody_td}>
+                  <td colSpan='4' className={styles.tbody_td}>
                     적립금 내역이 존재하지 않습니다.
                   </td>
                 </tr>

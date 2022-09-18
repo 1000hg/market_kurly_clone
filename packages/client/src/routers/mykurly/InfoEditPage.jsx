@@ -2,9 +2,11 @@ import React, { useRef } from 'react';
 import styles from '../../css/mykurly/InfoEditPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
+import { useSelector } from 'react-redux';
 
 const InfoEditPage = (props) => {
   const passwordRef = useRef();
+  const user_id = useSelector((state) => state.userData.user_id);
   return (
     <>
       <div className={styles.page}>
@@ -41,7 +43,7 @@ const InfoEditPage = (props) => {
                         type='text'
                         className={styles.input}
                         readOnly
-                        value='id'
+                        value={user_id}
                       />
                     </div>
                   </div>

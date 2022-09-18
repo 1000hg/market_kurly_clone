@@ -42,13 +42,7 @@
   color: rgb(153, 153, 153);
   line-height: 20px;
 }
-.dropbox {
-  display: flex;
-  flex-direction: row;
-  -webkit-box-align: center;
-  align-items: center;
-  width: 157px;
-}
+
 .outline {
   line-height: 1.4375em;
   letter-spacing: 0.00938em;

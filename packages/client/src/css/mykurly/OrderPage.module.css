@@ -11,12 +11,18 @@
   -webkit-box-pack: justify;
   justify-content: space-between;
 }
+.content {
+  padding-top: 20px;
+  position: relative;
+  height: 100%;
+}
 .contentbox {
   width: 820px;
 }
 .content_header {
   display: flex;
   flex-direction: row;
+  height: 75px;
   width: 100%;
   padding-bottom: 27px;
   -webkit-box-pack: justify;
@@ -42,12 +48,76 @@
   color: rgb(153, 153, 153);
   line-height: 20px;
 }
-.dropbox {
+.date {
+  width: 100%;
+  height: 100%;
+  padding: 0 !important;
   display: flex;
-  flex-direction: row;
-  -webkit-box-align: center;
-  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+}
+.date::after {
+  display: inline-block;
+  vertical-align: 0.255em;
+  margin-right: 20px;
+  content: '';
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+.dropbox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 157px;
+  height: 48px;
+  background-color: white;
+}
+.dropbox_active {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 157px;
+  height: 240px;
+  background-color: white;
+}
+.dropbox div,
+.dropbox_active div {
+  width: 157px;
+  height: 48px;
+  z-index: 2;
+  padding-left: 14px;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+.dropbox div:hover,
+.dropbox_active div:hover {
+  cursor: pointer;
+  background-color: rgb(242, 242, 242) !important;
+}
+.dropbox :last-child,
+.dropbox_active :last-child {
+  border-bottom: 1px solid rgb(232, 222, 222);
+}
+.tab_btn {
+  height: 48px !important;
+  border: 1px solid rgb(232, 222, 222);
+}
+.drop_btn {
+  display: none !important;
+}
+.active {
+  border: 1px solid rgb(232, 222, 222);
+  border-top: 0;
+  border-bottom: 0;
+}
+.clicked {
+  color: purple;
+  font-weight: 700;
 }
 .outline {
   line-height: 1.4375em;
@@ -64,50 +134,6 @@
   border-color: rgb(221, 221, 221);
   border-radius: 0px;
 }
-.selector {
-  appearance: none;
-  user-select: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font: inherit;
-  letter-spacing: inherit;
-  color: currentcolor;
-  border: 0px;
-  box-sizing: content-box;
-  background: none;
-  height: 1.4375em;
-  margin: 0px;
-  -webkit-tap-highlight-color: transparent;
-  display: block;
-  min-width: 0px;
-  width: 100%;
-  animation-name: mui-auto-fill-cancel;
-  animation-duration: 10ms;
-  padding: 16.5px 14px;
-}
-.inputbox {
-  bottom: 0px;
-  left: 0px;
-  position: absolute;
-  opacity: 0;
-  pointer-events: none;
-  width: 100%;
-  box-sizing: border-box;
-}
-.filedset {
-  text-align: left;
-  position: absolute;
-  inset: -5px 0px 0px;
-  margin: 0px;
-  padding: 0px 8px;
-  pointer-events: none;
-  border-radius: inherit;
-  border-style: solid;
-  border-width: 1px;
-  overflow: hidden;
-  min-width: 0%;
-  border-color: #ddd;
-}
 .line {
   display: flex;
   flex-direction: row;
@@ -116,11 +142,7 @@
   align-items: center;
   border-bottom: 2px solid rgb(51, 51, 51);
 }
-.content {
-  padding-top: 20px;
-  position: relative;
-  height: 100%;
-}
+
 .warning {
   height: 540px;
   display: flex;

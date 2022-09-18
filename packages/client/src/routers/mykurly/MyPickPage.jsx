@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import styles from '../../css/mykurly/MyPickPage.module.css';
