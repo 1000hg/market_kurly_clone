@@ -48,6 +48,7 @@ async function sendId(req, res) {
 
   res.status(202).json({ 
     user_id: id,
+    user_email: isValidUser.user_email,
     create_dtm: isValidUser.create_dtm,
     message: isValidUser.message 
   });
