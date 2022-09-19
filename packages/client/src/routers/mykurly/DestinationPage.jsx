@@ -23,7 +23,7 @@ const DestinationPage = (props) => {
                   <img
                     src='https://res.kurly.com/pc/ico/2006/ico_add_16x16.svg'
                     alt=''
-                    class='ico'
+                    className='ico'
                   />
                   새 배송지 추가
                 </button>
@@ -43,7 +43,7 @@ const DestinationPage = (props) => {
               </thead>
               <tbody className={styles.tbody}>
                 <tr className={styles.tbody_tr}>
-                  <td colspan='5' className={styles.tbody_td}>
+                  <td colSpan='5' className={styles.tbody_td}>
                     배송지를 추가해주세요.
                   </td>
                 </tr>
