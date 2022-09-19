@@ -5,8 +5,8 @@ const isAuth = require('../common/auth.js');
 
 const router = express.Router();
 
-router.get('/list', isAuth, couponViewController.findCouponList);
+router.get('/list', couponViewController.findCouponList);
 
-router.get('/user/list', isAuth, couponViewController.findUserCouponList);
+router.get('/user/list', couponViewController.findUserCouponList);
 
 module.exports = router;

@@ -11,5 +11,6 @@ async function findUserCouponList(req, res) {
 }
 
 module.exports = {
-    findCouponList
+    findCouponList,
+    findUserCouponList
 };
