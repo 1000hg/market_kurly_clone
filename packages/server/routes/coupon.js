@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.get('/list', isAuth, couponViewController.findCouponList);
 
+router.get('/user/list', isAuth, couponViewController.findUserCouponList);
+
 module.exports = router;
