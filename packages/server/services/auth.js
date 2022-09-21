@@ -22,9 +22,9 @@ async function findByUser(user_id) {
       FROM tb_user user 
       INNER JOIN tb_user_address address
       ON user.user_seq = address.user_seq
-      INNER JOIN tb_cart cart
+      LEFT OUTER JOIN tb_cart cart
       ON user.user_seq = cart.user_seq
-      INNER JOIN tb_cart_detail detail
+      LEFT OUTER JOIN tb_cart_detail detail
       ON cart.cart_seq = detail.cart_seq
       WHERE user.user_id = "${user_id}"
       AND address.default_address = 1`
