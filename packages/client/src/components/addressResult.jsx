@@ -15,6 +15,15 @@ const AddressResult = () => {
     if (extraAddressRef.current.value == '') {
       console.log('모달창');
     }
+    window.close();
+    window.opener.document.getElementById('ADDRESS').value = address;
+    window.opener.document.getElementById('EXTRAADDRESS').value =
+      extraAddressRef.current.value;
+    window.opener.document
+      .getElementById('address_form')
+      .removeAttribute('style');
+    window.opener.document.getElementById('re_btn').removeAttribute('style');
+    window.opener.document.getElementById('address_search').remove();
   };
 
   return (
@@ -27,7 +36,7 @@ const AddressResult = () => {
         </strong>
       </div>
       <div className={styles.address}>
-        <p>{address}</p>
+        <p id='address'>{address}</p>
         <button onClick={onSearch}>
           <span>
             <img

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import MainFooter from '../../components/mainFooter';
+import MainHeader from '../../components/mainHeader';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import styles from '../../css/mykurly/OrderPage.module.css';
@@ -9,12 +11,14 @@ const OrderPage = () => {
   const [onTab, setOnTab] = useState(false);
   const onChangeDate = (e) => {
     setDate(e);
+    setOnTab(false);
   };
   const onClickTab = () => {
     setOnTab(!onTab);
   };
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -81,6 +85,7 @@ const OrderPage = () => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

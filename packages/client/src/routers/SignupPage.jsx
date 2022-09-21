@@ -1,10 +1,13 @@
 import React from 'react';
 import styles from '../css/SignupPage.module.css';
 import SignupInfo from '../components/signupInfo';
+import MainHeader from '../components/mainHeader';
+import MainFooter from '../components/mainFooter';
 
 const SignUpPage = ({ authService }) => {
   return (
     <>
+      <MainHeader />
       <div className={styles.signup}>
         <div className={styles.title}>회원가입</div>
         <div className={styles.container}>
@@ -17,6 +20,7 @@ const SignUpPage = ({ authService }) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

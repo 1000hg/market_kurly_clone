@@ -3,6 +3,8 @@ import axios from 'axios';
 import styles from '../css/FindIdConfirmPage.module.css';
 import ConfirmModal from '../components/modal';
 import { useState } from 'react';
+import MainHeader from '../components/mainHeader';
+import MainFooter from '../components/mainFooter';
 
 export default function FindIdConfirmPage() {
   const location = useLocation();
@@ -31,6 +33,7 @@ export default function FindIdConfirmPage() {
   };
   return (
     <>
+      <MainHeader />
       <div className={styles.divContent}>
         <div className={styles.cnt1}>고객님의 마켓컬리 계정을 찾았습니다.</div>
         <p className={styles.cnt2}> 아이디 확인 후 로그인해 주세요.</p>
@@ -68,6 +71,7 @@ export default function FindIdConfirmPage() {
           />
         ) : null}
       </div>
+      <MainFooter />
     </>
   );
 }

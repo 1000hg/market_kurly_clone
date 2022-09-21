@@ -1,15 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { useDaumPostcodePopup } from 'react-daum-postcode';
-import Info_service_term from '../components/signupTerm';
+import SignupTerm from '../components/signupTerm';
 import Modal from './modal';
 import styles from '../css/SignupInfo.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const SignupInfo = ({ authService }) => {
   const navigate = useNavigate();
-  const open = useDaumPostcodePopup(
-    '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
-  );
+
   const [modalOpen, setModalOpen] = useState(false);
   const [radio_add, setRadio_add] = useState('');
   const [radio_gender, setRadio_gender] = useState('0');
@@ -266,28 +263,36 @@ const SignupInfo = ({ authService }) => {
       }
     }
   };
-  const handleComplete = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
-    console.log(fullAddress);
-    setAddressValue(fullAddress);
-    setAddressValid(true);
-    setZipCode(data.zonecode);
-  };
+
+  // const handleComplete = (data) => {
+  //   console.log('handle complete data:', data);
+  //   navigate('/address/shipping-address/result');
+  //   let fullAddress = data.address;
+  //   let extraAddress = '';
+  //   if (data.addressType === 'R') {
+  //     if (data.bname !== '') {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== '') {
+  //       extraAddress +=
+  //         extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+  //   }
+  //   console.log(fullAddress);
+  //   setAddressValue(fullAddress);
+  //   setAddressValid(true);
+  //   setZipCode(data.zonecode);
+  // };
 
   const handleClick = () => {
-    open({ onComplete: handleComplete, popupKey: 'Address' });
+    window.open(
+      '/address/shipping-address',
+      'address',
+      'width=535px,height=570px'
+    );
   };
+
   const showModal = () => {
     setModalOpen(true);
   };
@@ -495,45 +500,55 @@ const SignupInfo = ({ authService }) => {
           </div>
           <div className={styles.form}>
             <div className={styles.inputbox}>
-              {addressValid == false && (
-                <button className={styles.address_btn} onClick={handleClick}>
-                  <input
-                    id='ADDRESS'
-                    className={styles.search_icon}
-                    type='image'
-                    src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
-                  />
-                  <span>주소 검색</span>
-                </button>
-              )}
-              <div className={styles.form}>
-                {addressValid == true && (
-                  <div className={styles.inputbox}>
-                    <div className={styles.extraAddress_inputbox}>
-                      <div>
-                        <input
-                          id='ADDRESS'
-                          data-testid='input-box'
-                          type='text'
-                          className={styles.input}
-                          readOnly
-                          value={addressValue}
-                        />
-                      </div>
-                      <div>
-                        <input
-                          id='EXTRA_ADDRESS'
-                          data-testid='input-box'
-                          type='text'
-                          className={styles.input}
-                          ref={extraAddressRef}
-                        />
-                      </div>
+              <button
+                id='address_search'
+                className={styles.address_btn}
+                onClick={handleClick}
+              >
+                <input
+                  id='ADDRESSIMG'
+                  className={styles.search_icon}
+                  type='image'
+                  alt='address'
+                  src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
+                />
+                <span>주소 검색</span>
+              </button>
+
+              <div
+                id='address_form'
+                className={styles.form}
+                style={{ display: 'none' }}
+              >
+                <div className={styles.inputbox}>
+                  <div className={styles.extraAddress_inputbox}>
+                    <div>
+                      <input
+                        id='ADDRESS'
+                        data-testid='input-box'
+                        type='text'
+                        className={styles.input}
+                        readOnly
+                        value=''
+                      />
+                    </div>
+                    <div>
+                      <input
+                        id='EXTRAADDRESS'
+                        data-testid='input-box'
+                        type='text'
+                        className={styles.input}
+                        ref={extraAddressRef}
+                      />
                     </div>
                   </div>
-                )}
+                </div>
               </div>
-              <p className={styles.address_p} style={{ fontWeight: '600' }}>
+              <p
+                id='address_notice'
+                className={styles.address_p}
+                style={{ fontWeight: '600' }}
+              >
                 택배배송
               </p>
               <p className={styles.address_p}>
@@ -541,26 +556,24 @@ const SignupInfo = ({ authService }) => {
               </p>
             </div>
           </div>
-          {addressValid == true && (
-            <div className={styles.buttonbox}>
-              <button className={styles.button} onClick={handleClick}>
-                <span>
-                  <img
-                    src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
-                    alt=''
-                  />
-                  재검색
-                </span>
-              </button>
-            </div>
-          )}
-          {addressValid == false && (
-            <div className={styles.buttonbox}>
-              <button className={styles.button} style={{ display: 'none' }}>
-                <span></span>
-              </button>
-            </div>
-          )}
+
+          <div className={styles.buttonbox}>
+            <button
+              id='re_btn'
+              style={{ display: 'none' }}
+              className={`${styles.address_btn} ${styles.hidden}`}
+              onClick={handleClick}
+            >
+              <input
+                id='address_re'
+                className={styles.search_icon}
+                type='image'
+                alt='address'
+                src='https://res.kurly.com/pc/service/cart/2007/ico_search.svg'
+              />
+              <span>재검색</span>
+            </button>
+          </div>
         </div>
         <div className={styles.list}>
           <div className={styles.labelbox}>
@@ -724,7 +737,7 @@ const SignupInfo = ({ authService }) => {
       </div>
       <div className={styles.line}></div>
       <div>
-        <Info_service_term />
+        <SignupTerm />
       </div>
 
       <div className={styles.submit}>

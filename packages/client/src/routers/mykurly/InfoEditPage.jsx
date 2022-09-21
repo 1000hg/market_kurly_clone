@@ -3,12 +3,15 @@ import styles from '../../css/mykurly/InfoEditPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import { useSelector } from 'react-redux';
+import MainFooter from '../../components/mainFooter';
+import MainHeader from '../../components/mainHeader';
 
 const InfoEditPage = (props) => {
   const passwordRef = useRef();
   const user_id = useSelector((state) => state.userData.user_id);
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -83,6 +86,7 @@ const InfoEditPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

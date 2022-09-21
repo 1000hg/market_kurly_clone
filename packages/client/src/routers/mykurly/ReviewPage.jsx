@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import MainFooter from '../../components/mainFooter';
+import MainHeader from '../../components/mainHeader';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import styles from '../../css/mykurly/ReviewPage.module.css';
@@ -14,6 +16,7 @@ const ReviewPage = (props) => {
   };
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -64,6 +67,7 @@ const ReviewPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };
