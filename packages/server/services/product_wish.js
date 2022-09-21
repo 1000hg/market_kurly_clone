@@ -42,6 +42,8 @@ async function getWishList(user) {
 			ON tb1.product_seq = tb2.product_seq
 			INNER JOIN tb_product_img tb3
 			ON tb2.product_seq = tb3.product_seq
+			INNER JOIN tb_product_view tb4
+			ON tb1.product_seq = tb4.product_seq
 			WHERE tb2.user_seq = "${user.user_seq}"
 			AND tb3.product_img_type = "0"`
 		);
