@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import MainFooter from '../../components/mainFooter';
+import MainHeader from '../../components/mainHeader';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import styles from '../../css/mykurly/MyPickPage.module.css';
@@ -7,6 +9,7 @@ import styles from '../../css/mykurly/MyPickPage.module.css';
 const MyPickPage = (props) => {
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -33,6 +36,7 @@ const MyPickPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

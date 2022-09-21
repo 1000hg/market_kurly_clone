@@ -2,10 +2,13 @@ import React from 'react';
 import styles from '../../css/mykurly/CouponPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
+import MainHeader from '../../components/mainHeader';
+import MainFooter from '../../components/mainFooter';
 
 const CouponPage = (props) => {
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -59,6 +62,7 @@ const CouponPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

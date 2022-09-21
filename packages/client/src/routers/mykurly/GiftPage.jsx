@@ -3,18 +3,22 @@ import { useState } from 'react';
 import styles from '../../css/mykurly/GiftPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
+import MainFooter from '../../components/mainFooter';
+import MainHeader from '../../components/mainHeader';
 
 const GiftPage = (props) => {
   const [date, setDate] = useState('3개월');
   const [onTab, setOnTab] = useState(false);
   const onChangeDate = (e) => {
     setDate(e);
+    setOnTab(false);
   };
   const onClickTab = () => {
     setOnTab(!onTab);
   };
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -80,6 +84,7 @@ const GiftPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

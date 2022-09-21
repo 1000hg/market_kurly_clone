@@ -2,9 +2,12 @@ import React from 'react';
 import styles from '../../css/mykurly/EmoneyPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
+import MainHeader from '../../components/mainHeader';
+import MainFooter from '../../components/mainFooter';
 const EmoneyPage = (props) => {
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -51,6 +54,7 @@ const EmoneyPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };

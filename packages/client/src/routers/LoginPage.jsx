@@ -7,6 +7,8 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { SET_USER_INFO } from '../reducers/userData';
 import Modal from '../components/modal';
+import MainFooter from '../components/mainFooter';
+import MainHeader from '../components/mainHeader';
 
 function LoginPage({ authService }) {
   const [seCheck, setSeCheck] = useState(true);
@@ -72,6 +74,7 @@ function LoginPage({ authService }) {
 
   return (
     <div>
+      <MainHeader />
       {modalOpen == true ? (
         <Modal
           setModalOpen={setModalOpen}
@@ -126,6 +129,7 @@ function LoginPage({ authService }) {
           회원가입
         </button>
       </div>
+      <MainFooter />
     </div>
   );
 }

@@ -2,10 +2,13 @@ import React from 'react';
 import styles from '../../css/mykurly/DestinationPage.module.css';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
+import MainHeader from '../../components/mainHeader';
+import MainFooter from '../../components/mainFooter';
 
 const DestinationPage = (props) => {
   return (
     <>
+      <MainHeader />
       <div className={styles.page}>
         <MypageHeader />
         <div className={styles.container}>
@@ -52,6 +55,7 @@ const DestinationPage = (props) => {
           </div>
         </div>
       </div>
+      <MainFooter />
     </>
   );
 };
