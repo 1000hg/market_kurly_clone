@@ -32,7 +32,6 @@ async function findProductImg(req, res) {
 }
 
 async function findProductView(req, res) {
-  req.params.user_seq = req.session.user.user_seq
   const result = await productViewModel.findProductView(req.params);
   res.status(200).json(result)
 }
