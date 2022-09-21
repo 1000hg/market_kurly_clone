@@ -4,7 +4,7 @@ const reviewController = require('../controller/review.js');
 
 const router = express.Router();
 
-router.post('/create', reviewController.createProduct);
+router.post('/create', reviewController.createReview);
 
 router.post('/data', reviewController.findReview);
 
