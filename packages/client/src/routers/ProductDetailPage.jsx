@@ -165,11 +165,11 @@ export default function ProductDetailPage() {
           <div className={styles.toprightContainer}>
             <div className={styles.deliv}>샛별배송</div>
             <div className={styles.productName}>
-              {productInfo.product_name}
+              {productInfo.product_view_title}
               <button className={styles.shareBtn}></button>
             </div>
 
-            <p className={styles.titleDesc}>{productInfo.product_view_title}</p>
+            <p className={styles.titleDesc}>{productInfo.product_view_desc}</p>
 
             <div className={styles.productPrice}>
               {productInfo.is_discount === 1 && (

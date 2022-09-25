@@ -38,7 +38,7 @@ function CardProduct({ item }) {
         </div>
         <div className={styles.cardBody}>
           <span>샛별배송</span>
-          <h5 className={styles.crdTitle}>{item.product_name}</h5>
+          <h5 className={styles.crdTitle}>{item.product_view_title}</h5>
           {item.discount_rate === "" ? (
             <>
               <span className={styles.dcntPrice}>
