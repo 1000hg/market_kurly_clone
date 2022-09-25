@@ -18,7 +18,7 @@ async function findByUser(user_id) {
   
   try {
     const result = await dbPool.query(
-      `SELECT * 
+      `SELECT user.user_seq, user.user_id, user.user_password, user.user_name, address.user_address_seq, cart.cart_seq, cart.total_product_count
       FROM tb_user user 
       INNER JOIN tb_user_address address
       ON user.user_seq = address.user_seq
