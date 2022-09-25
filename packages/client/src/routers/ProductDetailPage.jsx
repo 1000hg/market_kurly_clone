@@ -8,6 +8,8 @@ import ProductDescTab from "../components/product/productDescTab";
 import ProductInfoTab from "../components/product/productInfoTab";
 import ProductReviewTab from "../components/product/productReviewTab";
 import ProductQnATab from "../components/product/productQnATab";
+import MainFooter from "../components/mainFooter";
+import MainHeader from "../components/mainHeader";
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
@@ -109,7 +111,7 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     axios
-      .get("/api/product/view/product/" + product_view_seq)
+      .get("/api/product/view/data/" + product_view_seq)
       .then((res) => {
         console.log(res.data.responseData[0]);
         setProductInfo(res.data.responseData[0]);
@@ -149,153 +151,159 @@ export default function ProductDetailPage() {
   }
 
   return (
-    <div className={styles.wrapper}>
-      <div className={styles.topContainer}>
-        <div>
-          <img
-            className={styles.productImg}
-            src={productInfo.imgList[0][0].product_img}
-            alt=""
-          />
-        </div>
-        <div className={styles.toprightContainer}>
-          <div className={styles.deliv}>샛별배송</div>
-          <div className={styles.productName}>
-            {productInfo.product_name}
-            <button className={styles.shareBtn}></button>
+    <>
+      <MainHeader />
+      <div className={styles.wrapper}>
+        <div className={styles.topContainer}>
+          <div>
+            <img
+              className={styles.productImg}
+              src={productInfo.imgList[0][0].product_img}
+              alt=""
+            />
           </div>
+          <div className={styles.toprightContainer}>
+            <div className={styles.deliv}>샛별배송</div>
+            <div className={styles.productName}>
+              {productInfo.product_name}
+              <button className={styles.shareBtn}></button>
+            </div>
 
-          <p className={styles.titleDesc}>{productInfo.product_view_title}</p>
+            <p className={styles.titleDesc}>{productInfo.product_view_title}</p>
 
-          <div className={styles.productPrice}>
-            {productInfo.is_discount === 1 && (
-              <span style={{ color: "#FA622F" }}>
-                {productInfo.discount_rate}%
-              </span>
-            )}
-            {productInfo.is_discount === 1 ? (
-              <>
-                {parseInt(productInfo.product_discount_price).toLocaleString(
-                  "ko-kr"
-                )}
-                <span className={styles.won}>원</span>
+            <div className={styles.productPrice}>
+              {productInfo.is_discount === 1 && (
+                <span style={{ color: "#FA622F" }}>
+                  {productInfo.discount_rate}%
+                </span>
+              )}
+              {productInfo.is_discount === 1 ? (
+                <>
+                  {parseInt(productInfo.product_discount_price).toLocaleString(
+                    "ko-kr"
+                  )}
+                  <span className={styles.won}>원</span>
 
-                <p className={styles.originPrice}>
+                  <p className={styles.originPrice}>
+                    {parseInt(productInfo.product_price).toLocaleString(
+                      "ko-kr"
+                    )}
+                    원
+                  </p>
+                </>
+              ) : (
+                <>
                   {parseInt(productInfo.product_price).toLocaleString("ko-kr")}
-                  원
-                </p>
-              </>
-            ) : (
-              <>
-                {parseInt(productInfo.product_price).toLocaleString("ko-kr")}
-                <span className={styles.won}>원</span>
-              </>
+                  <span className={styles.won}>원</span>
+                </>
+              )}
+            </div>
+
+            <p className={styles.juck}>로그인 후, 적립 혜택이 제공됩니다.</p>
+
+            {productInfo.is_discount && (
+              <button className={styles.cpnDownload}>
+                카드 쿠폰 다운로드<img className={styles.downloadImg}></img>
+              </button>
             )}
-          </div>
+            <dl className={styles.dlContainer}>
+              <dt>배송</dt>
+              <dd>
+                <p>샛별배송</p>
+                <p>
+                  23시 전 주문 시 내일 아침 7시 전 도착
+                  <br />
+                  대구·부산·울산 샛별배송 운영시간 별도 확인
+                </p>
+              </dd>
+            </dl>
+            {detailInfoList.map((item, idx) => {
+              return <DetailInfoList key={idx} item={item} />;
+            })}
 
-          <p className={styles.juck}>로그인 후, 적립 혜택이 제공됩니다.</p>
-
-          {productInfo.is_discount && (
-            <button className={styles.cpnDownload}>
-              카드 쿠폰 다운로드<img className={styles.downloadImg}></img>
-            </button>
-          )}
-          <dl className={styles.dlContainer}>
-            <dt>배송</dt>
-            <dd>
-              <p>샛별배송</p>
-              <p>
-                23시 전 주문 시 내일 아침 7시 전 도착
-                <br />
-                대구·부산·울산 샛별배송 운영시간 별도 확인
-              </p>
-            </dd>
-          </dl>
-          {detailInfoList.map((item, idx) => {
-            return <DetailInfoList key={idx} item={item} />;
-          })}
-
-          <dl className={styles.dlContainer}>
-            <dt>구매수량</dt>
-            <dd>
-              <div className={styles.countDiv}>
-                <button
-                  onClick={() =>
-                    buyCount > 1 ? setBuyCount(buyCount - 1) : null
-                  }
-                  className={styles.countBtn}
-                >
-                  -
-                </button>
-                <div className={styles.count}>{buyCount}</div>
-                <button
-                  onClick={() => setBuyCount(buyCount + 1)}
-                  className={styles.countBtn}
-                >
-                  +
-                </button>
+            <dl className={styles.dlContainer}>
+              <dt>구매수량</dt>
+              <dd>
+                <div className={styles.countDiv}>
+                  <button
+                    onClick={() =>
+                      buyCount > 1 ? setBuyCount(buyCount - 1) : null
+                    }
+                    className={styles.countBtn}
+                  >
+                    -
+                  </button>
+                  <div className={styles.count}>{buyCount}</div>
+                  <button
+                    onClick={() => setBuyCount(buyCount + 1)}
+                    className={styles.countBtn}
+                  >
+                    +
+                  </button>
+                </div>
+              </dd>
+            </dl>
+            <div className={styles.priceDiv}>
+              <div>
+                <span className={styles.totalPriceTitle}>총 상품금액: </span>
+                <span className={styles.totalPrice}>
+                  {productInfo.is_discount === 1 // 상품 할인이 있으면 1 없으면 0
+                    ? parseInt(
+                        buyCount * productInfo.product_discount_price
+                      ).toLocaleString("ko-kr")
+                    : parseInt(
+                        buyCount * productInfo.product_price
+                      ).toLocaleString("ko-kr")}
+                </span>
+                <span className={styles.won2}>원</span>
               </div>
-            </dd>
-          </dl>
-          <div className={styles.priceDiv}>
-            <div>
-              <span className={styles.totalPriceTitle}>총 상품금액: </span>
-              <span className={styles.totalPrice}>
-                {productInfo.is_discount === 1 // 상품 할인이 있으면 1 없으면 0
-                  ? parseInt(
-                      buyCount * productInfo.product_discount_price
-                    ).toLocaleString("ko-kr")
-                  : parseInt(
-                      buyCount * productInfo.product_price
-                    ).toLocaleString("ko-kr")}
+              <div>
+                <span className={styles.yellowJuck}>적립</span>
+                <span>로그인 후, 적립 혜택 제공</span>
+              </div>
+            </div>
+            <div className={styles.btnDiv}>
+              <span className={styles.ggimBtn}>
+                <img className={styles.ggimOn}></img>
               </span>
-              <span className={styles.won2}>원</span>
-            </div>
-            <div>
-              <span className={styles.yellowJuck}>적립</span>
-              <span>로그인 후, 적립 혜택 제공</span>
+              <span className={styles.alarmBtn}>
+                <img className={styles.disAlarmImg}></img>
+              </span>
+              <button className={styles.jangbaBtn}>장바구니 담기</button>
             </div>
           </div>
-          <div className={styles.btnDiv}>
-            <span className={styles.ggimBtn}>
-              <img className={styles.ggimOn}></img>
-            </span>
-            <span className={styles.alarmBtn}>
-              <img className={styles.disAlarmImg}></img>
-            </span>
-            <button className={styles.jangbaBtn}>장바구니 담기</button>
+        </div>
+
+        <div className={styles.nav}>
+          <div onClick={() => goBox(0)} className={styles.div}>
+            상품설명
+          </div>
+
+          <div onClick={() => goBox(1)} className={styles.div}>
+            상세정보
+          </div>
+          <div onClick={() => goBox(2)} className={styles.div}>
+            후기 ({reviewItem.length})
+          </div>
+          <div onClick={() => goBox(3)} className={styles.div}>
+            문의
           </div>
         </div>
-      </div>
-
-      <div className={styles.nav}>
-        <div onClick={() => goBox(0)} className={styles.div}>
-          상품설명
+        <div ref={desc}>
+          <ProductDescTab image={productInfo.imgList[0]} />
         </div>
 
-        <div onClick={() => goBox(1)} className={styles.div}>
-          상세정보
+        <div ref={info}>
+          <ProductInfoTab image={productInfo.imgList[0]} />
         </div>
-        <div onClick={() => goBox(2)} className={styles.div}>
-          후기 ({reviewItem.length})
+        <div ref={review}>
+          <ProductReviewTab item={reviewItem} />
         </div>
-        <div onClick={() => goBox(3)} className={styles.div}>
-          문의
+        <div ref={qna}>
+          <ProductQnATab item={qnaItem} />
         </div>
       </div>
-      <div ref={desc}>
-        <ProductDescTab image={productInfo.imgList[0]} />
-      </div>
-
-      <div ref={info}>
-        <ProductInfoTab image={productInfo.imgList[0]} />
-      </div>
-      <div ref={review}>
-        <ProductReviewTab item={reviewItem} />
-      </div>
-      <div ref={qna}>
-        <ProductQnATab item={qnaItem} />
-      </div>
-    </div>
+      <MainFooter />
+    </>
   );
 }
