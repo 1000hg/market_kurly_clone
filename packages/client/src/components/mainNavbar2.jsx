@@ -1,17 +1,51 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import styles from "../css/MainNavbar2.module.css";
 import { menuItems } from "../menuItems";
 import MenuItems from "./menuItems";
+import axios from "axios";
 
 function MainNavbar2() {
   const [addressN, setAddressN] = useState(false); //비로그인시
   const [addressY, setAddressY] = useState(false); //로그인시
+  const [productName, setProductName] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
+
   let { address, address_detail } = useSelector((state) => {
     return state.userData;
   });
+
+  let { total_product_count } = useSelector((state) => {
+    if (state.cartData.total_product_count === null) {
+      return 0;
+    } else {
+      return state.cartData;
+    }
+  });
+
+  const searchOnClick = (e) => {
+    e.preventDefault();
+    axios
+      .get("/api/product/view/search", {
+        params: { product_name: productName },
+      })
+      .then((res) => {
+        console.log("res ::: ", res);
+        res.data.btnClick = 1;
+        navigate("/product/search?keyword=" + productName, {
+          state: res.data,
+        });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  //상품 검색
+  const onChangeSearch = (e) => {
+    setProductName(e.target.value);
+  };
 
   useEffect(() => {
     //비로그인의 경우 5초 후 배송지 모달창 없어짐
@@ -41,8 +75,11 @@ function MainNavbar2() {
                 placeholder="검색어를 입력해주세요."
                 aria-label="Search"
                 style={{ marginLeft: "1rem" }}
+                value={productName}
+                onChange={onChangeSearch}
               />
               <input
+                onClick={searchOnClick}
                 type="image"
                 src="https://res.kurly.com/pc/service/common/1908/ico_search_x2.png"
               />
@@ -131,15 +168,20 @@ function MainNavbar2() {
             </a>
           </li>
           <li>
-            <a className={styles.iconItm}>
-              <svg
-                style={{ width: "2rem", height: "2rem" }}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 576 512"
-              >
-                <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
-              </svg>
-            </a>
+            <div className={styles.cartDiv}>
+              <a className={styles.iconItm}>
+                <svg
+                  style={{ width: "2rem", height: "2rem" }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 576 512"
+                >
+                  <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
+                </svg>
+              </a>
+              {total_product_count !== 0 && (
+                <span className={styles.cartCnt}>{total_product_count}</span>
+              )}
+            </div>
           </li>
         </ul>
       </nav>
