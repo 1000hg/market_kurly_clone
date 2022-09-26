@@ -55,6 +55,32 @@ export const userDataSlice = createSlice({
       state.address_detail = action.payload.address_detail;
       state.default_address = action.payload.default_address;
     },
+    DELETE_USER_INFO: (state) => {
+      state.user_seq = -1;
+      state.user_id = "";
+      state.user_password = "";
+      state.user_name = "";
+      state.user_email = "";
+      state.user_phone = "";
+      state.user_birth = "";
+      state.gender = "";
+      state.reffer_id = "";
+      state.reffer_count = "";
+      state.join_event_name = "";
+      state.last_login_dtm = "";
+      state.status = "";
+      state.is_leave = "";
+      state.leave_dtm = null;
+      state.leave_reason = null;
+      state.leave_comment = null;
+      state.create_dtm = "";
+      state.update_dtm = "";
+      state.user_address_seq = -1;
+      state.zip_code = "";
+      state.address = "";
+      state.address_detail = "";
+      state.default_address = -1;
+    },
   },
 });
 
