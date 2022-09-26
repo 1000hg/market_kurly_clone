@@ -2,19 +2,24 @@ import styles from "../css/MainHeader.module.css";
 import MainNavbar2 from "./mainNavbar2";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { DELETE_CART_INFO } from "../reducers/cartData";
+import { DELETE_USER_INFO } from "../reducers/userData";
 
 function MainHeader() {
   const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
   const [myKurlyShown, setMyKurlyShown] = useState(false);
   const [custSvc, setCustSvc] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   let { user_name } = useSelector((state) => {
     return state.userData;
   });
 
   const onLogOut = () => {
     localStorage.removeItem("accessToken");
+    dispatch(DELETE_CART_INFO());
+    dispatch(DELETE_USER_INFO());
     navigate("/");
   };
 
