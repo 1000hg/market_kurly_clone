@@ -108,6 +108,10 @@ async function findProductViewName(product_name) {
     const [result]= await db.query(`SELECT * FROM tb_product_view where product_view_title LIKE '%${product_name}%' and product_view_status = 1;`);
 
   if(result) {
+    for (let i = 0; i < result.length; i++) {
+            let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = ${result[i].product_seq}`);
+            result[i].imgList = [img]
+        }
       serviceStatus.staus = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
@@ -145,7 +149,13 @@ async function findProductImg() {
 
 async function findProductView(data) {
   try {
+    let query = ``;
+    if (data.user_seq) {
+      query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as is_wish`
+    }
+
     let [result] = await db.query(`SELECT *
+    `+query+`
     FROM tb_product_view as tb1  
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
     where tb1.product_view_seq = ${data.product_view_seq}`);

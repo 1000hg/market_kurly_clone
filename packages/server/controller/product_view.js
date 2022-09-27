@@ -20,7 +20,6 @@ async function findProductViewCategory(req, res) {
 }
 
 async function findProductViewName(req, res) {
-  console.log(req.query.product_name);
   const result = await productViewModel.findProductViewName(req.query.product_name);
   res.status(200).json(result)
 }
@@ -32,7 +31,11 @@ async function findProductImg(req, res) {
 }
 
 async function findProductView(req, res) {
-  const result = await productViewModel.findProductView(req.params);
+  let data = {'product_view_seq' : req.params.product_view_seq};
+  if (req.session.user)
+    data["user_seq"] = req.session.user.user_seq;
+  
+  const result = await productViewModel.findProductView(data);
   res.status(200).json(result)
 }
 
