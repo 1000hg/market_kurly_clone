@@ -3,24 +3,23 @@ import { Buffer } from "buffer";
 
 import { useNavigate } from "react-router-dom";
 
-function CardProduct({ item }) {
+function CardProduct({ item, opt }) {
   const navigate = useNavigate();
   const onClick = () => {
     console.log(item.product_view_seq);
     return navigate("/product/detail/" + item.product_view_seq);
   };
+
   return (
     <div onClick={onClick} styles={{ margin: "0 auto" }}>
       <div className={styles.crd}>
-        <div className={styles.crdBg}>
+        <div className={opt === 0 ? styles.crdBg2 : styles.crdBg}>
           <img
             src={
               item.imgList[0].length == 0
                 ? null
                 : item.imgList[0][0].product_img
             }
-            className="card-img-top"
-            alt="..."
             style={{ objectFit: "fill" }}
           />
           <div className={styles.cpnBg}>
@@ -28,6 +27,7 @@ function CardProduct({ item }) {
           </div>
           <div className={styles.crtBg}>
             <button
+              style={{ right: opt + "rem" }}
               className={
                 item.imgList[0].length == 0 ? styles.crtBtnNull : styles.crtBtn
               }
