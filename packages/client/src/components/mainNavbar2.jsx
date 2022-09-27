@@ -5,6 +5,7 @@ import styles from "../css/MainNavbar2.module.css";
 import { menuItems } from "../menuItems";
 import MenuItems from "./menuItems";
 import axios from "axios";
+import qs from "query-string";
 
 function MainNavbar2() {
   const [addressN, setAddressN] = useState(false); //비로그인시
@@ -12,17 +13,15 @@ function MainNavbar2() {
   const [productName, setProductName] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+  const searchParams = location.search;
+  const query = qs.parse(searchParams);
 
   let { address, address_detail } = useSelector((state) => {
     return state.userData;
   });
 
   let { total_product_count } = useSelector((state) => {
-    if (state.cartData.total_product_count === null) {
-      return 0;
-    } else {
-      return state.cartData;
-    }
+    return state.cartData;
   });
 
   const searchOnClick = (e) => {
@@ -32,8 +31,6 @@ function MainNavbar2() {
         params: { product_name: productName },
       })
       .then((res) => {
-        console.log("res ::: ", res);
-        res.data.btnClick = 1;
         navigate("/product/search?keyword=" + productName, {
           state: res.data,
         });
@@ -57,6 +54,13 @@ function MainNavbar2() {
       };
     }
   }, [location.pathname]);
+
+  //search="검색어"인 경우 input태그에 검색어 남겨두기
+  useEffect(() => {
+    if (location.pathname === "/product/search") {
+      setProductName(query.keyword);
+    }
+  }, [query.keyword]);
   return (
     <div className={styles.nv_area}>
       <nav>
