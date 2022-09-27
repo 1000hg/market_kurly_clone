@@ -105,7 +105,9 @@ async function findProductViewCategory(category_seq) {
 
 async function findProductViewName(product_name) {
   try {
-    const [result]= await db.query(`SELECT * FROM tb_product_view where product_view_title LIKE '%${product_name}%' and product_view_status = 1;`);
+    const [result]= await db.query(`SELECT * FROM tb_product_view  as tb1
+    LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
+    where product_view_title LIKE '%${product_name}%' and product_view_status = 1;`);
 
   if(result) {
     for (let i = 0; i < result.length; i++) {
