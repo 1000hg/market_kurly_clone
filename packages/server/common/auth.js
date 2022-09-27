@@ -15,7 +15,7 @@ const isAuth = async (req, res, next) => {
 
   jwt.verify(
     token,
-    procss.env.JWT_SECRET,
+    process.env.JWT_SECRET,
     async (error, decoded) => {
       if (error) {
         return res.status(401).json(AUTH_ERR);
