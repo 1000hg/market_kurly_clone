@@ -172,12 +172,12 @@ export default function ProductDetailPage() {
             <p className={styles.titleDesc}>{productInfo.product_view_desc}</p>
 
             <div className={styles.productPrice}>
-              {productInfo.is_discount === 1 && (
+              {productInfo.is_discount === "1" && (
                 <span style={{ color: "#FA622F" }}>
                   {productInfo.discount_rate}%
                 </span>
               )}
-              {productInfo.is_discount === 1 ? (
+              {productInfo.is_discount === "1" ? (
                 <>
                   {parseInt(productInfo.product_discount_price).toLocaleString(
                     "ko-kr"
