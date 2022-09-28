@@ -15,7 +15,11 @@ async function findReview(req, res) {
 }
 
 async function findReviewList(req, res) {
-    const result = await reviewModel.findReviewList(req.body);
+    let page = 1
+    
+    if (req.query.page && req.query.page > 1)
+        page = req.query.page
+    const result = await reviewModel.findReviewList(page);
     res.status(200).json(result)
 }
 

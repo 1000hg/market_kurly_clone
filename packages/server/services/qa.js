@@ -5,12 +5,10 @@ async function createQa(data) {
     try {
       const result = await db.query(
         `INSERT INTO tb_qa SET
-            user_seq=?,
             product_view_seq=?,
             title=?,
             content=?`
           [
-            data.user_seq,
             data.product_view_seq,
             data.title,
             data.content
@@ -51,9 +49,9 @@ async function findQa(data) {
       }
 }
 
-async function findQaList(data) {
+async function findQaList(page) {
     try {
-        let [result] = await db.query(`SELECT * FROM tb_qa`);
+        let [result] = await db.query(`SELECT * FROM tb_qa order by create_dtm desc LIMIT ${(page - 1) * 7}, 7`);
     
         if(result) {
           serviceStatus.staus = 200

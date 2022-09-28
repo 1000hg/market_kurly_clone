@@ -10,6 +10,7 @@ const categoryRouter = require('./category');
 const couponRouter = require('./coupon');
 const cartRouter = require('./cart');
 const reviewRouter = require('./review');
+const qaRouter = require('./qa');
 
 // 회원가입 및 로그인 생성, 토큰발행
 router.use('/auth', authRouter);
@@ -27,6 +28,8 @@ router.use('/product/wish', productWishRouter);
 router.use('/category', categoryRouter);
 
 router.use('/review', reviewRouter);
+
+router.use('/qa', qaRouter);
 
 router.use('/coupon', couponRouter);
 

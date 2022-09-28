@@ -8,6 +8,6 @@ router.post('/create', reviewController.createReview);
 
 router.post('/data', reviewController.findReview);
 
-router.post('/list', reviewController.findReviewList);
+router.get('/list', reviewController.findReviewList);
 
 module.exports = router;

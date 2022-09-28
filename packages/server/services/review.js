@@ -63,9 +63,9 @@ async function findReview(data) {
       }
 }
 
-async function findReviewList(data) {
+async function findReviewList(page) {
     try {
-        let [result] = await db.query(`SELECT * FROM tb_review`);
+        let [result] = await db.query(`SELECT * FROM tb_review order by create_dtm desc LIMIT ${(page - 1) * 7}, 7`);
     
         if(result) {
           serviceStatus.staus = 200
