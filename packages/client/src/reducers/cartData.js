@@ -7,7 +7,16 @@ export const cartDataSlice = createSlice({
   },
   reducers: {
     SET_CART_INFO: (state, action) => {
-      state.total_product_count = parseInt(action.payload.total_product_count);
+      if (
+        action.payload.total_product_count === null ||
+        action.payload.total_product_count === ""
+      ) {
+        state.total_product_count = 0;
+      } else {
+        state.total_product_count = parseInt(
+          action.payload.total_product_count
+        );
+      }
     },
     DELETE_CART_INFO: (state) => {
       state.total_product_count = 0;
