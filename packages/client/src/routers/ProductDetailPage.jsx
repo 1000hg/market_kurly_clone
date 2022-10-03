@@ -10,6 +10,8 @@ import ProductReviewTab from "../components/product/productReviewTab";
 import ProductQnATab from "../components/product/productQnATab";
 import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
+import Modal from "../components/modal";
+import { useSelector } from "react-redux";
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
@@ -17,10 +19,17 @@ export default function ProductDetailPage() {
   const [productInfo, setProductInfo] = useState();
   const [detailInfoList, setDetailInfoList] = useState([]);
   const [buyCount, setBuyCount] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [productWish, setProductWish] = useState(0);
   const desc = useRef();
   const info = useRef();
   const review = useRef();
   const qna = useRef();
+
+  let { user_seq } = useSelector((state) => {
+    return state.userData;
+  });
 
   const [reviewItem, setReviewItem] = useState([
     {
@@ -115,6 +124,7 @@ export default function ProductDetailPage() {
       .then((res) => {
         console.log(res.data.responseData[0]);
         setProductInfo(res.data.responseData[0]);
+        setProductWish(res.data.responseData[0].is_wish);
         setDetailInfoList([
           { key: "판매자", value: res.data.responseData[0].vender },
           {
@@ -146,6 +156,37 @@ export default function ProductDetailPage() {
       });
   }, []);
 
+  const navigateLogin = () => {
+    return navigate("/login");
+  };
+
+  const onGgimBtn = () => {
+    if (
+      localStorage.getItem("accessToken") === null ||
+      localStorage.getItem("accessToken") === ""
+    ) {
+      setModalOpen(true);
+      setModalMessage("로그인하셔야 본 서비스를 이용하실 수 있습니다.");
+    } else if (productWish === 1) {
+      setProductWish(0);
+      // axios.delete('api/product/del/' + )
+    } else if (productWish === 0) {
+      axios
+        .post("/api/product/wish/add", {
+          user_seq: user_seq,
+          product_seq: productInfo.product_seq,
+          product_view_seq: productInfo.product_view_seq,
+          category_seq: productInfo.category_seq,
+        })
+        .then((res) => {
+          console.log(res);
+          setProductWish(1);
+        });
+    }
+
+    return;
+  };
+
   if (productInfo == null) {
     return <div></div>;
   }
@@ -153,6 +194,13 @@ export default function ProductDetailPage() {
   return (
     <>
       <MainHeader />
+      {modalOpen && (
+        <Modal
+          setModalOpen={setModalOpen}
+          title={modalMessage}
+          callBackfn={navigateLogin}
+        />
+      )}
       <div className={styles.wrapper}>
         <div className={styles.topContainer}>
           <div>
@@ -263,8 +311,10 @@ export default function ProductDetailPage() {
               </div>
             </div>
             <div className={styles.btnDiv}>
-              <span className={styles.ggimBtn}>
-                <img className={styles.ggimOn}></img>
+              <span className={styles.ggimBtn} onClick={onGgimBtn}>
+                <img
+                  className={productWish === 0 ? styles.ggimOff : styles.ggimOn}
+                ></img>
               </span>
               <span className={styles.alarmBtn}>
                 <img className={styles.disAlarmImg}></img>
