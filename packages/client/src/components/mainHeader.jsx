@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DELETE_CART_INFO } from "../reducers/cartData";
 import { DELETE_USER_INFO } from "../reducers/userData";
+import { DELETE_TOKEN } from "../reducers/authToken";
+import setAuthorizationToken from "../services/setAuthorizationToken";
 
 function MainHeader() {
   const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
@@ -20,6 +22,8 @@ function MainHeader() {
     localStorage.removeItem("accessToken");
     dispatch(DELETE_CART_INFO());
     dispatch(DELETE_USER_INFO());
+    dispatch(DELETE_TOKEN());
+    setAuthorizationToken();
     navigate("/");
   };
 
