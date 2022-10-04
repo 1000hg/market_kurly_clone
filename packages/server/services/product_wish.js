@@ -12,6 +12,7 @@ async function addWishProduct(item) {
 			`INSERT INTO tb_wish_item SET
         user_seq=?,
         product_seq=?,
+				product_view_seq=?,
         category_seq=?,
         is_delete=?,
         create_dtm=?,
@@ -19,6 +20,7 @@ async function addWishProduct(item) {
 			[
 				item.user_seq,
 				item.product_seq,
+				item.product_view_seq,
 				item.category_seq,
 				1,
 				new Date(),

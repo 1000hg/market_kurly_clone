@@ -10,6 +10,8 @@ import ProductReviewTab from "../components/product/productReviewTab";
 import ProductQnATab from "../components/product/productQnATab";
 import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
+import Modal from "../components/modal";
+import { useSelector } from "react-redux";
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
@@ -17,10 +19,19 @@ export default function ProductDetailPage() {
   const [productInfo, setProductInfo] = useState();
   const [detailInfoList, setDetailInfoList] = useState([]);
   const [buyCount, setBuyCount] = useState(1);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [productWish, setProductWish] = useState(0);
+  const [prodSelectBtn, setProdSelectBtn] = useState(false);
   const desc = useRef();
   const info = useRef();
   const review = useRef();
   const qna = useRef();
+  const prodInfoRef = useRef();
+
+  let { user_seq } = useSelector((state) => {
+    return state.userData;
+  });
 
   const [reviewItem, setReviewItem] = useState([
     {
@@ -115,6 +126,7 @@ export default function ProductDetailPage() {
       .then((res) => {
         console.log(res.data.responseData[0]);
         setProductInfo(res.data.responseData[0]);
+        setProductWish(res.data.responseData[0].is_wish);
         setDetailInfoList([
           { key: "판매자", value: res.data.responseData[0].vender },
           {
@@ -146,6 +158,64 @@ export default function ProductDetailPage() {
       });
   }, []);
 
+  const [ScrollY, setScrollY] = useState(0); //ScrollY : 상품 정보 height값 (고정)
+  const [show, setShow] = useState(false);
+
+  const logit = () => {
+    setScrollY(prodInfoRef.current.offsetHeight);
+    if (ScrollY !== 0) {
+      //처음 ref세팅이 늦어서 if조건 걸기
+      if (window.scrollY > ScrollY - 300) {
+        setShow(true);
+      } else {
+        setShow(false);
+        setProdSelectBtn(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    function watchScroll() {
+      window.addEventListener("scroll", logit);
+    }
+    watchScroll();
+
+    return () => {
+      window.removeEventListener("scroll", logit);
+    };
+  });
+
+  const navigateLogin = () => {
+    return navigate("/login");
+  };
+
+  const onGgimBtn = () => {
+    if (
+      localStorage.getItem("accessToken") === null ||
+      localStorage.getItem("accessToken") === ""
+    ) {
+      setModalOpen(true);
+      setModalMessage("로그인하셔야 본 서비스를 이용하실 수 있습니다.");
+    } else if (productWish === 1) {
+      setProductWish(0);
+      // axios.delete('api/product/del/' + )
+    } else if (productWish === 0) {
+      axios
+        .post("/api/product/wish/add", {
+          user_seq: user_seq,
+          product_seq: productInfo.product_seq,
+          product_view_seq: productInfo.product_view_seq,
+          category_seq: productInfo.category_seq,
+        })
+        .then((res) => {
+          console.log(res);
+          setProductWish(1);
+        });
+    }
+
+    return;
+  };
+
   if (productInfo == null) {
     return <div></div>;
   }
@@ -153,8 +223,15 @@ export default function ProductDetailPage() {
   return (
     <>
       <MainHeader />
+      {modalOpen && (
+        <Modal
+          setModalOpen={setModalOpen}
+          title={modalMessage}
+          callBackfn={navigateLogin}
+        />
+      )}
       <div className={styles.wrapper}>
-        <div className={styles.topContainer}>
+        <div className={styles.topContainer} ref={prodInfoRef}>
           <div>
             <img
               className={styles.productImg}
@@ -179,9 +256,10 @@ export default function ProductDetailPage() {
               )}
               {productInfo.is_discount === "1" ? (
                 <>
-                  {parseInt(productInfo.product_discount_price).toLocaleString(
-                    "ko-kr"
-                  )}
+                  {" " +
+                    parseInt(productInfo.product_discount_price).toLocaleString(
+                      "ko-kr"
+                    )}
                   <span className={styles.won}>원</span>
 
                   <p className={styles.originPrice}>
@@ -247,7 +325,7 @@ export default function ProductDetailPage() {
               <div>
                 <span className={styles.totalPriceTitle}>총 상품금액: </span>
                 <span className={styles.totalPrice}>
-                  {productInfo.is_discount === 1 // 상품 할인이 있으면 1 없으면 0
+                  {productInfo.is_discount === "1" // 상품 할인이 있으면 1 없으면 0
                     ? parseInt(
                         buyCount * productInfo.product_discount_price
                       ).toLocaleString("ko-kr")
@@ -263,8 +341,10 @@ export default function ProductDetailPage() {
               </div>
             </div>
             <div className={styles.btnDiv}>
-              <span className={styles.ggimBtn}>
-                <img className={styles.ggimOn}></img>
+              <span className={styles.ggimBtn} onClick={onGgimBtn}>
+                <img
+                  className={productWish === 0 ? styles.ggimOff : styles.ggimOn}
+                ></img>
               </span>
               <span className={styles.alarmBtn}>
                 <img className={styles.disAlarmImg}></img>
@@ -287,6 +367,113 @@ export default function ProductDetailPage() {
           </div>
           <div onClick={() => goBox(3)} className={styles.div}>
             문의
+          </div>
+        </div>
+
+        <div
+          className={
+            `${styles.fixedDiv}` +
+            " " +
+            (show === true ? "" : `${styles.hidden}`)
+          }
+        >
+          <div className={styles.relDiv}>
+            <button
+              className={prodSelectBtn ? styles.fixedBtn2 : styles.fixedBtn1}
+              onClick={() => setProdSelectBtn(!prodSelectBtn)}
+            >
+              <span className={styles.prodSelect}>상품 선택</span>
+              <span
+                className={prodSelectBtn ? styles.arrowImg2 : styles.arrowImg1}
+              ></span>
+            </button>
+            {prodSelectBtn && (
+              <div>
+                <div className={styles.flexDiv}>
+                  <div>{productInfo.product_view_title}</div>
+                  <div className={styles.flexDiv2}>
+                    <div className={styles.countDiv}>
+                      <button
+                        onClick={() =>
+                          buyCount > 1 ? setBuyCount(buyCount - 1) : null
+                        }
+                        className={styles.countBtn}
+                      >
+                        -
+                      </button>
+                      <div className={styles.count}>{buyCount}</div>
+                      <button
+                        onClick={() => setBuyCount(buyCount + 1)}
+                        className={styles.countBtn}
+                      >
+                        +
+                      </button>
+                    </div>
+                    <div>
+                      {productInfo.is_discount === "1" ? (
+                        <>
+                          <span className={styles.originPrice2}>
+                            {parseInt(productInfo.product_price).toLocaleString(
+                              "ko-kr"
+                            )}
+                            원
+                          </span>
+                          {" " +
+                            parseInt(
+                              productInfo.product_discount_price
+                            ).toLocaleString("ko-kr")}
+                          <span className={styles.won3}>원</span>
+                        </>
+                      ) : (
+                        <>
+                          {parseInt(productInfo.product_price).toLocaleString(
+                            "ko-kr"
+                          )}
+                          <span className={styles.won3}>원</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div className={styles.priceDiv}>
+                  <div>
+                    <span className={styles.totalPriceTitle}>
+                      총 상품금액:{" "}
+                    </span>
+                    <span className={styles.totalPrice}>
+                      {productInfo.is_discount === "1" // 상품 할인이 있으면 1 없으면 0
+                        ? parseInt(
+                            buyCount * productInfo.product_discount_price
+                          ).toLocaleString("ko-kr")
+                        : parseInt(
+                            buyCount * productInfo.product_price
+                          ).toLocaleString("ko-kr")}
+                    </span>
+                    <span className={styles.won2}>원</span>
+                  </div>
+                  <div>
+                    <span className={styles.yellowJuck}>적립</span>
+                    <span>로그인 후, 적립 혜택 제공</span>
+                  </div>
+                </div>
+
+                <div className={styles.flexEnd}>
+                  <div className={styles.btnDiv2}>
+                    <span className={styles.ggimBtn} onClick={onGgimBtn}>
+                      <img
+                        className={
+                          productWish === 0 ? styles.ggimOff : styles.ggimOn
+                        }
+                      ></img>
+                    </span>
+                    <span className={styles.alarmBtn}>
+                      <img className={styles.disAlarmImg}></img>
+                    </span>
+                    <button className={styles.jangbaBtn2}>장바구니 담기</button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div ref={desc}>
