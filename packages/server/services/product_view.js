@@ -170,6 +170,9 @@ async function findProductView(data) {
         let qa_count = await db.query(`SELECT count(*) as qa_count from tb_qa as tb4 where tb4.product_view_seq = '${data.product_view_seq}'`);
         result[0].qa_count = qa_count
 
+        let review_count = await db.query(`SELECT count(*) as review_count from tb_review as tb4 where tb4.product_view_seq = '${data.product_view_seq}'`);
+        result[0].review_count = review_count
+
       serviceStatus.staus = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
