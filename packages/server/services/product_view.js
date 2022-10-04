@@ -166,6 +166,10 @@ async function findProductView(data) {
         let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = '${result[0].product_seq}'`);
         result[0].imgList = [img]
 
+        
+        let qa_count = await db.query(`SELECT count(*) as qa_count from tb_qa as tb4 where tb4.product_view_seq = '${data.product_view_seq}'`);
+        result[0].qa_count = qa_count
+
       serviceStatus.staus = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
