@@ -1,8 +1,11 @@
 import React, { useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import styles from '../css/AddressResult.module.css';
 
-const AddressResult = () => {
+const AddressResult = ({ mykurlyService }) => {
+  const user_seq = useSelector((state) => state.userData.user_seq);
+  const token = useSelector((state) => state.loginToken.accessToken);
   const { state } = useLocation();
   const address = state;
   const navigate = useNavigate();
@@ -15,15 +18,29 @@ const AddressResult = () => {
     if (extraAddressRef.current.value == '') {
       console.log('모달창');
     }
-    window.close();
-    window.opener.document.getElementById('ADDRESS').value = address;
-    window.opener.document.getElementById('EXTRAADDRESS').value =
-      extraAddressRef.current.value;
-    window.opener.document
-      .getElementById('address_form')
-      .removeAttribute('style');
-    window.opener.document.getElementById('re_btn').removeAttribute('style');
-    window.opener.document.getElementById('address_search').remove();
+
+    if (window.opener.document.getElementById('ADDRESS') != undefined) {
+      window.close();
+      window.opener.document.getElementById('ADDRESS').value = address;
+      window.opener.document.getElementById('EXTRAADDRESS').value =
+        extraAddressRef.current.value;
+      window.opener.document
+        .getElementById('address_form')
+        .removeAttribute('style');
+      window.opener.document.getElementById('re_btn').removeAttribute('style');
+      window.opener.document.getElementById('address_search').remove();
+    } else {
+      const returnValue = {
+        user_seq: user_seq,
+        zip_code: '테스트입니당',
+        address: address,
+        address_detail: extraAddressRef.current.value,
+        default_address: '0',
+      };
+      mykurlyService.addAddress(token, returnValue);
+      window.opener.navigate('/mypage/destination');
+      window.close();
+    }
   };
 
   return (
