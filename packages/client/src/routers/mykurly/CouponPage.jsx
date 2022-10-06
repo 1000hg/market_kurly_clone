@@ -4,8 +4,14 @@ import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import MainHeader from '../../components/mainHeader';
 import MainFooter from '../../components/mainFooter';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-const CouponPage = (props) => {
+const CouponPage = ({ mykurlyService }) => {
+  const [couponList, setCouponList] = useState([{}]);
+  useEffect(() => {
+    mykurlyService.getCouponList().then((e) => setCouponList(e));
+  }, [mykurlyService]);
   return (
     <>
       <MainHeader />
@@ -53,10 +59,36 @@ const CouponPage = (props) => {
               </thead>
               <tbody className={styles.tbody}>
                 <tr className={styles.tbody_tr}>
-                  <td colSpan='5' className={styles.tbody_td}>
-                    쿠폰 내역이 존재하지 않습니다.
-                  </td>
+                  {couponList === [{}] && (
+                    <td colSpan='5' className={styles.tbody_td}>
+                      쿠폰 내역이 존재하지 않습니다.
+                    </td>
+                  )}
                 </tr>
+                {Object.keys(couponList).map((key) => (
+                  <tr colSpan='5' className={styles.tbody_td}>
+                    <td className={styles.coupon_name}>
+                      <h6>{couponList[key].coupon_name}</h6>
+                      <p>{couponList[key].coupon_description}</p>
+                    </td>
+                    <td className={styles.type}>
+                      {couponList[key].coupon_action}
+                    </td>
+                    <td className={styles.type}>
+                      {couponList[key].coupon_percent == null
+                        ? 0
+                        : couponList[key].coupon_percent}
+                      %
+                    </td>
+
+                    <td className={styles.type}>
+                      {couponList[key].update_dtm}까지
+                    </td>
+                    <td>
+                      <p className={styles.edit}>미사용</p>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
