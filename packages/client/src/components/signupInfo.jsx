@@ -264,27 +264,6 @@ const SignupInfo = ({ authService }) => {
     }
   };
 
-  // const handleComplete = (data) => {
-  //   console.log('handle complete data:', data);
-  //   navigate('/address/shipping-address/result');
-  //   let fullAddress = data.address;
-  //   let extraAddress = '';
-  //   if (data.addressType === 'R') {
-  //     if (data.bname !== '') {
-  //       extraAddress += data.bname;
-  //     }
-  //     if (data.buildingName !== '') {
-  //       extraAddress +=
-  //         extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-  //     }
-  //     fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-  //   }
-  //   console.log(fullAddress);
-  //   setAddressValue(fullAddress);
-  //   setAddressValid(true);
-  //   setZipCode(data.zonecode);
-  // };
-
   const handleClick = () => {
     window.open(
       '/address/shipping-address',
