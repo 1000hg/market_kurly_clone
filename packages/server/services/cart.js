@@ -40,7 +40,7 @@ async function insertCart(item) {
 				'${item.payment_price > 43000 ? 0 : 3000}', 
 				'${item.total_discount_price}', 
 				'${item.total_accumulate_price}', 
-				'${item.payment_price}', 
+				'${item.total_price - item.total_discount_price}', 
 				now(), 
 				now() 
 			FROM DUAL WHERE NOT EXISTS (
@@ -95,7 +95,7 @@ async function updateCart(item, price) {
 						item.total_price
 				)},
 				tb1.delivery_price = ${
-						parseInt(price) + parseInt(item.payment_price) > 43000 ? 0 : 3000
+						parseInt(price) + parseInt(item.total_price) - parseInt(item.total_discount_price) > 43000 ? 0 : 3000
 				},
 				tb1.total_cart_discount_price = CONVERT(tb1.total_cart_discount_price, UNSIGNED) + ${parseInt(
 						item.total_discount_price
@@ -103,9 +103,7 @@ async function updateCart(item, price) {
 				tb1.total_accumulate_price = CONVERT(tb1.total_accumulate_price, UNSIGNED) + ${parseInt(
 						item.total_accumulate_price
 				)},
-				tb1.payment_price = CONVERT(tb1.payment_price, UNSIGNED) + ${parseInt(
-						item.payment_price
-				)},
+				tb1.payment_price = CONVERT(tb1.payment_price, UNSIGNED) + ${parseInt(item.total_price) - parseInt(item.total_discount_price)},
 				tb1.update_dtm = now()
 			WHERE tb1.user_seq = ${item.user_seq}
 				AND tb1.status = "0";`
