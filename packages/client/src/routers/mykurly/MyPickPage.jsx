@@ -1,12 +1,24 @@
 import React from 'react';
-import { useState } from 'react';
 import MainFooter from '../../components/mainFooter';
 import MainHeader from '../../components/mainHeader';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
 import styles from '../../css/mykurly/MyPickPage.module.css';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
-const MyPickPage = (props) => {
+const MyPickPage = ({ mykurlyService }) => {
+  const token = useSelector((state) => state.loginToken.accessToken);
+  const user_seq = useSelector((state) => state.userData.user_seq);
+  const [wishList, setWishList] = useState([]);
+  useEffect(() => {
+    mykurlyService
+      .getWishList(token, user_seq)
+      .then((e) => setWishList([...wishList, e.wishList]));
+    console.log(wishList);
+  }, [mykurlyService]);
+
   return (
     <>
       <MainHeader />
