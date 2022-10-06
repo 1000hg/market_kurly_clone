@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import AuthService from './services/auth_service';
+import MyKurlyService from './services/mykurly_service';
 import { Provider } from 'react-redux';
 import store, { persistor } from './store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -12,12 +13,13 @@ import { PersistGate } from 'redux-persist/integration/react';
 const baseURL = process.env.REACT_APP_BASE_URL;
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const authService = new AuthService(baseURL);
+const mykurlyService = new MyKurlyService(baseURL);
 
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
-        <App authService={authService} />
+        <App authService={authService} mykurlyService={mykurlyService} />
       </BrowserRouter>
     </PersistGate>
   </Provider>
