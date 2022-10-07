@@ -141,11 +141,37 @@ async function delAddress(adr) {
 	}
 }
 
+async function updateAddress(adr) {
+	try {
+		if (adr.default_address == 1) {
+			const [resultDefaultAddress] = await dbPool.query(
+				`UPDATE tb_user_address SET
+					default_address = 0
+				WHERE user_seq = ${adr.user_seq}`
+			)
+		}
+		const [result] = await dbPool.query(
+			`UPDATE tb_user_address SET
+				address_detail = "${adr.address_detail}",
+				default_address = "${adr.default_address}",
+				receiver = "${adr.receiver}",
+				receiver_phone = "${adr.receiver_phone}",
+				update_dtm = now()
+			WHERE user_seq = ${adr.user_seq}
+			AND user_address_seq = ${adr.user_address_seq}`
+		);
+		return result.info;
+	} catch (e) {
+		console.error(e);
+	}
+}
+
 module.exports = {
 	resetPw,
 	checkedUser,
 	checkedUserPassword,
 	findByAddress,
 	addUserAddress,
-	delAddress
+	delAddress,
+	updateAddress
 };
