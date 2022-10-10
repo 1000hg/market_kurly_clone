@@ -18,4 +18,6 @@ router.post("/address/add", isAuth, usersController.addAddress);
 
 router.delete("/address/del/:seq", isAuth, usersController.delAddress);
 
+router.put("/address/update", isAuth, usersController.changeAddress);
+
 module.exports = router;

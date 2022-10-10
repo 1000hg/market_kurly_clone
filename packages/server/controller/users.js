@@ -65,11 +65,18 @@ async function delAddress(req, res) {
 	return res.status(200).json({ message : "주소가 삭제되었습니다!" });
 }
 
+async function changeAddress(req, res) {
+
+	const result = await usersModel.updateAddress(req.body);
+	return res.status(200).json({ message: result});
+}
+
 module.exports = {
 	resetPassword,
 	checkedUserInfo,
 	checkedUserPw,
 	userAddress,
 	addAddress,
-	delAddress
+	delAddress,
+	changeAddress
 };
