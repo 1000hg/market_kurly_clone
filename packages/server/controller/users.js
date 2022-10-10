@@ -71,6 +71,16 @@ async function changeAddress(req, res) {
 	return res.status(200).json({ message: result});
 }
 
+async function getReceiverList(req, res) {
+	const result = await usersModel.getReciver(req.query);
+	return res.status(200).json({ receiverList: result });
+}
+
+async function saveReceiverInfo(req, res) {
+	const result = await usersModel.saveReciver(req.body);
+	return res.status(200).json({ receiverSave: result });
+}
+
 module.exports = {
 	resetPassword,
 	checkedUserInfo,
@@ -78,5 +88,7 @@ module.exports = {
 	userAddress,
 	addAddress,
 	delAddress,
-	changeAddress
+	changeAddress,
+	getReceiverList,
+	saveReceiverInfo,
 };
