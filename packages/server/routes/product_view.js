@@ -10,6 +10,19 @@ router.get('/', (req, res) => {
 
 router.post('/create', productViewController.createProductView);
 
+/**
+ * @swagger
+ *  /product/view/list:
+ *    get:
+ *      tags:
+ *      - product
+ *      description: 모든 제품 조회
+ *      produces:
+ *      - application/json
+ *      responses:
+ *       200:
+ *        description: 제품 조회 성공
+ */
 router.get('/list', productViewController.findProductViewList);
 
 router.get('/findCategory', productViewController.findProductViewCategory);
