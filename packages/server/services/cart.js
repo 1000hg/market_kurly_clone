@@ -258,9 +258,59 @@ async function updateToCart(item) {
 	}
 }
 
+async function orderCart(user) {
+	
+	try {
+		const [order] = await dbPool.query(
+			`SELECT
+				tb1.user_name, tb1.user_phone, tb1.user_email,
+				tb2.user_address_seq, tb2.zip_code,	tb2.address, tb2.address_detail,
+				tb2.default_address, tb2.receiver, tb2.receiver_phone, tb2.receiver_place,
+				tb2.receiver_place_etc, tb2.door_pass, tb2.arrival_message_time
+			FROM tb_user tb1
+			INNER JOIN tb_user_address tb2
+			ON tb1.user_seq = tb2.user_seq
+			WHERE tb1.user_seq = ${user.user_seq}
+			AND tb2.default_address = "1"`
+		);
+		
+		const [coupon] = await dbPool.query(
+			`SELECT 
+				tb1.user_coupon_seq, tb1.coupon_seq, 
+				tb2.coupon_seq, tb2.category_seq, tb2.coupon_name, tb2.coupon_description, 
+				tb2.coupon_action, tb2.coupon_percent,	tb2.coupon_price, tb2.max_price
+			FROM tb_user_coupon tb1
+			INNER JOIN tb_coupon tb2
+			ON tb1.coupon_seq = tb2.coupon_seq
+			WHERE tb1.user_seq = ${user.user_seq}
+			AND tb1.is_use = "0"`
+		);
+		
+		const [accumulator] = await dbPool.query(
+			`SELECT 
+				sum(accumulate_price) as accumulate_price				
+			FROM tb_accumulate
+			WHERE user_seq = ${user.user_seq}
+			AND is_use = "0"`
+		);
+		
+		const [paymentMethod] = await dbPool.query(
+			`SELECT payment_method, payment_kind, is_installment
+			FROM tb_payment
+			WHERE user_seq = ${user.user_seq}
+			ORDER BY paymented_dtm DESC LIMIT 1;`
+		);
+		
+		return { order, coupon, accumulator, paymentMethod };
+	} catch (e) {
+		console.error(e);
+	}
+}
+
 module.exports = {
-   addToCart,
-   getCartList,
-   deleteToCart,
-   updateToCart,
+	addToCart,
+	getCartList,
+	deleteToCart,
+	updateToCart,
+	orderCart,
 };
