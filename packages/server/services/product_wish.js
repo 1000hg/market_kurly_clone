@@ -35,25 +35,31 @@ async function addWishProduct(item) {
 }
 
 async function getWishList(user) {
-	
-	try {
-		const result = await dbPool.query(
-			`SELECT *
-			FROM tb_wish_item tb2
-			INNER JOIN tb_product tb1
-			ON tb1.product_seq = tb2.product_seq
-			INNER JOIN tb_product_img tb3
-			ON tb2.product_seq = tb3.product_seq
-			INNER JOIN tb_product_view tb4
-			ON tb1.product_seq = tb4.product_seq
-			WHERE tb2.user_seq = "${user.user_seq}"
-			AND tb3.product_img_type = "0"`
-		);
-		
-		return result[0];
-	} catch (e) {
-		console.error(e);
-	}
+  
+  try {
+    const result = await dbPool.query(
+      `SELECT
+        tb1.wish_item_seq, tb1.user_seq, tb1.category_seq,
+        tb2.product_seq, tb2.product_name, tb2.product_price, tb2.product_stock,
+        tb2.product_origin, tb2.product_status, tb2.discount_price, tb2.discount_rate,
+        tb2.accumulate_price, tb2.product_discount_price, tb2.is_coupon,
+        tb3.product_view_seq, tb4.product_img_seq, tb4.product_img
+      FROM tb_wish_item tb1
+      INNER JOIN tb_product tb2
+      ON tb2.product_seq = tb1.product_seq
+      INNER JOIN tb_product_view tb3
+      ON tb3.product_seq = tb2.product_seq
+      INNER JOIN tb_product_img tb4
+      ON tb4.product_seq = tb3.product_seq
+      WHERE tb1.user_seq = ${parseInt(user.user_seq)}
+      AND tb1.is_delete = "1"
+      AND tb4.product_img_type = "0"`
+    );
+    
+    return result[0];
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 async function delWishProduct(item) {
