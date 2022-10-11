@@ -11,4 +11,6 @@ router.delete("/del", isAuth, cartController.deleteProductsToCart);
 
 router.put("/update", isAuth, cartController.updateProductToCart);
 
+router.get("/order", isAuth, cartController.orderProductsToCart);
+
 module.exports = router;
