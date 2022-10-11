@@ -7,11 +7,13 @@ async function createQa(data) {
         `INSERT INTO tb_qa SET
             product_view_seq=?,
             title=?,
-            content=?`
+            content=?,
+            writer=?`
           [
             data.product_view_seq,
             data.title,
-            data.content
+            data.content,
+            data.writer
           ]
         )
       
@@ -48,6 +50,8 @@ async function findQa(data) {
         console.error(error);
       }
 }
+
+
 
 async function findQaList(page) {
     try {
