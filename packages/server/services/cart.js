@@ -68,7 +68,7 @@ async function insertCart(item) {
 	}
 }
 
-async function updateCartDetail(item) {
+async function updateCartDetail(item, insertId=0) {
 
 	const [resultCartDetailUpdate] = await dbPool.query(
 		`UPDATE tb_cart_detail tb1 SET
@@ -79,7 +79,10 @@ async function updateCartDetail(item) {
 			AND tb1.product_seq = ${item.product_seq}
 			AND tb1.is_delete = "1";`
 	);
-	
+	if (resultCartDetailUpdate.affectedRows == 0) {
+		const resultCartDetailInsert = await insertCartDetail(item, insertId);
+		return resultCartDetailInsert;
+	}
 	return resultCartDetailUpdate.info;
 }
 
@@ -133,7 +136,7 @@ async function addToCart(item) {
 			return { cart: resultInsertCart, cartDetail: resultInsertCartDetail };
 		} else {
 			const resultUpdateCart = await updateCart(item, cartDetail[0].payment_price);
-			const resultCartDetailUpdate = await updateCartDetail(item);
+			const resultCartDetailUpdate = await updateCartDetail(item, cartDetail[0].cart_seq);
 			
 			return { cart: resultUpdateCart, cartDetail: resultCartDetailUpdate };
 		}
@@ -146,7 +149,9 @@ async function getCartList(user) {
    
 	try {
 		const result = await dbPool.query(
-			`SELECT tb1.*, tb2.*, tb3.product_name, tb3.product_price, tb3.discount_price, tb3.product_status, tb4.packaging_type, tb5.product_img
+			`SELECT tb1.*, tb2.*, 
+				tb3.product_name, tb3.product_price, tb3.discount_price, tb3.product_status, 
+				tb4.packaging_type, tb5.product_img
 			 FROM tb_cart tb1
 			INNER JOIN tb_cart_detail tb2
 				ON tb1.cart_seq = tb2.cart_seq
