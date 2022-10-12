@@ -6,9 +6,9 @@ const options = {
         info: {
             title: 'Market-Kurly API',
             version: '1.0.0',
-            description: 'SSSS API with express',
+            description: 'API with express',
         },
-        host: 'localhost:3001',
+        host: 'localhost:8080',
         basePath: '/'
     },
     apis: ['./routes/*.js', './swagger/*']
