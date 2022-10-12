@@ -141,11 +141,74 @@ async function delAddress(adr) {
 	}
 }
 
+async function updateAddress(adr) {
+	try {
+		if (adr.default_address == 1) {
+			const [resultDefaultAddress] = await dbPool.query(
+				`UPDATE tb_user_address SET
+					default_address = 0
+				WHERE user_seq = ${adr.user_seq}`
+			)
+		}
+		const [result] = await dbPool.query(
+			`UPDATE tb_user_address SET
+				address_detail = "${adr.address_detail}",
+				default_address = "${adr.default_address}",
+				receiver = "${adr.receiver}",
+				receiver_phone = "${adr.receiver_phone}",
+				update_dtm = now()
+			WHERE user_seq = ${adr.user_seq}
+			AND user_address_seq = ${adr.user_address_seq}`
+		);
+		return result.info;
+	} catch (e) {
+		console.error(e);
+	}
+}
+
+async function getReciver(item) {
+	console.log("getReceiver db : ", item);
+	try {
+		const [result] = await dbPool.query(
+			`SELECT * FROM tb_user_address WHERE user_address_seq = ${item.user_address_seq}`
+		);
+		console.log("getReceiver db result : ", result[0]);
+		return result[0];
+	} catch (e) {
+		console.error(e);
+	}
+}
+
+async function saveReciver(info) {
+	console.log("saveReceiver db : ", info);
+	try {
+		const [result] = await dbPool.query(
+			`UPDATE tb_user_address SET
+				receiver = "${info.receiver}",
+				receiver_phone = "${info.receiver_phone}",
+				receiver_place = "${info.receiver_place}",
+				receiver_place_etc = "${info.receiver_place_etc}",
+				door_pass = "${info.door_pass}",
+				arrival_message_time = "${info.arrival_message_time}",
+				update_dtm = now()
+			WHERE user_address_seq = ${info.user_address_seq}
+			AND user_seq = ${info.user_seq}`
+		);
+		console.log("saveReceiver db result : ", result);
+		return result.info;
+	} catch (e) {
+		console.error(e);
+	}
+}
+
 module.exports = {
 	resetPw,
 	checkedUser,
 	checkedUserPassword,
 	findByAddress,
 	addUserAddress,
-	delAddress
+	delAddress,
+	updateAddress,
+	getReciver,
+	saveReciver,
 };

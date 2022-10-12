@@ -18,4 +18,10 @@ router.post("/address/add", isAuth, usersController.addAddress);
 
 router.delete("/address/del/:seq", isAuth, usersController.delAddress);
 
+router.put("/address/update", isAuth, usersController.changeAddress);
+
+router.get("/receiver/list", isAuth, usersController.getReceiverList);
+
+router.put("/receiver/update", isAuth, usersController.saveReceiverInfo);
+
 module.exports = router;

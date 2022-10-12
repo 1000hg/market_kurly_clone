@@ -56,6 +56,27 @@ async function createProductView(data) {
     }
   }
 
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      User:
+ *        type: object
+ *        required:
+ *          - name
+ *          - email
+ *        properties:
+ *          name:
+ *            type: string
+ *          email:
+ *            type: string
+ *            format: email
+ *            description: Email for the user, needs to be unique.
+ *        example:
+ *           name: joohee
+ *           email: joohee@email.com
+ */
+
 async function findProductViewList() {
     try {
 
@@ -152,12 +173,15 @@ async function findProductImg() {
 async function findProductView(data) {
   try {
     let query = ``;
+    let query2 = ``;
     if (data.user_seq) {
       query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as is_wish`
+      query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as wish_item_seq`
     }
 
     let [result] = await db.query(`SELECT *
     `+query+`
+    `+query2+`
     FROM tb_product_view as tb1  
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
     where tb1.product_view_seq = ${data.product_view_seq}`);

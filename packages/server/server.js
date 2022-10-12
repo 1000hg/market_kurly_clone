@@ -7,6 +7,9 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const indexRouter = require("./routes");
 
+const { swaggerUi, specs } = require('./swagger');
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 dotenv.config();
 
 app.use(session({
