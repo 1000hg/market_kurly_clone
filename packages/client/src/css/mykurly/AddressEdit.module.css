@@ -14,7 +14,8 @@
   line-height: 36px;
   letter-spacing: -0.5px;
 }
-button {
+
+.save_btn {
   width: 100%;
   height: 44px;
   border-radius: 3px;
@@ -23,13 +24,19 @@ button {
   line-height: 42px;
   text-align: center;
   outline: none;
-}
-.save_btn {
   border: 1px solid #5f0081;
   background-color: #5f0080;
   color: #fff;
 }
 .delete_btn {
+  width: 100%;
+  height: 44px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 42px;
+  text-align: center;
+  outline: none;
   border: 1px solid #ddd;
   background-color: #fff;
   color: #333;
