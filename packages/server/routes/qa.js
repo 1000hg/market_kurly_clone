@@ -28,15 +28,15 @@ router.post('/create', qaController.createQa);
 
 /**
  * @swagger
- * tags:
- *   name: QAData
- *   description: 상품뷰 세부 QA 처리
  * definitions:
  *   QAData:
  *     type: "object"
  *     properties:
  *       product_view_seq:
  *         type: "string"
+ *       page:
+ *         type: "integer"
+ *         format: "int64"
 */
 
 /**

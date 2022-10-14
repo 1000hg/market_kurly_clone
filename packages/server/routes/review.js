@@ -8,15 +8,15 @@ router.post('/create', reviewController.createReview);
 
 /**
  * @swagger
- * tags:
- *   name: ReviewData
- *   description: 상품뷰 세부 리뷰 처리
  * definitions:
  *   ReviewData:
  *     type: "object"
  *     properties:
  *       product_view_seq:
  *         type: "string"
+ *       page:
+ *         type: "integer"
+ *         format: "int64"
 */
 
 /**
