@@ -1,0 +1,86 @@
+.page {
+  width: 1050px;
+  margin: 0 auto;
+  padding-bottom: 80px;
+}
+.header {
+  padding: 50px 0 48px;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 35px;
+  text-align: center;
+}
+.body {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  letter-spacing: -0.5px;
+}
+.leftside {
+  width: 742px;
+}
+.rightside {
+  position: relative;
+  width: 284px;
+  min-height: 942px;
+}
+.allcheck {
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 10px 16px 2px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+}
+.label {
+  font-size: 14px;
+  line-height: 40px;
+  padding: 0;
+  color: #333;
+}
+
+.checkbox {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
+  font-size: 14px;
+  color: #333;
+}
+.checkwrapper {
+  display: flex;
+  box-sizing: border-box;
+  margin: 0;
+  font-size: 14px;
+  line-height: 30px;
+}
+.checkbox_img {
+  display: inline-block;
+  width: 24px;
+  height: 40px;
+  margin-right: 12px;
+}
+.space {
+  display: inline-block;
+  width: 1px;
+  height: 24px;
+  background: #ddd;
+  margin: 10px 21px 0 22px;
+  vertical-align: top;
+}
+.delete_btn {
+  display: inline-block;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  background-color: transparent;
+  border: none;
+}
+.itemlist {
+  border-top: 1px solid rgb(51, 51, 51);
+  border-bottom: 1px solid rgb(232, 232, 232);
+}
