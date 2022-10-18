@@ -46,7 +46,9 @@ async function createReview(data) {
 async function findReview(data) {
     try {
         let [result] = await db.query(`SELECT * FROM tb_review
-        where product_view_seq = ${data.product_view_seq}`);
+        where product_view_seq = ${data.product_view_seq}
+        order by create_dtm desc LIMIT ${(data.page - 1) * 7}, 7
+        `);
     
         if(result) {
           serviceStatus.staus = 200

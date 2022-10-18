@@ -56,26 +56,6 @@ async function createProductView(data) {
     }
   }
 
-/**
- * @swagger
- *  components:
- *    schemas:
- *      User:
- *        type: object
- *        required:
- *          - name
- *          - email
- *        properties:
- *          name:
- *            type: string
- *          email:
- *            type: string
- *            format: email
- *            description: Email for the user, needs to be unique.
- *        example:
- *           name: joohee
- *           email: joohee@email.com
- */
 
 async function findProductViewList() {
     try {
@@ -176,7 +156,7 @@ async function findProductView(data) {
     let query2 = ``;
     if (data.user_seq) {
       query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as is_wish`
-      query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as wish_item_seq`
+      query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as wish_item_seq and tb3.is_delete = 1`
     }
 
     let [result] = await db.query(`SELECT *
@@ -196,6 +176,10 @@ async function findProductView(data) {
 
         let review_count = await db.query(`SELECT count(*) as review_count from tb_review as tb4 where tb4.product_view_seq = '${data.product_view_seq}'`);
         result[0].review_count = review_count
+
+        if (result[0].accumulate_price == "") {
+          result[0].accumulate_price = 0;
+        }
 
       serviceStatus.staus = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
