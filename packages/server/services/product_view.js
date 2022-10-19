@@ -156,7 +156,8 @@ async function findProductView(data) {
     let query2 = ``;
     if (data.user_seq) {
       query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as is_wish`
-      query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as wish_item_seq and tb3.is_delete = 1`
+      query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq} and is_delete = 1) as wish_item_seq`
+      where = `and tb3.is_delete = 1`;
     }
 
     let [result] = await db.query(`SELECT *
