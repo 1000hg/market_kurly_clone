@@ -17,19 +17,27 @@ const dbPool = mysql2.createPool({
 async function findByUser(user_id) {
   
   try {
-    const result = await dbPool.query(
-      `SELECT user.user_seq, user.user_id, user.user_password, user.user_name, address.user_address_seq, cart.cart_seq, cart.total_product_count
-      FROM tb_user user 
-      INNER JOIN tb_user_address address
-      ON user.user_seq = address.user_seq
-      LEFT OUTER JOIN tb_cart cart
-      ON user.user_seq = cart.user_seq
-      LEFT OUTER JOIN tb_cart_detail detail
-      ON cart.cart_seq = detail.cart_seq
-      WHERE user.user_id = "${user_id}"
-      AND address.default_address = 1`
+    const [result] = await dbPool.query(
+      `SELECT
+        tb1.user_seq, tb1.user_id, tb1.user_password, tb1.user_name,
+        tb2.user_address_seq, tb2.address, tb2.address_detail,
+        tb3.cart_seq, tb3.total_product_count
+      FROM tb_user tb1
+      INNER JOIN tb_user_address tb2
+      ON tb1.user_seq = tb2.user_seq
+      LEFT JOIN tb_cart tb3
+      ON tb2.user_seq = tb3.user_seq
+      WHERE tb1.user_id = "${user_id}"      
+      AND tb2.default_address = 1
+      AND tb3.status = "0"`
     );
-    return result[0][0];
+    const [resultCount] = await dbPool.query(
+      `SELECT COUNT(cart_seq) AS cart_count
+      FROM tb_cart_detail
+      WHERE is_delete = "1"
+      AND user_seq = ${result[0].user_seq}`
+    );
+    return { ...result[0], ...resultCount[0] };
   } catch(error) {
     console.error(error);
   }
