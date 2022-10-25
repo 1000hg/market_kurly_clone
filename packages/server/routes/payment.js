@@ -7,4 +7,8 @@ router.post("/checkout", isAuth, paymentController.paymentCart);
 
 router.get("/list", isAuth, paymentController.paymentList);
 
+router.get("/detail", isAuth, paymentController.paymentDetail);
+
+router.post("/reorder", isAuth, paymentController.reorder);
+
 module.exports = router;

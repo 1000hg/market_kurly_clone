@@ -14,7 +14,20 @@ async function paymentList(req, res) {
 	res.status(200).json({ paymentList: result });
 }
 
+async function paymentDetail(req, res) {
+  
+  result = await paymentModel.payOutDetail(req.query);
+  res.status(200).json({ paymentDetail: result });
+}
+
+async function reorder(req, res) {
+  result = await paymentModel.reorderToCart(req.body);
+  res.status(200).json({ cart_seq: result });
+}
+
 module.exports = {
-	paymentCart,
-	paymentList,
+  paymentCart,
+  paymentList,
+  paymentDetail,
+  reorder,
 };
