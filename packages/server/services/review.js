@@ -30,10 +30,10 @@ async function createReview(data) {
         })
       
       if(result) {
-          serviceStatus.staus = 200
+          serviceStatus.status = 200
           serviceStatus.msg = '상품 생성에 성공하였습니다.'
       } else {
-          serviceStatus.staus = 400
+          serviceStatus.status = 400
           serviceStatus.msg = '상품 생성에 실패하였습니다.'
       }
   
@@ -51,11 +51,11 @@ async function findReview(data) {
         `);
     
         if(result) {
-          serviceStatus.staus = 200
+          serviceStatus.status = 200
           serviceStatus.msg = '상품 조회에 성공하였습니다.'
           serviceStatus.responseData = result
       } else {
-          serviceStatus.staus = 400
+          serviceStatus.status = 400
           serviceStatus.msg = '상품 조회에 실패하였습니다.'
       }
     
@@ -70,11 +70,11 @@ async function findReviewList(page) {
         let [result] = await db.query(`SELECT * FROM tb_review order by create_dtm desc LIMIT ${(page - 1) * 7}, 7`);
     
         if(result) {
-          serviceStatus.staus = 200
+          serviceStatus.status = 200
           serviceStatus.msg = '상품 조회에 성공하였습니다.'
           serviceStatus.responseData = result
       } else {
-          serviceStatus.staus = 400
+          serviceStatus.status = 400
           serviceStatus.msg = '상품 조회에 실패하였습니다.'
       }
     

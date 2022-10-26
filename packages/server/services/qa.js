@@ -18,10 +18,10 @@ async function createQa(data) {
         )
       
       if(result) {
-          serviceStatus.staus = 200
+          serviceStatus.status = 200
           serviceStatus.msg = '상품 생성에 성공하였습니다.'
       } else {
-          serviceStatus.staus = 400
+          serviceStatus.status = 400
           serviceStatus.msg = '상품 생성에 실패하였습니다.'
       }
   

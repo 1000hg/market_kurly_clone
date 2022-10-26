@@ -12,6 +12,7 @@ const cartRouter = require('./cart');
 const reviewRouter = require('./review');
 const qaRouter = require('./qa');
 const paymentRouter = require('./payment');
+const noticeRouter = require('./notice');
 
 // 회원가입 및 로그인 생성, 토큰발행
 router.use('/auth', authRouter);
@@ -37,5 +38,7 @@ router.use('/coupon', couponRouter);
 router.use('/cart', cartRouter);
 
 router.use('/payment', paymentRouter);
+
+router.use('/notice', noticeRouter);
 
 module.exports = router;
