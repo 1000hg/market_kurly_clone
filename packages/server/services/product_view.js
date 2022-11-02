@@ -43,10 +43,10 @@ async function createProductView(data) {
       )
 
     if(result) {
-        serviceStatus.staus = 200
+        serviceStatus.status = 200
         serviceStatus.msg = '상품 생성에 성공하였습니다.'
     } else {
-        serviceStatus.staus = 400
+        serviceStatus.status = 400
         serviceStatus.msg = '상품 생성에 실패하였습니다.'
     }
 
@@ -69,11 +69,11 @@ async function findProductViewList() {
             let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = ${result[i].product_seq}`);
             result[i].imgList = [img]
         }
-        serviceStatus.staus = 200
+        serviceStatus.status = 200
         serviceStatus.msg = '상품 조회에 성공하였습니다.'
         serviceStatus.responseData = result
     } else {
-        serviceStatus.staus = 400
+        serviceStatus.status = 400
         serviceStatus.msg = '상품 조회에 실패하였습니다.'
     }
 
@@ -90,11 +90,11 @@ async function findProductViewCategory(category_seq) {
     on tb1.product_seq = tb2.product_seq where tb2.category_seq = '${category_seq}' and tb1.product_status = 1 and tb2.product_view_status = 1;`);
 
     if(result) {
-      serviceStatus.staus = 200
+      serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
   } else {
-      serviceStatus.staus = 400
+      serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
   }
 
@@ -115,11 +115,11 @@ async function findProductViewName(product_name) {
             let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = ${result[i].product_seq}`);
             result[i].imgList = [img]
         }
-      serviceStatus.staus = 200
+      serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
   } else {
-      serviceStatus.staus = 400
+      serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
   }
 
@@ -135,11 +135,11 @@ async function findProductImg() {
     const result = await db.query(`SELECT product_img FROM tb_product_img`);
 
     if(result) {
-      serviceStatus.staus = 200
+      serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
   } else {
-      serviceStatus.staus = 400
+      serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
   }
 
@@ -167,6 +167,10 @@ async function findProductView(data) {
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
     where tb1.product_view_seq = ${data.product_view_seq}`);
 
+    if (result[0].is_wish == undefined)
+      result[0].is_wish = 0;
+
+      console.log(result);
     if(result) {
         let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = '${result[0].product_seq}'`);
         result[0].imgList = [img]
@@ -182,11 +186,11 @@ async function findProductView(data) {
           result[0].accumulate_price = 0;
         }
 
-      serviceStatus.staus = 200
+      serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
   } else {
-      serviceStatus.staus = 400
+      serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
   }
 

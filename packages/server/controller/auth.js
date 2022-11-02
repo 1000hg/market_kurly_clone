@@ -84,8 +84,20 @@ async function me(req, res, next) {
   res.status(200).json({ token: req.token, user_id: user.user_id });
 }
 
+async function logout(req, res) {
+  res.clearCookie('user');
+  req.session.destroy(function(){ 
+    req.session;
+  });
+    
+    
+  console.log(req);
+  res.redirect('/');
+}
+
 module.exports = {
   signup,
   login,
   me,
+  logout,
 };
