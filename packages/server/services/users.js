@@ -40,9 +40,9 @@ async function checkedUser(user) {
         WHERE ${Object.keys(user)[0]} = "${Object.values(user)[0]}"`
 			);
 			if (result[0].length == 0) {
-				return { message: "사용 할 수 있습니다." };
-			} else {
 				return { message: "사용 할 수 없습니다." };
+			} else {
+				return { message: "사용 할 수 있습니다." };
 			}
 		} catch (error) {
 			console.error(error);
