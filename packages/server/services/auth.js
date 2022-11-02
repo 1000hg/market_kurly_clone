@@ -21,21 +21,23 @@ async function findByUser(user_id) {
       `SELECT
         tb1.user_seq, tb1.user_id, tb1.user_password, tb1.user_name,
         tb2.user_address_seq, tb2.address, tb2.address_detail,
-        tb3.cart_seq, tb3.total_product_count
+        tb3.cart_seq
       FROM tb_user tb1
       INNER JOIN tb_user_address tb2
       ON tb1.user_seq = tb2.user_seq
-      LEFT JOIN tb_cart tb3
+      LEFT JOIN tb_cart_detail tb3
       ON tb2.user_seq = tb3.user_seq
       WHERE tb1.user_id = "${user_id}"      
-      AND tb2.default_address = 1
-      AND tb3.status = "0"`
+      AND tb2.default_address = 1`
     );
     const [resultCount] = await dbPool.query(
-      `SELECT COUNT(cart_seq) AS cart_count
-      FROM tb_cart_detail
+      `SELECT COUNT(tb1.cart_seq) AS cart_count
+      FROM tb_cart_detail tb1
+      INNER JOIN tb_cart tb2
+      ON tb2.cart_seq = tb1.cart_seq
       WHERE is_delete = "1"
-      AND user_seq = ${result[0].user_seq}`
+      AND user_seq = ${result[0].user_seq}
+      AND tb2.status = "0"`
     );
     return { ...result[0], ...resultCount[0] };
   } catch(error) {
