@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from '../css/mykurly/AddressEdit.module.css';
 
 const AddressEdit = ({ mykurlyService }) => {
+  const token = useSelector((state) => state.loginToken.accessToken);
   const [checked, setChecked] = useState(false);
   const [inputs, setInputs] = useState({
     addressDetail: '',
@@ -19,6 +21,10 @@ const AddressEdit = ({ mykurlyService }) => {
       ...inputs,
       [name]: value,
     });
+  };
+
+  const deleteAddress = () => {
+    mykurlyService.deleteAddress(token);
   };
 
   return (
@@ -70,7 +76,9 @@ const AddressEdit = ({ mykurlyService }) => {
           기본 배송지로 저장
         </div>
         <button className={styles.save_btn}>저장</button>
-        <button className={styles.delete_btn}>삭제</button>
+        <button className={styles.delete_btn} onClick={deleteAddress}>
+          삭제
+        </button>
       </div>
     </section>
   );
