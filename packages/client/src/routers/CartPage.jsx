@@ -93,7 +93,10 @@ const CartPage = ({ mykurlyService }) => {
                             </div>
                             <div className={styles.productPrice}>
                               <span>
-                                {cartList[key].products_total_price}원
+                                {cartList[key].products_total_price
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                원
                               </span>
                             </div>
                             <div className={styles.product_del}>
@@ -155,7 +158,10 @@ const CartPage = ({ mykurlyService }) => {
                             </div>
                             <div className={styles.productPrice}>
                               <span>
-                                {cartList[key].products_total_price}원
+                                {cartList[key].products_total_price
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                원
                               </span>
                             </div>
                             <div className={styles.product_del}>
@@ -218,7 +224,10 @@ const CartPage = ({ mykurlyService }) => {
                             </div>
                             <div className={styles.productPrice}>
                               <span>
-                                {cartList[key].products_total_price}원
+                                {cartList[key].products_total_price
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+                                원
                               </span>
                             </div>
                             <div className={styles.product_del}>
@@ -270,7 +279,9 @@ const CartPage = ({ mykurlyService }) => {
                         .map((key) => parseInt(cartList[key].cart_total_price))
                         .reduce((acc, cur, idx) => {
                           return (acc += cur);
-                        })}
+                        })
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       원
                     </div>
                   </div>
@@ -284,7 +295,9 @@ const CartPage = ({ mykurlyService }) => {
                         )
                         .reduce((acc, cur, idx) => {
                           return (acc += cur);
-                        })}
+                        })
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       원
                     </div>
                   </div>
@@ -295,7 +308,9 @@ const CartPage = ({ mykurlyService }) => {
                         .map((key) => parseInt(cartList[key].delivery_price))
                         .reduce((acc, cur, idx) => {
                           return (acc += cur);
-                        })}
+                        })
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       원
                     </div>
                   </div>
@@ -306,7 +321,9 @@ const CartPage = ({ mykurlyService }) => {
                         .map((key) => parseInt(cartList[key].payment_price))
                         .reduce((acc, cur, idx) => {
                           return (acc += cur);
-                        })}
+                        })
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       원
                     </div>
                   </div>
@@ -320,7 +337,9 @@ const CartPage = ({ mykurlyService }) => {
                         )
                         .reduce((acc, cur, idx) => {
                           return (acc += cur);
-                        })}
+                        })
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
                       원 적립
                     </div>
                   </div>
