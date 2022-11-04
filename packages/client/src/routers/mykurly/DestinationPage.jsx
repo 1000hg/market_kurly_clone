@@ -23,12 +23,13 @@ const DestinationPage = memo(({ mykurlyService }) => {
       'width=535px,height=570px'
     );
   };
-  const editAddress = () => {
-    window.open(
+  const editAddress = (seq) => {
+    const popup = window.open(
       '/address/shipping-address/edit',
       'address-edit',
       'width=535px,height=570px'
     );
+    console.log(seq);
   };
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const DestinationPage = memo(({ mykurlyService }) => {
                       <label className={styles.radiobox}>
                         <input
                           type='radio'
-                          checked={radio == key ? true : false}
+                          checked={radio === key ? true : false}
                           value={key}
                           onChange={handleChange}
                         />
@@ -107,7 +108,12 @@ const DestinationPage = memo(({ mykurlyService }) => {
                     <td>{addressList[key].user_phone}</td>
                     <td>낮배송</td>
                     <td>
-                      <button className={styles.edit} onClick={editAddress}>
+                      <button
+                        className={styles.edit}
+                        onClick={() =>
+                          editAddress(addressList[key].user_address_seq)
+                        }
+                      >
                         edit
                       </button>
                     </td>
