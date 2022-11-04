@@ -58,7 +58,7 @@
   font-size: 14px;
   line-height: 30px;
 }
-.checkbox_img {
+.checkboxImage {
   display: inline-block;
   width: 24px;
   height: 40px;
@@ -106,11 +106,27 @@
   position: relative;
   padding: 20px 0px;
 }
-.product img {
+.productImage {
   display: inline-block;
   width: 60px;
   height: 78px;
   margin-right: 20px;
+  background: url(https://res.kurly.com/kurly/bg/no_img.svg) center center
+    no-repeat rgb(245, 245, 245);
+  display: block;
+  height: 100%;
+}
+.productImage img {
+  width: 60px;
+  height: 78px;
+}
+.productInput {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0px, 0px, 0px, 0px);
+  clip-path: inset(50%);
+  width: 1px;
+  height: 1px;
 }
 .product label {
   display: inline-block;
@@ -123,9 +139,17 @@
   flex-direction: column;
   width: 345px;
   margin-right: 20px;
+  padding-top: 8px;
   overflow: hidden;
   white-space: nowrap;
   word-break: break-all;
+  max-height: 54px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 .productCount {
   display: inline-flex;
