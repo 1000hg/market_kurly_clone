@@ -304,6 +304,11 @@
   margin: 40px auto 30px;
   font-weight: 500;
 }
+.checkoutBtn span {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+}
 
 .emoneyWrapper {
   display: flex;
