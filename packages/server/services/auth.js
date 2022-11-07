@@ -36,7 +36,7 @@ async function findByUser(user_id) {
       INNER JOIN tb_cart tb2
       ON tb2.cart_seq = tb1.cart_seq
       WHERE is_delete = "1"
-      AND user_seq = ${result[0].user_seq}
+      AND tb1.user_seq = ${result[0].user_seq}
       AND tb2.status = "0"`
     );
     return { ...result[0], ...resultCount[0] };
