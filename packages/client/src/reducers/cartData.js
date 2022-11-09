@@ -1,36 +1,51 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 
 export const cartDataSlice = createSlice({
   name: "cartData",
   initialState: {
-    total_product_count: 0,
+    cart_count: 0,
+    cart_seq: -1,
+    cart_list: [],
+    cart_add: {},
+    cart_btn: false,
   },
+
   reducers: {
     SET_CART_INFO: (state, action) => {
-      if (
-        action.payload.total_product_count === null ||
-        action.payload.total_product_count === ""
-      ) {
-        state.total_product_count = 0;
-      } else {
-        state.total_product_count = parseInt(
-          action.payload.total_product_count
-        );
-      }
+      state.cart_count = action.payload.cartList.length;
+      state.cart_seq = action.payload.cartList[0].cart_seq;
+      state.cart_list = action.payload.cartList;
     },
     DELETE_CART_INFO: (state) => {
-      state.total_product_count = 0;
+      state.cart_count = 0;
+      state.cart_seq = -1;
+      state.cart_list = [];
     },
-    ADD_CART: (state) => {
-      state.total_product_count += 1;
+
+    SELECTED_PRODUCT: (state, action) => {
+      state.cart_add = action.payload;
+      state.cart_btn = true;
     },
-    REMOVE_CART: (state) => {
-      state.total_product_count -= 1;
+    SELECTED_PRODUCT_DEL: (state) => {
+      state.cart_add = {};
+      state.cart_btn = false;
     },
+    ADD_CART: (state, action) => {},
+    REMOVE_CART: (state) => {},
   },
 });
 
-export const { SET_CART_INFO, DELETE_CART_INFO, ADD_CART, REMOVE_CART } =
-  cartDataSlice.actions;
+// const cartBtnSelector = (state) => state.cart_btn;
+
+// export const cartBtn = createSelector(cartBtnSelector, (cart_btn) => cart_btn);
+
+export const {
+  SET_CART_INFO,
+  DELETE_CART_INFO,
+  SELECTED_PRODUCT,
+  SELECTED_PRODUCT_DEL,
+  ADD_CART,
+  REMOVE_CART,
+} = cartDataSlice.actions;
 
 export default cartDataSlice.reducer;
