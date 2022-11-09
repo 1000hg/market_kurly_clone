@@ -1,23 +1,12 @@
-<<<<<<< HEAD
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, Link, useNavigate } from 'react-router-dom';
 import styles from '../css/MainNavbar2.module.css';
 import { menuItems } from '../menuItems';
 import MenuItems from './menuItems';
 import axios from 'axios';
 import qs from 'query-string';
-=======
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, Link, useNavigate } from "react-router-dom";
-import styles from "../css/MainNavbar2.module.css";
-import { menuItems } from "../menuItems";
-import MenuItems from "./menuItems";
-import axios from "axios";
-import qs from "query-string";
-import { SELECTED_PRODUCT_DEL, ADD_CART } from "../reducers/cartData";
->>>>>>> cbe7dca7bd9054a26544a14b4b147ca8fc96720a
+import { SELECTED_PRODUCT_DEL, ADD_CART } from '../reducers/cartData';
 
 function MainNavbar2() {
   const [addressN, setAddressN] = useState(false); //비로그인시
@@ -220,7 +209,7 @@ function MainNavbar2() {
                     <div className={styles.flex}>
                       <div className={styles.popImg}>
                         <img
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                           src={cart_add.product_img}
                         />
                       </div>
@@ -231,8 +220,8 @@ function MainNavbar2() {
                         <div className={styles.popMsg}>
                           장바구니에 상품을 담았습니다.
                           <br />
-                          {cart_add.stat === "OLD" &&
-                            "이미 담은 상품의 수량을 추가했습니다."}
+                          {cart_add.stat === 'OLD' &&
+                            '이미 담은 상품의 수량을 추가했습니다.'}
                         </div>
                       </div>
                     </div>
