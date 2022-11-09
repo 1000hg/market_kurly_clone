@@ -20,11 +20,11 @@ export default function PagingBtn({ reviewNum, pageNum, limit, setPageNum }) {
     } else if (option === "first") {
       setPageNum(1);
       setFirstNum(1);
-      setLastNum(10);
+      setLastNum(numPages < 10 ? numPages : 10);
     } else if (option === "last") {
       setPageNum(numPages);
       setLastNum(numPages);
-      setFirstNum(((lastNum - 1) / 10) * 10 + 2);
+      setFirstNum(Math.floor((numPages - 1) / 10) * 10 + 1);
     }
   };
 
@@ -53,6 +53,7 @@ export default function PagingBtn({ reviewNum, pageNum, limit, setPageNum }) {
         >
           &lt;
         </button>
+        {console.log("lastNum : " + lastNum + "/ firstNum : " + firstNum)}
         {Array(lastNum - firstNum + 1)
           .fill()
           .map((_, i) => {
