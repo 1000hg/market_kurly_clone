@@ -305,6 +305,7 @@ font-weight: bold;
   display: flex;
   justify-content: flex-end;
   -webkit-box-pack: end;
+  margin-bottom: 50px;
 }
 
 .btnDiv2{

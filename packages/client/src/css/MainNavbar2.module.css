@@ -160,3 +160,37 @@ border-width: 1px;
   .cartDiv{
     position:relative;
   }
+
+  .flex{
+    display:flex;
+    justify-content: space-evenly;
+    font-size:12px;
+  }
+
+  .popImg{
+    width:46px;
+    height:60px;
+  }
+
+  .popTitle{
+    color:#999;
+    margin-bottom:8px;
+  }
+
+  .cartPop{
+    z-index: 997;
+    position: absolute;
+    background-color: white;
+    border:1px solid rgb(221,221,221);
+    max-width:346px;
+    width:320px;
+    font-size: 16px;
+    color:#333333;
+    padding:10px;
+    top:19px;
+    right: -55px
+  }
+
+  .popMsg{
+    width:212px;
+  }
