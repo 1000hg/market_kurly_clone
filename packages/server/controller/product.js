@@ -2,6 +2,7 @@ const productModel = require('../services/product.js')
 const serviceStatus = require('../modules/serviceStatus')
 
 
+
 async function createProduct(req, res) {
     if(!req.body)
         res.status(200).send({ status: 400, message: "data not found" });
@@ -10,6 +11,13 @@ async function createProduct(req, res) {
     res.status(200).json(result)
 }
 
-  module.exports = {
-    createProduct
-  }
+async function createProductList(req, res) {
+  const result = await productModel.createProductList(req.body);
+  res.status(200).json(result)
+}
+
+
+module.exports = {
+  createProduct,
+  createProductList
+}
