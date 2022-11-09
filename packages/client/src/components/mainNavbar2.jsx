@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import styles from "../css/MainNavbar2.module.css";
 import { menuItems } from "../menuItems";
 import MenuItems from "./menuItems";
 import axios from "axios";
 import qs from "query-string";
+import { SELECTED_PRODUCT_DEL, ADD_CART } from "../reducers/cartData";
 
 function MainNavbar2() {
   const [addressN, setAddressN] = useState(false); //비로그인시
@@ -14,13 +15,15 @@ function MainNavbar2() {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = location.search;
+  const dispatch = useDispatch();
   const query = qs.parse(searchParams);
+  const [cartClicked, setCartClicked] = useState(false);
 
   let { address, address_detail } = useSelector((state) => {
     return state.userData;
   });
 
-  let { total_product_count } = useSelector((state) => {
+  let { cart_count, cart_add, cart_btn } = useSelector((state) => {
     return state.cartData;
   });
 
@@ -54,6 +57,20 @@ function MainNavbar2() {
       };
     }
   }, [location.pathname]);
+
+  useEffect(() => {
+    let addCart;
+    if (cart_btn === true) {
+      setCartClicked(true);
+      addCart = setTimeout(() => {
+        setCartClicked(false);
+        dispatch(SELECTED_PRODUCT_DEL());
+      }, 3000);
+      return () => {
+        clearTimeout(addCart);
+      };
+    }
+  }, [cart_btn]);
 
   //search="검색어"인 경우 input태그에 검색어 남겨두기
   useEffect(() => {
@@ -182,8 +199,34 @@ function MainNavbar2() {
                   <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
                 </svg>
               </a>
-              {total_product_count !== 0 && (
-                <span className={styles.cartCnt}>{total_product_count}</span>
+              {cart_count > 0 && (
+                <span className={styles.cartCnt}>{cart_count}</span>
+              )}
+              {cartClicked && (
+                <div className={styles.adrDiv}>
+                  <div className={styles.triangle}></div>
+                  <div className={styles.cartPop}>
+                    <div className={styles.flex}>
+                      <div className={styles.popImg}>
+                        <img
+                          style={{ width: "100%" }}
+                          src={cart_add.product_img}
+                        />
+                      </div>
+                      <div>
+                        <div className={styles.popTitle}>
+                          {cart_add.product_view_title}
+                        </div>
+                        <div className={styles.popMsg}>
+                          장바구니에 상품을 담았습니다.
+                          <br />
+                          {cart_add.stat === "OLD" &&
+                            "이미 담은 상품의 수량을 추가했습니다."}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </li>
