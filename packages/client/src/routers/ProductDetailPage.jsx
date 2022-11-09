@@ -11,7 +11,8 @@ import ProductQnATab from "../components/product/productQnATab";
 import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
 import Modal from "../components/modal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_CART_INFO, SELECTED_PRODUCT } from "../reducers/cartData";
 
 export default function ProductDetailPage() {
   const navigate = useNavigate();
@@ -23,90 +24,22 @@ export default function ProductDetailPage() {
   const [modalMessage, setModalMessage] = useState("");
   const [productWish, setProductWish] = useState(0);
   const [prodSelectBtn, setProdSelectBtn] = useState(false);
+  const [qaNum, setQaNum] = useState();
+  const [reviewNum, setReviewNum] = useState();
+
   const desc = useRef();
   const info = useRef();
   const review = useRef();
   const qna = useRef();
   const prodInfoRef = useRef();
+  const dispatch = useDispatch();
 
   let { user_seq } = useSelector((state) => {
     return state.userData;
   });
-
-  const [reviewItem, setReviewItem] = useState([
-    {
-      번호: "공지",
-      제목: "금주의 Best후기 안내",
-      등급: "111",
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      도움: 1,
-      내용: " ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다",
-    },
-    {
-      번호: "공지",
-      제목: "금주의 Best후기 안내",
-      등급: "111",
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      도움: 1,
-      내용: " ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다",
-    },
-    {
-      번호: "공지",
-      제목: "금주의 Best후기 안내",
-      등급: "111",
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      도움: 1,
-      내용: " ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다",
-    },
-    {
-      번호: "공지",
-      제목: "금주의 Best후기 안내",
-      등급: "111",
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      도움: 1,
-      내용: " ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다. ■ Best 후기 당첨자 안내 고객님 안녕하세요, 마켓컬리입니다",
-    },
-  ]);
-
-  const [qnaItem, setQnAItem] = useState([
-    {
-      제목: "금주의 Best후기 안내",
-
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      질문: "며칠전 2개 주문했는데 어쩌구 저쩌구\n오쩌구 저쩌구s ㅇㅇㅇㅇㅇㅇ ㄱㄱㄱㄱㄱㄴㅇㄹㄴㅇㄹㅇㄹㄴㅇㅎㄴ ㄴ별로에요.ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ뮤ㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅠㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇㅇ",
-      답변: "안녕하세요 고객님 많은 불편 느끼셨나요? 어쩔 수 없죠. 그냥 드세용 ㅎㅎ. 초록색 바나나는 후숙해서 드셔야 합니다. 몸 상해도 몰라용^^.",
-      답변상태: "답변완료",
-      답변날짜: "2022.09.12",
-      잠금여부: 0,
-    },
-    {
-      제목: "금주의 Best후기 아님",
-
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      질문: "며칠전 2개 주문했는데 어쩌구 저쩌구오쩌구 저쩌구 ㅇㅇㅇㅇㅇㅇ ㄱㄱㄱㄱㄱㄴㅇㄹㄴㅇㄹㅇㄹㄴㅇㅎㄴ ㄴ별로에요.",
-      답변: "",
-      답변상태: "-",
-      답변날짜: "",
-      잠금여부: 0,
-    },
-    {
-      제목: "금주의 Best후기 아님",
-
-      작성자: "MarketKurly",
-      작성일: "2018-12-22",
-      질문: "며칠전 2개 주문했는데 어쩌구 저쩌구오쩌구 저쩌구 ㅇㅇㅇㅇㅇㅇ ㄱㄱㄱㄱㄱㄴㅇㄹㄴㅇㄹㅇㄹㄴㅇㅎㄴ ㄴ별로에요.",
-      답변: "안녕하세요 고객님 많은 불편 느끼셨나요? 어쩔 수 없죠. 그냥 드세용 ㅎㅎ. 초록색 바나나는 후숙해서 드셔야 합니다. 몸 상해도 몰라용^^.",
-      답변상태: "답변완료",
-      답변날짜: "2022.09.12",
-      잠금여부: 1,
-    },
-  ]);
+  let { cart_list } = useSelector((state) => {
+    return state.cartData;
+  });
 
   const goBox = (idx) => {
     let box = [desc, info, review, qna][idx];
@@ -124,9 +57,11 @@ export default function ProductDetailPage() {
     axios
       .get("/api/product/view/data/" + product_view_seq)
       .then((res) => {
-        console.log(res.data.responseData[0]);
+        console.log("1111", res.data.responseData[0]);
         setProductInfo(res.data.responseData[0]);
         setProductWish(res.data.responseData[0].is_wish);
+        setQaNum(res.data.responseData[0].qa_count[0][0].qa_count);
+        setReviewNum(res.data.responseData[0].review_count[0][0].review_count);
         setDetailInfoList([
           { key: "판매자", value: res.data.responseData[0].vender },
           {
@@ -161,7 +96,7 @@ export default function ProductDetailPage() {
   const [ScrollY, setScrollY] = useState(0); //ScrollY : 상품 정보 height값 (고정)
   const [show, setShow] = useState(false);
 
-  const logit = () => {
+  const logic = () => {
     setScrollY(prodInfoRef.current.offsetHeight);
     if (ScrollY !== 0) {
       //처음 ref세팅이 늦어서 if조건 걸기
@@ -176,12 +111,12 @@ export default function ProductDetailPage() {
 
   useEffect(() => {
     function watchScroll() {
-      window.addEventListener("scroll", logit);
+      window.addEventListener("scroll", logic);
     }
     watchScroll();
 
     return () => {
-      window.removeEventListener("scroll", logit);
+      window.removeEventListener("scroll", logic);
     };
   });
 
@@ -197,8 +132,12 @@ export default function ProductDetailPage() {
       setModalOpen(true);
       setModalMessage("로그인하셔야 본 서비스를 이용하실 수 있습니다.");
     } else if (productWish === 1) {
-      setProductWish(0);
-      // axios.delete('api/product/del/' + )
+      axios
+        .delete("/api/product/wish/del/" + productInfo.wish_item_seq)
+        .then((res) => {
+          console.log(res);
+          setProductWish(0);
+        });
     } else if (productWish === 0) {
       axios
         .post("/api/product/wish/add", {
@@ -214,6 +153,55 @@ export default function ProductDetailPage() {
     }
 
     return;
+  };
+
+  const onCartClick = () => {
+    axios
+      .post("/api/cart/add", {
+        user_seq: user_seq,
+        product_seq: productInfo.product_seq,
+        product_view_seq: productInfo.product_view_seq,
+        products_buy_count: buyCount,
+        total_price: parseInt(productInfo.product_price) * buyCount, //물품 총 가격
+        total_cart_discount_price:
+          parseInt(productInfo.discount_price) * buyCount, //카트 물품 총 할인 가격
+        total_accumulate_price:
+          parseInt(productInfo.accumulate_price) * buyCount, //적립 가능 가격
+      })
+      .then((res) => {
+        console.log(res);
+
+        axios
+          .get("/api/cart/list", { params: { user_seq: user_seq } })
+          .then((res) => {
+            if (has_product(cart_list, productInfo.product_seq) !== -1) {
+              console.log("이미 존재하는 상품입니다.");
+              dispatch(
+                SELECTED_PRODUCT({
+                  stat: "OLD",
+                  product_img: productInfo.imgList[0][0].product_img,
+                  product_seq: productInfo.product_seq,
+                  product_view_title: productInfo.product_view_title,
+                })
+              );
+            } else {
+              console.log("새로운 상품 추가하겠습니다");
+              dispatch(
+                SELECTED_PRODUCT({
+                  stat: "NEW",
+                  product_img: productInfo.imgList[0][0].product_img,
+                  product_seq: productInfo.product_seq,
+                  product_view_title: productInfo.product_view_title,
+                })
+              );
+            }
+            dispatch(SET_CART_INFO(res.data));
+          });
+      });
+  };
+  const has_product = (cartList, product_seq) => {
+    let p_seq = cartList.findIndex((a) => a.product_seq === product_seq);
+    return p_seq;
   };
 
   if (productInfo == null) {
@@ -277,7 +265,18 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            <p className={styles.juck}>로그인 후, 적립 혜택이 제공됩니다.</p>
+            {localStorage.getItem("accessToken") === null ||
+            localStorage.getItem("accessToken") === "" ? (
+              <p className={styles.juck}>로그인 후, 적립 혜택이 제공됩니다.</p>
+            ) : (
+              <p className={styles.juck}>
+                개당{" "}
+                {parseInt(
+                  productInfo.accumulate_price * buyCount
+                ).toLocaleString("ko-kr")}
+                원 적립
+              </p>
+            )}
 
             {productInfo.is_discount && (
               <button className={styles.cpnDownload}>
@@ -337,19 +336,33 @@ export default function ProductDetailPage() {
               </div>
               <div>
                 <span className={styles.yellowJuck}>적립</span>
-                <span>로그인 후, 적립 혜택 제공</span>
+
+                {localStorage.getItem("accessToken") === null ||
+                localStorage.getItem("accessToken") === "" ? (
+                  <span>로그인 후, 적립 혜택 제공</span>
+                ) : (
+                  <span>
+                    구매 시{" "}
+                    {parseInt(
+                      productInfo.accumulate_price * buyCount
+                    ).toLocaleString("ko-kr")}
+                    원 적립
+                  </span>
+                )}
               </div>
             </div>
             <div className={styles.btnDiv}>
               <span className={styles.ggimBtn} onClick={onGgimBtn}>
                 <img
-                  className={productWish === 0 ? styles.ggimOff : styles.ggimOn}
+                  className={productWish === 1 ? styles.ggimOn : styles.ggimOff}
                 ></img>
               </span>
               <span className={styles.alarmBtn}>
                 <img className={styles.disAlarmImg}></img>
               </span>
-              <button className={styles.jangbaBtn}>장바구니 담기</button>
+              <button className={styles.jangbaBtn} onClick={onCartClick}>
+                장바구니 담기
+              </button>
             </div>
           </div>
         </div>
@@ -363,7 +376,7 @@ export default function ProductDetailPage() {
             상세정보
           </div>
           <div onClick={() => goBox(2)} className={styles.div}>
-            후기 ({reviewItem.length})
+            후기 ({reviewNum})
           </div>
           <div onClick={() => goBox(3)} className={styles.div}>
             문의
@@ -453,7 +466,18 @@ export default function ProductDetailPage() {
                   </div>
                   <div>
                     <span className={styles.yellowJuck}>적립</span>
-                    <span>로그인 후, 적립 혜택 제공</span>
+                    {localStorage.getItem("accessToken") === null ||
+                    localStorage.getItem("accessToken") === "" ? (
+                      <span>로그인 후, 적립 혜택 제공</span>
+                    ) : (
+                      <span>
+                        구매 시{" "}
+                        {parseInt(
+                          productInfo.accumulate_price * buyCount
+                        ).toLocaleString("ko-kr")}
+                        원 적립
+                      </span>
+                    )}
                   </div>
                 </div>
 
@@ -462,14 +486,16 @@ export default function ProductDetailPage() {
                     <span className={styles.ggimBtn} onClick={onGgimBtn}>
                       <img
                         className={
-                          productWish === 0 ? styles.ggimOff : styles.ggimOn
+                          productWish === 1 ? styles.ggimOn : styles.ggimOff
                         }
                       ></img>
                     </span>
                     <span className={styles.alarmBtn}>
                       <img className={styles.disAlarmImg}></img>
                     </span>
-                    <button className={styles.jangbaBtn2}>장바구니 담기</button>
+                    <button className={styles.jangbaBtn2} onClick={onCartClick}>
+                      장바구니 담기
+                    </button>
                   </div>
                 </div>
               </div>
@@ -484,10 +510,16 @@ export default function ProductDetailPage() {
           <ProductInfoTab image={productInfo.imgList[0]} />
         </div>
         <div ref={review}>
-          <ProductReviewTab item={reviewItem} />
+          <ProductReviewTab
+            reviewNum={reviewNum}
+            product_view_seq={productInfo.product_view_seq}
+          />
         </div>
         <div ref={qna}>
-          <ProductQnATab item={qnaItem} />
+          <ProductQnATab
+            qaNum={qaNum}
+            product_view_seq={productInfo.product_view_seq}
+          />
         </div>
       </div>
       <MainFooter />

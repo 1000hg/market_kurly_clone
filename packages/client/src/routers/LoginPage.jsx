@@ -26,52 +26,31 @@ function LoginPage({ authService }) {
       .post("/api/auth/login", { user_id: id, user_password: pwd })
       .then((res) => {
         setModalOpen(false);
-        //console.log(res);
+        console.log("userData : ", res);
         const token = res.data.token;
         //console.log(token);
         localStorage.setItem("accessToken", token);
         setAuthorizationToken(token);
         dispatch(SET_TOKEN(token));
-        const userData = res.data.isValidUser;
-        dispatch(SET_USER_INFO(userData));
-        dispatch(SET_CART_INFO(userData));
-        console.log(userData);
 
-        return navigate("/");
+        const userData = res.data.isValidUser;
+        const userSeq = res.data.isValidUser.user_seq;
+        dispatch(SET_USER_INFO(userData));
+
+        axios
+          .get("/api/cart/list", { params: { user_seq: userSeq } })
+          .then((res) => {
+            console.log("cartList : ", res.data.cartList);
+            if (res.data.cartList.length !== 0) {
+              dispatch(SET_CART_INFO(res.data));
+            }
+            return navigate("/");
+          });
       })
       .catch((e) => {
         console.log(e);
         setModalOpen(true);
       });
-
-    // authService.signIn({user_id:id, user_password:pwd})
-    // .then((data)=> {
-    //   if(data.rsltCd == "E"){
-    //     setLoginErr(true)
-    //   }else{
-    //     setLoginErr(false);
-    //     // console.log(data);
-    //     const token = data.token;
-    //     localStorage.setItem('jwtToken',token);
-
-    //     axios.post('/api/auth/login',{"user_id":id, "user_password":pwd})
-    //     .then(res => {
-    //     console.log(res);
-    //     setAuthorizationToken(token); //헤더에 Autorization : 토큰
-    //     })
-
-    //     // console.log(token);
-    //     dispatch(SET_TOKEN(token));
-    //     return navigate('/');
-    //   }
-
-    // })
-
-    // axios({
-    //   method:'POST',
-    //   url:'/api/auth/login',
-    //   body:{"user_id":id, "user_password":pwd}
-    // }).then(res => console.log(res))
   };
 
   return (

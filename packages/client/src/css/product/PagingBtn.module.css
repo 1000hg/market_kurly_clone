@@ -1,0 +1,61 @@
+.btnContainer{
+  width: fit-content;
+  margin: 20px auto;
+}
+
+
+.pagingBtn{
+  color:#333333;
+  width:34px;
+  height:34px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: rgb(221, 221, 221) rgb(221, 221, 221) rgb(221, 221, 221);
+  font-weight: bold;
+  background-color: white;
+
+}
+
+.pagingBtn:hover{
+  background-color: #f7f7f7;
+  color:#5f0080;
+}
+
+.pagingBtn:disabled {
+  background: white;
+  cursor: revert;
+  transform: revert;
+  color: #333333;
+}
+
+[aria-current]:not([aria-current=null]) {
+  background-color: #f7f7f7;
+  color:#5f0080;
+  cursor: revert;
+  transform: revert;
+}
+
+.aPagingBtn{
+  color:#333333;
+  width:34px;
+  height:34px;
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: rgb(221, 221, 221);
+  font-weight: bold;
+  background-color: white;
+}
+
+.aPagingBtn:hover{
+  border-color:#333333;
+}
+
+.aPagingBtn:disabled {
+  background: white;
+  cursor: revert;
+  transform: revert;
+  color: #dfdfdf;
+  border-color: rgb(221, 221, 221);
+}
+
+

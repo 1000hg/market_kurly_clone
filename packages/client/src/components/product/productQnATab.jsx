@@ -1,11 +1,14 @@
 import styles from "../../css/product/ProductQnATab.module.css";
-import { useState } from "react";
+import ArrowPagingBtn from "./arrowPagingBtn";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
-export default function ProductQnATab({ item }) {
+export default function ProductQnATab({ qaNum, product_view_seq }) {
   const [isClicked, setIsClicked] = useState(
     Array.from({ length: 10 }, () => false)
   );
-
+  const [pageNum, setPageNum] = useState(1);
+  const [item, setItem] = useState();
   const onClickTable = (idx) => {
     let copy = [...isClicked];
     if (copy[idx] === true) {
@@ -17,6 +20,23 @@ export default function ProductQnATab({ item }) {
       setIsClicked(temp);
     }
   };
+
+  useEffect(() => {
+    axios
+      .post("/api/qa/data/", {
+        page: pageNum,
+        product_view_seq: product_view_seq,
+      })
+      .then((res) => {
+        setItem(res.data.responseData);
+      })
+      .catch((e) => console.log(e));
+  }, [pageNum]);
+
+  if (item == null) {
+    return <div></div>;
+  }
+
   return (
     <div>
       <div>
@@ -47,17 +67,16 @@ export default function ProductQnATab({ item }) {
             </tr>
           </thead>
           <tbody>
-            {console.log(item)}
             {item.map((item, idx) => {
               return (
                 <>
                   <tr onClick={() => onClickTable(idx)}>
-                    <td className={styles.alignLeft}>{item.제목}</td>
+                    <td className={styles.alignLeft}>{item.title}</td>
 
-                    <td>{item.작성자}</td>
+                    <td>{item.writer}</td>
 
-                    <td>{item.작성일}</td>
-                    <td>{item.답변상태}</td>
+                    <td>{item.update_dtm.substring(0, 10)}</td>
+                    <td>{item.status === "0" ? "-" : "답변완료"}</td>
                   </tr>
                   {isClicked[idx] && (
                     <tr className={styles.whiteSpace}>
@@ -94,6 +113,12 @@ export default function ProductQnATab({ item }) {
           </tbody>
         </table>
       </div>
+      <ArrowPagingBtn
+        qaNum={qaNum}
+        pageNum={pageNum}
+        limit={7}
+        setPageNum={setPageNum}
+      />
     </div>
   );
 }

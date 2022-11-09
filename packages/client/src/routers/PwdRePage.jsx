@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "../css/PwdRePage.module.css";
 import ConfirmModal from "../components/modal";
+import MainFooter from "../components/mainFooter";
+import MainHeader from "../components/mainHeader";
 
 export default function PwdRePage() {
   const [enrollPwd, setEnrollPwd] = useState("");
@@ -130,6 +132,7 @@ export default function PwdRePage() {
   };
   return (
     <div>
+      <MainHeader />
       <div className={styles.divContent}>
         <div className={styles.findTitle}>비밀번호 찾기</div>
         <form className={styles.inputForm} onSubmit={onSubmitHandler}>
@@ -262,6 +265,7 @@ export default function PwdRePage() {
           callBackfn={() => navigate("/login")}
         />
       ) : null}
+      <MainFooter />
     </div>
   );
 }
