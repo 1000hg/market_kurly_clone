@@ -7,6 +7,7 @@ import { DELETE_CART_INFO } from "../reducers/cartData";
 import { DELETE_USER_INFO } from "../reducers/userData";
 import { DELETE_TOKEN } from "../reducers/authToken";
 import setAuthorizationToken from "../services/setAuthorizationToken";
+import axios from "axios";
 
 function MainHeader() {
   const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
@@ -19,12 +20,18 @@ function MainHeader() {
   });
 
   const onLogOut = () => {
-    localStorage.removeItem("accessToken");
-    dispatch(DELETE_CART_INFO());
-    dispatch(DELETE_USER_INFO());
-    dispatch(DELETE_TOKEN());
-    setAuthorizationToken();
-    navigate("/");
+    axios
+      .get("/api/auth/logout")
+      .then((res) => {
+        console.log(res);
+        localStorage.removeItem("accessToken");
+        dispatch(DELETE_CART_INFO());
+        dispatch(DELETE_USER_INFO());
+        dispatch(DELETE_TOKEN());
+        setAuthorizationToken();
+        navigate("/");
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
