@@ -51,12 +51,7 @@ const CheckoutPage = ({ mykurlyService }) => {
                       {cartList[key].total_product_count}개
                     </div>
                     <div className={styles.productPrice}>
-                      <span>
-                        {cartList[key].products_total_price
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-                        원
-                      </span>
+                      <span>{cartList[key].products_total_price}원</span>
                     </div>
                   </div>
                 </li>
