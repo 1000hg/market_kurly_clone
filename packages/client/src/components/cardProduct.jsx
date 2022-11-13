@@ -3,7 +3,7 @@ import { Buffer } from "buffer";
 
 import { useNavigate } from "react-router-dom";
 
-function CardProduct({ item, opt }) {
+function CardProduct({ item, opt, setModalOpen, setClickedItem }) {
   const navigate = useNavigate();
   const onClick = () => {
     console.log(item.product_view_seq);
@@ -11,10 +11,12 @@ function CardProduct({ item, opt }) {
   };
 
   return (
-    <div onClick={onClick} styles={{ margin: "0 auto" }}>
+    <div className={styles.crdContainer}>
       <div className={styles.crd}>
         <div className={opt === 0 ? styles.crdBg2 : styles.crdBg}>
           <img
+            onClick={onClick}
+            className={styles.crdImg}
             src={
               item.imgList[0].length == 0
                 ? null
@@ -25,7 +27,13 @@ function CardProduct({ item, opt }) {
           <div className={styles.cpnBg}>
             <span className={styles.dcntCpn}>+20%쿠폰</span>
           </div>
-          <div className={styles.crtBg}>
+          <div
+            onClick={() => {
+              setModalOpen(true);
+              setClickedItem(item);
+            }}
+            className={styles.crtBg}
+          >
             <button
               style={{ right: opt + "rem" }}
               className={
@@ -36,7 +44,7 @@ function CardProduct({ item, opt }) {
             </button>
           </div>
         </div>
-        <div className={styles.cardBody}>
+        <div onClick={onClick} className={styles.cardBody}>
           <span>샛별배송</span>
           <h5 className={styles.crdTitle}>{item.product_view_title}</h5>
           {item.discount_rate === "" ? (
