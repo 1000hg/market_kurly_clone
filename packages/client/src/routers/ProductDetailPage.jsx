@@ -57,7 +57,7 @@ export default function ProductDetailPage() {
     axios
       .get("/api/product/view/data/" + product_view_seq)
       .then((res) => {
-        console.log("1111", res.data.responseData[0]);
+        console.log(res.data);
         setProductInfo(res.data.responseData[0]);
         setProductWish(res.data.responseData[0].is_wish);
         setQaNum(res.data.responseData[0].qa_count[0][0].qa_count);
@@ -268,8 +268,10 @@ export default function ProductDetailPage() {
             {localStorage.getItem("accessToken") === null ||
             localStorage.getItem("accessToken") === "" ? (
               <p className={styles.juck}>로그인 후, 적립 혜택이 제공됩니다.</p>
+            ) : productInfo.is_accumulate === "0" ? (
+              <p className={styles.juck}>적립 제외 상품입니다.</p>
             ) : (
-              <p className={styles.juck}>
+              <p>
                 개당{" "}
                 {parseInt(
                   productInfo.accumulate_price * buyCount
