@@ -4,6 +4,7 @@ async function createGuest(item) {
 	try {
 		const [insertGuest] = await dbPool.query(
 			`INSERT INTO tb_guest SET
+				is_use = "1",
         create_dtm = now();`
 		);
 		return insertGuest.insertId;
@@ -20,13 +21,15 @@ async function guestProduct(item) {
 				guest_seq, 
 				product_seq, 
 				product_view_seq, 
-				product_buy_count, 
+				product_buy_count,
+				is_delete, 
 				create_dtm)
 			SELECT 
 			  ${item.guest_seq}, 
 				${item.product_seq}, 
-				${item.product_view_seq}, 
+				${item.product_view_seq},
 				'${item.product_buy_count}', 
+				"1", 
 				now() 
 			FROM DUAL WHERE NOT EXISTS (
 				 SELECT * 
