@@ -84,6 +84,11 @@ async function createProduct(data) {
         for (let element of dataList) {
             const result = await promiseFunction();
             try {
+              let is_discount = 0;
+              if (element.discount_rate != 0) {
+                is_discount = 1;
+              }
+
               const result = await db.query(
                 `INSERT INTO tb_product SET
                   category_seq=?,
@@ -103,7 +108,7 @@ async function createProduct(data) {
                   product_discount_price=?,
                   is_coupon=?`,
                   [
-                    27,
+                    24,
                     element.name,
                     element.sales_price,
                     "100개",
@@ -111,19 +116,17 @@ async function createProduct(data) {
                     "1",
                     "1개",
                     "3개입",
-                    element.discounted_price,
+                    Number(element.discounted_price),
                     element.discount_rate,
-                    "1",
-                    element.discounted_price,
+                    is_discount,
+                    Number(element.discounted_price),
                     element.discount_rate,
-                    "1",
+                    is_discount,
                     Number(element.sales_price) - Number(element.discounted_price),
                     "0"
                   ]
                 )
-      
-                console.log(result)
-      
+
                 db.query(
                   `INSERT INTO tb_product_img SET
                     product_seq=?,
@@ -194,7 +197,29 @@ async function createProduct(data) {
 
   }
 
+  async function getProductBrand(data) {
+    try {
+      const [result] = await db.query(`SELECT vender as brand, count(vender) as brand_cnt FROM tb_product_view as tb1 LEFT JOIN tb_product as tb2
+      on tb1.product_seq = tb2.product_seq 
+      where tb2.category_seq = '${data.category_seq}' group by vender`);
+  
+      if(result) {
+        serviceStatus.status = 200
+        serviceStatus.msg = '상품 조회에 성공하였습니다.'
+        serviceStatus.responseData = result
+    } else {
+        serviceStatus.status = 400
+        serviceStatus.msg = '상품 조회에 실패하였습니다.'
+    }
+  
+    return serviceStatus;
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
   module.exports = {
     createProduct,
-    createProductList
+    createProductList,
+    getProductBrand
   }

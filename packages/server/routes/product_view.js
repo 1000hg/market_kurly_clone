@@ -25,7 +25,7 @@ router.post('/create', productViewController.createProductView);
 */
 router.get('/list', productViewController.findProductViewList);
 
-//router.get('/findCategory', productViewController.findProductViewCategory);
+router.get('/findCategory', productViewController.findProductViewCategory);
 
 /**
  * @swagger

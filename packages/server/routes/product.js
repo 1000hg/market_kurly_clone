@@ -12,4 +12,7 @@ router.post('/create', productController.createProduct);
 
 router.get('/createList', productController.createProductList);
 
+router.get('/getProductBrand', productController.getProductBrand);
+
+
 module.exports = router;
