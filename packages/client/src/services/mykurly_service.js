@@ -37,7 +37,7 @@ export default class MyKurlyService {
   }
 
   async deleteAddress(token, seq) {
-    const response = await fetch(`${this.baseURL}/user/address/del/:${seq}`, {
+    const response = await fetch(`${this.baseURL}/user/address/del/${seq}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -67,8 +67,40 @@ export default class MyKurlyService {
     if (response.status !== 200) {
       throw new Error(data.message);
     }
-    return data;
+    return data.wishList;
   }
+
+  async addProductWish(token, info) {
+    const response = await fetch(`${this.baseURL}/product/wish/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(info),
+    });
+    const data = await response.json();
+    if (response.status !== 200) {
+      throw new Error(data.message);
+    }
+    return data.message;
+  }
+
+  async deleteProductWish(token, seq) {
+    const response = await fetch(`${this.baseURL}/product/wish/del/${seq}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+    });
+    const data = await response.json();
+    if (response.status !== 200) {
+      throw new Error('error!');
+    }
+    return data.message;
+  }
+
   async getCouponList() {
     const response = await fetch(`${this.baseURL}/coupon/list`, {
       method: 'GET',
