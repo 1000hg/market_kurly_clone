@@ -15,7 +15,8 @@ async function findProductViewList(req, res) {
 }
 
 async function findProductViewCategory(req, res) {
-  const result = await productViewModel.findProductViewCategory();
+  console.log(req.query);
+  const result = await productViewModel.findProductViewCategory(req.query);
   res.status(200).json(result)
 }
 
