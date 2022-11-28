@@ -4,7 +4,7 @@ import CardProduct from "./cardProduct";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function MainPageContent() {
+function MainPageContent({ mykurlyService }) {
   const [itemList, setItemList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
@@ -90,13 +90,18 @@ function MainPageContent() {
                 item={item}
                 setModalOpen={setModalOpen}
                 setClickedItem={setClickedItem}
+                opt={{ width: "250px", height: "320px" }}
               />
             );
           })}
         </div>
       </section>
       {modalOpen == true && (
-        <CartModal clickedItem={clickedItem} setModalOpen={setModalOpen} />
+        <CartModal
+          clickedItem={clickedItem}
+          setModalOpen={setModalOpen}
+          mykurlyService={mykurlyService}
+        />
       )}
     </>
   );

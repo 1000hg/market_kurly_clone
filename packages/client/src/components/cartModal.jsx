@@ -2,9 +2,18 @@ import { useEffect, useState } from "react";
 import styles from "../css/CartModal.module.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_CART_INFO, SELECTED_PRODUCT } from "../reducers/cartData";
+import {
+  SET_CART_INFO,
+  SELECTED_PRODUCT,
+  SET_GCART_INFO,
+} from "../reducers/cartData";
 
-export default function CartModal({ clickedItem, setModalOpen, callBackfn }) {
+export default function CartModal({
+  clickedItem,
+  setModalOpen,
+  callBackfn,
+  mykurlyService,
+}) {
   const [buyCount, setBuyCount] = useState(1);
   const dispatch = useDispatch();
   let { user_seq } = useSelector((state) => {
@@ -13,6 +22,29 @@ export default function CartModal({ clickedItem, setModalOpen, callBackfn }) {
   let { cart_list } = useSelector((state) => {
     return state.cartData;
   });
+  const token = useSelector((state) => state.loginToken.accessToken);
+
+  const setSelProduct = (stat) => {
+    if (stat === 0) {
+      dispatch(
+        SELECTED_PRODUCT({
+          stat: "OLD",
+          product_img: clickedItem.imgList[0][0].product_img,
+          product_seq: clickedItem.product_seq,
+          product_view_title: clickedItem.product_view_title,
+        })
+      );
+    } else if (stat === 1) {
+      dispatch(
+        SELECTED_PRODUCT({
+          stat: "NEW",
+          product_img: clickedItem.imgList[0][0].product_img,
+          product_seq: clickedItem.product_seq,
+          product_view_title: clickedItem.product_view_title,
+        })
+      );
+    }
+  };
 
   const closeModal = (e) => {
     e.preventDefault();
@@ -38,49 +70,64 @@ export default function CartModal({ clickedItem, setModalOpen, callBackfn }) {
   }, []);
 
   const onCartClick = () => {
-    axios
-      .post("/api/cart/add", {
+    let l_guest_seq = localStorage.getItem("guest_seq");
+
+    if (
+      localStorage.getItem("accessToken") === null ||
+      localStorage.getItem("accessToken") === ""
+    ) {
+      axios
+        .post("/api/guest/add", {
+          guest_seq: l_guest_seq,
+          product_seq: clickedItem.product_seq,
+          product_view_seq: clickedItem.product_view_seq,
+          product_buy_count: buyCount,
+        })
+        .then((res) => {
+          if (l_guest_seq === null || l_guest_seq === "") {
+            localStorage.setItem("guest_seq", res.data.guest_seq);
+            l_guest_seq = res.data.guest_seq;
+          }
+
+          axios
+            .get("/api/guest/list", { params: { guest_seq: l_guest_seq } })
+            .then((res) => {
+              if (has_product(cart_list, clickedItem.product_seq) !== -1) {
+                console.log("이미 존재하는 상품입니다.");
+                setSelProduct(0);
+              } else {
+                console.log("새로운 상품 추가하겠습니다");
+                setSelProduct(1);
+              }
+              dispatch(SET_GCART_INFO(res.data));
+              setModalOpen(false);
+            });
+        });
+    } else {
+      const data = {
         user_seq: user_seq,
         product_seq: clickedItem.product_seq,
         product_view_seq: clickedItem.product_view_seq,
         products_buy_count: buyCount,
         total_price: parseInt(clickedItem.product_price) * buyCount, //물품 총 가격
-        total_cart_discount_price:
-          parseInt(clickedItem.discount_price) * buyCount, //카트 물품 총 할인 가격
+        total_discount_price: parseInt(clickedItem.discount_price) * buyCount, //카트 물품 총 할인 가격
         total_accumulate_price:
           parseInt(clickedItem.accumulate_price) * buyCount, //적립 가능 가격
-      })
-      .then((res) => {
-        console.log(res);
-
-        axios
-          .get("/api/cart/list", { params: { user_seq: user_seq } })
-          .then((res) => {
-            if (has_product(cart_list, clickedItem.product_seq) !== -1) {
-              console.log("이미 존재하는 상품입니다.");
-              dispatch(
-                SELECTED_PRODUCT({
-                  stat: "OLD",
-                  product_img: clickedItem.imgList[0][0].product_img,
-                  product_seq: clickedItem.product_seq,
-                  product_view_title: clickedItem.product_view_title,
-                })
-              );
-            } else {
-              console.log("새로운 상품 추가하겠습니다");
-              dispatch(
-                SELECTED_PRODUCT({
-                  stat: "NEW",
-                  product_img: clickedItem.imgList[0][0].product_img,
-                  product_seq: clickedItem.product_seq,
-                  product_view_title: clickedItem.product_view_title,
-                })
-              );
-            }
-            dispatch(SET_CART_INFO(res.data));
-            setModalOpen(false);
-          });
+      };
+      mykurlyService.addCart(token, data).then((res) => {
+        mykurlyService.getCartList(token, user_seq).then((res) => {
+          if (has_product(cart_list, clickedItem.product_seq) !== -1) {
+            console.log("이미 존재하는 상품입니다.");
+            setSelProduct(0);
+          } else {
+            console.log("새로운 상품 추가하겠습니다");
+            setSelProduct(1);
+          }
+          dispatch(SET_CART_INFO(res));
+          setModalOpen(false);
+        });
       });
+    }
   };
   const has_product = (cartList, product_seq) => {
     let p_seq = cartList.findIndex((a) => a.product_seq === product_seq);

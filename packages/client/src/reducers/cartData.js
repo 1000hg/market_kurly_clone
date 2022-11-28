@@ -1,4 +1,4 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const cartDataSlice = createSlice({
   name: "cartData",
@@ -12,14 +12,21 @@ export const cartDataSlice = createSlice({
 
   reducers: {
     SET_CART_INFO: (state, action) => {
+      state.cart_count = action.payload.length;
+      state.cart_seq = action.payload[0].cart_seq;
+      state.cart_list = action.payload;
+    },
+    SET_GCART_INFO: (state, action) => {
       state.cart_count = action.payload.cartList.length;
-      state.cart_seq = action.payload.cartList[0].cart_seq;
+      state.cart_seq = action.payload.cartList[0].guest_cart_seq;
       state.cart_list = action.payload.cartList;
     },
     DELETE_CART_INFO: (state) => {
       state.cart_count = 0;
       state.cart_seq = -1;
       state.cart_list = [];
+      state.cart_add = {};
+      state.cart_btn = false;
     },
 
     SELECTED_PRODUCT: (state, action) => {
@@ -30,8 +37,6 @@ export const cartDataSlice = createSlice({
       state.cart_add = {};
       state.cart_btn = false;
     },
-    ADD_CART: (state, action) => {},
-    REMOVE_CART: (state) => {},
   },
 });
 
@@ -41,6 +46,7 @@ export const cartDataSlice = createSlice({
 
 export const {
   SET_CART_INFO,
+  SET_GCART_INFO,
   DELETE_CART_INFO,
   SELECTED_PRODUCT,
   SELECTED_PRODUCT_DEL,
