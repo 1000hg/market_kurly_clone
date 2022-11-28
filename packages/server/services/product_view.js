@@ -1,5 +1,7 @@
 const db = require('../db');
 const serviceStatus = require('../modules/serviceStatus')
+const checkCategoryOrderCase = require('../modules/checkCategoryOrderCase')
+const checkCategoryWhereCase = require('../modules/checkCategoryWhereCase')
 
 async function createProductView(data) {
 
@@ -83,11 +85,23 @@ async function findProductViewList() {
     }
 }
 
-async function findProductViewCategory(category_seq) {
+async function findProductViewCategory(data) {
   try {
-    const result = await db.query(`SELECT * FROM tb_product_view as tb1 
+    
+    let orderCase = checkCategoryOrderCase(data.sort_type);
+    let whereCase = checkCategoryWhereCase(data.brand);
+
+    console.log(`SELECT * FROM tb_product_view as tb1 
     LEFT JOIN tb_product as tb2
-    on tb1.product_seq = tb2.product_seq where tb2.category_seq = '${category_seq}' and tb1.product_status = 1 and tb2.product_view_status = 1;`);
+    on tb1.product_seq = tb2.product_seq 
+    where tb2.category_seq = '${data.category_seq}' and product_status = 1 and product_view_status = 1 ${whereCase}
+    ${orderCase}`)
+
+    const [result] = await db.query(`SELECT * FROM tb_product_view as tb1 
+    LEFT JOIN tb_product as tb2
+    on tb1.product_seq = tb2.product_seq 
+    where tb2.category_seq = '${data.category_seq}' and product_status = 1 and product_view_status = 1 ${whereCase}
+    ${orderCase}`);
 
     if(result) {
       serviceStatus.status = 200
@@ -108,7 +122,7 @@ async function findProductViewName(product_name) {
   try {
     const [result]= await db.query(`SELECT * FROM tb_product_view  as tb1
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
-    where product_view_title LIKE '%${product_name}%' and product_view_status = 1;`);
+    where UPPER(product_view_title) LIKE UPPER('%${product_name}%') and product_view_status = 1;`);
 
   if(result) {
     for (let i = 0; i < result.length; i++) {

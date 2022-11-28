@@ -16,8 +16,15 @@ async function createProductList(req, res) {
   res.status(200).json(result)
 }
 
+async function getProductBrand(req, res) {
+  const result = await productModel.getProductBrand(req.query);
+  res.status(200).json(result)
+}
+
+
 
 module.exports = {
   createProduct,
-  createProductList
+  createProductList,
+  getProductBrand 
 }
