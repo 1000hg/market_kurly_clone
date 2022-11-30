@@ -111,7 +111,7 @@ async function createProduct(data) {
                     24,
                     element.name,
                     element.sales_price,
-                    "100개",
+                    "100",
                     "대한민국",
                     "1",
                     "1개",
