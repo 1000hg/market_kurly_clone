@@ -10,6 +10,8 @@ export const userDataSlice = createSlice({
     user_address_seq: -1,
     address: "",
     address_detail: "",
+    user_phone: "",
+    user_email: "",
   },
   reducers: {
     SET_USER_INFO: (state, action) => {
@@ -20,6 +22,8 @@ export const userDataSlice = createSlice({
       state.user_address_seq = action.payload.user_address_seq;
       state.address = action.payload.address;
       state.address_detail = action.payload.address_detail;
+      state.user_phone = action.payload.user_phone;
+      state.user_email = action.payload.user_email;
     },
     DELETE_USER_INFO: (state) => {
       state.user_seq = -1;
@@ -29,6 +33,8 @@ export const userDataSlice = createSlice({
       state.user_address_seq = -1;
       state.address = "";
       state.address_detail = "";
+      state.user_phone = "";
+      state.user_email = "";
     },
   },
 });

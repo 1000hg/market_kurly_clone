@@ -25,7 +25,8 @@ import SearchResultPage from "./routers/SearchResultPage";
 import AddressEdit from "./components/addressEdit";
 import CartPage from "./routers/CartPage";
 import CheckoutPage from "./routers/CheckoutPage";
-import NewProductPage from "./routers/NewProductPage";
+// import NewProductPage from "./routers/NewProductPage";
+// import CategoryProductPage from "./routers/CategoryProductPage";
 
 function App({ authService, mykurlyService }) {
   return (
@@ -51,7 +52,6 @@ function App({ authService, mykurlyService }) {
           path="/signup"
           element={<SignUpPage authService={authService} />}
         ></Route>
-
         <Route
           path="/cart"
           element={<CartPage mykurlyService={mykurlyService} />}
@@ -95,6 +95,14 @@ function App({ authService, mykurlyService }) {
           path="/product/detail/:product_view_seq"
           element={<ProductDetailPage mykurlyService={mykurlyService} />}
         ></Route>
+        {/* <Route
+          path="/categories/:category_seq"
+          element={<CategoryProductPage />}
+        ></Route>
+        <Route
+          path="/collections/market-newproduct"
+          element={<NewProductPage />}
+        ></Route> */}
         <Route path="/product/search" element={<SearchResultPage />}></Route>
         <Route path="*" element={<Navigate replace to="/" />}></Route>
       </Routes>
