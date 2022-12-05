@@ -97,12 +97,6 @@ async function findProductViewCategory(data) {
     let orderCase = checkCategoryOrderCase(data.sort_type);
     let whereCase = checkCategoryWhereCase(data.brand);
 
-    console.log(`SELECT * FROM tb_product_view as tb1 
-    LEFT JOIN tb_product as tb2
-    on tb1.product_seq = tb2.product_seq 
-    where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}
-    ${orderCase}`)
-
     const [result] = await db.query(`SELECT * FROM tb_product_view as tb1 
     LEFT JOIN tb_product as tb2
     on tb1.product_seq = tb2.product_seq 

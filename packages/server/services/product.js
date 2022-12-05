@@ -218,8 +218,30 @@ async function createProduct(data) {
     }
   }
 
+  async function getProductCategory(data) {
+    try {
+      const [result] = await db.query(`SELECT count(product_seq) as category_cnt, tb2.category_name FROM tb_product as tb1
+      Left join tb_category as tb2 on tb1.category_seq = tb2.category_seq
+      group by tb1.category_seq`);
+  
+      if(result) {
+        serviceStatus.status = 200
+        serviceStatus.msg = '상품 조회에 성공하였습니다.'
+        serviceStatus.responseData = result
+    } else {
+        serviceStatus.status = 400
+        serviceStatus.msg = '상품 조회에 실패하였습니다.'
+    }
+  
+    return serviceStatus;
+    } catch(error) {
+      console.error(error);
+    }
+  }
+
   module.exports = {
     createProduct,
     createProductList,
-    getProductBrand
+    getProductBrand,
+    getProductCategory
   }

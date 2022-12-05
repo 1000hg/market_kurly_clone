@@ -14,5 +14,7 @@ router.get('/createList', productController.createProductList);
 
 router.get('/getProductBrand', productController.getProductBrand);
 
+router.get('/getProductCategory', productController.getProductCategory);
+
 
 module.exports = router;

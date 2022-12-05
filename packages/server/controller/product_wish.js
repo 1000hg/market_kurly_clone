@@ -20,6 +20,7 @@ async function delWishProduct(req, res) {
 	return res.status(200).json({ message: "찜 상품이 삭제되었습니다!" });
 }
 
+
 module.exports = {
 	getWishList,
 	addWishProduct,

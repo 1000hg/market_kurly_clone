@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.get('/list', categoryViewController.findCategoryList);
 
+router.get('/childData', categoryViewController.findCategoryChildData);
+
 module.exports = router;
