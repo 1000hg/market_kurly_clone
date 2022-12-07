@@ -135,4 +135,21 @@ export default class MyKurlyService {
     console.log(data.cartList);
     return data.cartList;
   }
+
+  async paymentCheckOut(token, info) {
+    const response = await fetch(`${this.baseURL}/payment/checkout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      body: JSON.stringify(info),
+    });
+    const data = await response.json();
+    if (response.status !== 200) {
+      throw new Error(data.message);
+    }
+
+    return data.message;
+  }
 }
