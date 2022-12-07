@@ -25,6 +25,8 @@ import SearchResultPage from './routers/SearchResultPage';
 import AddressEdit from './components/addressEdit';
 import CartPage from './routers/CartPage';
 import CheckoutPage from './routers/CheckoutPage';
+import ReceiptPage from './routers/ReceiptPage';
+
 // import NewProductPage from "./routers/NewProductPage";
 // import CategoryProductPage from "./routers/CategoryProductPage";
 
