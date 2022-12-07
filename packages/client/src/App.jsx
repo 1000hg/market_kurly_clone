@@ -25,6 +25,7 @@ import SearchResultPage from './routers/SearchResultPage';
 import AddressEdit from './components/addressEdit';
 import CartPage from './routers/CartPage';
 import CheckoutPage from './routers/CheckoutPage';
+import ReceiptPage from './routers/ReceiptPage';
 
 function App({ authService, mykurlyService }) {
   return (
@@ -55,6 +56,10 @@ function App({ authService, mykurlyService }) {
         <Route
           path='/order/checkout'
           element={<CheckoutPage mykurlyService={mykurlyService} />}
+        ></Route>
+        <Route
+          path='/order/receipt'
+          element={<ReceiptPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
           path='/mypage/coupon'
