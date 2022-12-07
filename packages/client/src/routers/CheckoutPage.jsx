@@ -13,6 +13,28 @@ const CheckoutPage = ({ mykurlyService }) => {
   const user_address_detail = useSelector(
     (state) => state.userData.address_detail
   );
+  const [checkOutInfo, setCheckOutInfo] = useState({
+    user_seq: 29,
+    cart_seq: 220,
+    user_coupon_seq: 1,
+    accumulate_price: 0,
+    used_accumulate: '0',
+    payment_method: '1',
+    payment_kind: '토스',
+    is_installment: '0',
+    receiver: '아무개',
+    receiver_phone: '010xxxxxxxx',
+    receive_place: '문앞',
+    door_password: 'null',
+    receive_place_etc: 'null',
+    arrival_message_time: '1',
+  });
+
+  const onCheckOut = () => {
+    mykurlyService
+      .paymentCheckOut(token, checkOutInfo)
+      .then((e) => console.log(e));
+  };
 
   useEffect(() => {
     mykurlyService.getCartList(token, user_seq).then((e) => setCartList(e));
@@ -65,7 +87,7 @@ const CheckoutPage = ({ mykurlyService }) => {
             <div className={styles.orderer_info}>
               <div className={styles.info}>
                 <span>보내는 분</span>
-                <div>도원</div>
+                <div>{user_id}</div>
               </div>
               <div className={styles.info}>
                 <span>휴대폰</span>
@@ -356,7 +378,7 @@ const CheckoutPage = ({ mykurlyService }) => {
             </p>
           </div>
           <div className={styles.checkoutBtnWrapper}>
-            <button className={styles.checkoutBtn}>
+            <button className={styles.checkoutBtn} onClick={() => onCheckOut()}>
               <span>
                 {Object.keys(cartList)
                   .map((key) => parseInt(cartList[key].payment_price))
