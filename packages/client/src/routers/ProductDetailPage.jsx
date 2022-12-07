@@ -12,9 +12,13 @@ import MainFooter from "../components/mainFooter";
 import MainHeader from "../components/mainHeader";
 import Modal from "../components/modal";
 import { useDispatch, useSelector } from "react-redux";
-import { SET_CART_INFO, SELECTED_PRODUCT } from "../reducers/cartData";
+import {
+  SET_CART_INFO,
+  SELECTED_PRODUCT,
+  SET_GCART_INFO,
+} from "../reducers/cartData";
 
-export default function ProductDetailPage() {
+export default function ProductDetailPage({ mykurlyService }) {
   const navigate = useNavigate();
   const { product_view_seq } = useParams();
   const [productInfo, setProductInfo] = useState();
@@ -33,6 +37,7 @@ export default function ProductDetailPage() {
   const qna = useRef();
   const prodInfoRef = useRef();
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.loginToken.accessToken);
 
   let { user_seq } = useSelector((state) => {
     return state.userData;
@@ -57,7 +62,7 @@ export default function ProductDetailPage() {
     axios
       .get("/api/product/view/data/" + product_view_seq)
       .then((res) => {
-        console.log("1111", res.data.responseData[0]);
+        console.log(res.data);
         setProductInfo(res.data.responseData[0]);
         setProductWish(res.data.responseData[0].is_wish);
         setQaNum(res.data.responseData[0].qa_count[0][0].qa_count);
@@ -154,50 +159,88 @@ export default function ProductDetailPage() {
 
     return;
   };
+  const setSelProduct = (stat) => {
+    if (stat === 0) {
+      dispatch(
+        SELECTED_PRODUCT({
+          stat: "OLD",
+          product_img: productInfo.imgList[0][0].product_img,
+          product_seq: productInfo.product_seq,
+          product_view_title: productInfo.product_view_title,
+        })
+      );
+    } else if (stat === 1) {
+      dispatch(
+        SELECTED_PRODUCT({
+          stat: "NEW",
+          product_img: productInfo.imgList[0][0].product_img,
+          product_seq: productInfo.product_seq,
+          product_view_title: productInfo.product_view_title,
+        })
+      );
+    }
+  };
 
   const onCartClick = () => {
-    axios
-      .post("/api/cart/add", {
+    let l_guest_seq = localStorage.getItem("guest_seq");
+
+    if (
+      //비회원인 경우
+      localStorage.getItem("accessToken") === null ||
+      localStorage.getItem("accessToken") === ""
+    ) {
+      axios
+        .post("/api/guest/add", {
+          guest_seq: l_guest_seq,
+          product_seq: productInfo.product_seq,
+          product_view_seq: productInfo.product_view_seq,
+          product_buy_count: buyCount,
+        })
+        .then((res) => {
+          if (l_guest_seq === null || l_guest_seq === "") {
+            localStorage.setItem("guest_seq", res.data.guest_seq);
+            l_guest_seq = res.data.guest_seq;
+          }
+
+          axios
+            .get("/api/guest/list", { params: { guest_seq: l_guest_seq } })
+            .then((res) => {
+              if (has_product(cart_list, productInfo.product_seq) !== -1) {
+                console.log("이미 존재하는 상품입니다.");
+                setSelProduct(0);
+              } else {
+                console.log("새로운 상품 추가하겠습니다");
+                setSelProduct(1);
+              }
+              dispatch(SET_GCART_INFO(res.data));
+            });
+        });
+    } else {
+      //회원인 경우
+      const data = {
         user_seq: user_seq,
         product_seq: productInfo.product_seq,
         product_view_seq: productInfo.product_view_seq,
         products_buy_count: buyCount,
         total_price: parseInt(productInfo.product_price) * buyCount, //물품 총 가격
-        total_cart_discount_price:
-          parseInt(productInfo.discount_price) * buyCount, //카트 물품 총 할인 가격
+        total_discount_price: parseInt(productInfo.discount_price) * buyCount, //카트 물품 총 할인 가격
         total_accumulate_price:
           parseInt(productInfo.accumulate_price) * buyCount, //적립 가능 가격
-      })
-      .then((res) => {
-        console.log(res);
-
-        axios
-          .get("/api/cart/list", { params: { user_seq: user_seq } })
-          .then((res) => {
-            if (has_product(cart_list, productInfo.product_seq) !== -1) {
-              console.log("이미 존재하는 상품입니다.");
-              dispatch(
-                SELECTED_PRODUCT({
-                  stat: "OLD",
-                  product_img: productInfo.imgList[0][0].product_img,
-                  product_seq: productInfo.product_seq,
-                  product_view_title: productInfo.product_view_title,
-                })
-              );
-            } else {
-              console.log("새로운 상품 추가하겠습니다");
-              dispatch(
-                SELECTED_PRODUCT({
-                  stat: "NEW",
-                  product_img: productInfo.imgList[0][0].product_img,
-                  product_seq: productInfo.product_seq,
-                  product_view_title: productInfo.product_view_title,
-                })
-              );
-            }
-            dispatch(SET_CART_INFO(res.data));
-          });
+      };
+      mykurlyService.addCart(token, data).then((res) => {
+        mykurlyService.getCartList(token, user_seq).then((res) => {
+          if (has_product(cart_list, productInfo.product_seq) !== -1) {
+            console.log("이미 존재하는 상품입니다.");
+            setSelProduct(0);
+          } else {
+            console.log("새로운 상품 추가하겠습니다");
+            setSelProduct(1);
+          }
+          dispatch(SET_CART_INFO(res));
+          setModalOpen(false);
+        });
       });
+    }
   };
   const has_product = (cartList, product_seq) => {
     let p_seq = cartList.findIndex((a) => a.product_seq === product_seq);
@@ -268,8 +311,10 @@ export default function ProductDetailPage() {
             {localStorage.getItem("accessToken") === null ||
             localStorage.getItem("accessToken") === "" ? (
               <p className={styles.juck}>로그인 후, 적립 혜택이 제공됩니다.</p>
+            ) : productInfo.is_accumulate === "0" ? (
+              <p className={styles.juck}>적립 제외 상품입니다.</p>
             ) : (
-              <p className={styles.juck}>
+              <p>
                 개당{" "}
                 {parseInt(
                   productInfo.accumulate_price * buyCount

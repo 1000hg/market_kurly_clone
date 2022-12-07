@@ -25,13 +25,17 @@ import SearchResultPage from './routers/SearchResultPage';
 import AddressEdit from './components/addressEdit';
 import CartPage from './routers/CartPage';
 import CheckoutPage from './routers/CheckoutPage';
-import ReceiptPage from './routers/ReceiptPage';
+// import NewProductPage from "./routers/NewProductPage";
+// import CategoryProductPage from "./routers/CategoryProductPage";
 
 function App({ authService, mykurlyService }) {
   return (
     <div className={styles.app}>
       <Routes>
-        <Route path='/' element={<MainPage />}></Route>
+        <Route
+          path='/'
+          element={<MainPage mykurlyService={mykurlyService} />}
+        ></Route>
         <Route
           path='/login'
           element={<LoginPage authService={authService} />}
@@ -48,7 +52,6 @@ function App({ authService, mykurlyService }) {
           path='/signup'
           element={<SignUpPage authService={authService} />}
         ></Route>
-
         <Route
           path='/cart'
           element={<CartPage mykurlyService={mykurlyService} />}
@@ -94,8 +97,16 @@ function App({ authService, mykurlyService }) {
         ></Route>
         <Route
           path='/product/detail/:product_view_seq'
-          element={<ProductDetailPage />}
+          element={<ProductDetailPage mykurlyService={mykurlyService} />}
         ></Route>
+        {/* <Route
+          path="/categories/:category_seq"
+          element={<CategoryProductPage />}
+        ></Route>
+        <Route
+          path="/collections/market-newproduct"
+          element={<NewProductPage />}
+        ></Route> */}
         <Route path='/product/search' element={<SearchResultPage />}></Route>
         <Route path='*' element={<Navigate replace to='/' />}></Route>
       </Routes>

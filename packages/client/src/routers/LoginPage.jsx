@@ -42,7 +42,7 @@ function LoginPage({ authService }) {
           .then((res) => {
             console.log("cartList : ", res.data.cartList);
             if (res.data.cartList.length !== 0) {
-              dispatch(SET_CART_INFO(res.data));
+              dispatch(SET_CART_INFO(res.data.cartList));
             }
             return navigate("/");
           });

@@ -1,12 +1,12 @@
-import MainFooter from '../components/mainFooter';
-import MainHeader from '../components/mainHeader';
-import MainPageContent from '../components/mainPageContent';
+import MainFooter from "../components/mainFooter";
+import MainHeader from "../components/mainHeader";
+import MainPageContent from "../components/mainPageContent";
 
-function MainPage() {
+function MainPage({ mykurlyService }) {
   return (
     <div>
       <MainHeader />
-      <MainPageContent />
+      <MainPageContent mykurlyService={mykurlyService} />
       <MainFooter />
     </div>
   );

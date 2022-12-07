@@ -1,46 +1,57 @@
-const mysql2 = require('mysql2/promise');
-const dotenv = require('dotenv');
-dotenv.config();
+const dbPool = require("../db");
+const servicesCart = require("../services/cart");
 
-const dbPool = mysql2.createPool({
-  host: process.env.DB_HOST,
-  // port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PW,
-  database: 'market-kurly-clone',
-  dateStrings : "date",
-  connectionLimit: 10,
-  waitForConnections: true,
-});
-
-// 회원가입시 기존 아이디가 있는지 확인
-async function findByUser(user_id) {
-  
+async function userInfo(user_id) {
   try {
     const [result] = await dbPool.query(
-      `SELECT
-        tb1.user_seq, tb1.user_id, tb1.user_password, tb1.user_name,
-        tb2.user_address_seq, tb2.address, tb2.address_detail,
-        tb3.cart_seq
+      `SELECT 
+        tb1.user_seq, tb1.user_id, tb1.user_password, tb1.user_name, tb1.user_phone,
+        tb1.user_email, tb2.user_address_seq, tb2.address, tb2.address_detail, tb3.cart_seq
       FROM tb_user tb1
       INNER JOIN tb_user_address tb2
-      ON tb1.user_seq = tb2.user_seq
+      ON tb1.user_seq = tb2.user_seq 
       LEFT JOIN tb_cart_detail tb3
       ON tb2.user_seq = tb3.user_seq
-      WHERE tb1.user_id = "${user_id}"      
+      WHERE tb1.user_id = "${user_id}"
       AND tb2.default_address = 1`
     );
+    return result[0];
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function countItemInCart(user_seq) {
+  try {
     const [resultCount] = await dbPool.query(
-      `SELECT COUNT(tb1.cart_seq) AS cart_count
+      `SELECT 
+        COUNT(tb1.cart_seq) AS cart_count
       FROM tb_cart_detail tb1
       INNER JOIN tb_cart tb2
       ON tb2.cart_seq = tb1.cart_seq
-      WHERE is_delete = "1"
-      AND tb1.user_seq = ${result[0].user_seq}
+      WHERE tb1.is_delete = "1"
+      AND tb1.user_seq = ${user_seq}
       AND tb2.status = "0"`
     );
-    return { ...result[0], ...resultCount[0] };
-  } catch(error) {
+    return resultCount[0];
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+// 회원가입시 기존 아이디가 있는지 확인
+async function findByUser(user_id, guest_cart) {
+  
+  try {
+    const result = await userInfo(user_id);
+    const addGuestCart = await servicesCart.addToCart({
+      user_seq: result.user_seq,
+      cart_seq: result.cart_seq,
+      guest_cart,
+    });
+    const resultCount = await countItemInCart(result.user_seq);
+    return { ...result, ...resultCount };
+  } catch (error) {
     console.error(error);
   }
 }

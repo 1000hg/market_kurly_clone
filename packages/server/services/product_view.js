@@ -88,20 +88,20 @@ async function findProductViewList() {
 async function findProductViewCategory(data) {
   try {
     
+    let category_query = "";
+
+    if (data.category_seq != undefined) {
+      category_query = "and tb2.category_seq = '${data.category_seq}'"
+    }
+
     let orderCase = checkCategoryOrderCase(data.sort_type);
     let whereCase = checkCategoryWhereCase(data.brand);
-
-    console.log(`SELECT * FROM tb_product_view as tb1 
-    LEFT JOIN tb_product as tb2
-    on tb1.product_seq = tb2.product_seq 
-    where tb2.category_seq = '${data.category_seq}' and product_status = 1 and product_view_status = 1 ${whereCase}
-    ${orderCase}`)
 
     const [result] = await db.query(`SELECT * FROM tb_product_view as tb1 
     LEFT JOIN tb_product as tb2
     on tb1.product_seq = tb2.product_seq 
-    where tb2.category_seq = '${data.category_seq}' and product_status = 1 and product_view_status = 1 ${whereCase}
-    ${orderCase}`);
+    where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}
+    ${orderCase} LIMIT ${(data.page - 1) * 7}, 7`);
 
     if(result) {
       serviceStatus.status = 200

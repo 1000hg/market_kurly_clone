@@ -1,10 +1,13 @@
 import styles from "../css/MainPageContent.module.css";
+import CartModal from "./cartModal.jsx";
 import CardProduct from "./cardProduct";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-function MainPageContent() {
+function MainPageContent({ mykurlyService }) {
   const [itemList, setItemList] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -81,10 +84,25 @@ function MainPageContent() {
       <section className={styles.mainProductSec}>
         <div className={styles.mainProductView}>
           {itemList.map((item, idx) => {
-            return <CardProduct key={idx} item={item} />;
+            return (
+              <CardProduct
+                key={idx}
+                item={item}
+                setModalOpen={setModalOpen}
+                setClickedItem={setClickedItem}
+                opt={{ width: "250px", height: "320px" }}
+              />
+            );
           })}
         </div>
       </section>
+      {modalOpen == true && (
+        <CartModal
+          clickedItem={clickedItem}
+          setModalOpen={setModalOpen}
+          mykurlyService={mykurlyService}
+        />
+      )}
     </>
   );
 }
