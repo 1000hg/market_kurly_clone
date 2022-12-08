@@ -2,8 +2,14 @@ import React from 'react';
 import styles from '../css/ReceiptPage.module.css';
 import MainFooter from '../components/mainFooter';
 import MainHeader from '../components/mainHeader';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const ReceiptPage = (props) => {
+  const user_name = useSelector((state) => state.userData.user_name);
+  const navigateState = useLocation().state;
+
   return (
     <>
       <MainHeader />
@@ -17,7 +23,7 @@ const ReceiptPage = (props) => {
                 className={styles.checkImg}
               />
               <div className={styles.receiptInfo}>
-                <p>최도원님의 주문이 완료되었습니다.</p>
+                <p>{user_name}님의 주문이 완료되었습니다.</p>
                 <p>내일 만나요!</p>
               </div>
             </div>
@@ -26,14 +32,16 @@ const ReceiptPage = (props) => {
               <div className={styles.paymentInfoBody}>
                 <span className={styles.paymentTitle}>결제금액</span>
                 <span className={styles.paymentPrice}>
-                  11,490<span className={styles.moneyUnit}>원</span>
+                  {navigateState.total_price}
+                  <span className={styles.moneyUnit}>원</span>
                 </span>
               </div>
               <div className={styles.paymentInfoBody}>
                 <span className={styles.paymentTitle}>적립금</span>
                 <span className={styles.accumulate}>
                   <span className={styles.paymentAccumulate}>
-                    +575<span className={styles.moneyUnit}>원</span>
+                    +{navigateState.accumulate_price}
+                    <span className={styles.moneyUnit}>원</span>
                   </span>
                   <span className={styles.accumulateNotice}>
                     적립금은 배송완료 다음날 적립 (웰컴 5%)
