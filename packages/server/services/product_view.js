@@ -91,8 +91,11 @@ async function findProductViewCategory(data) {
     let category_query = "";
 
     if (data.category_seq != undefined) {
-      category_query = "and tb2.category_seq = '${data.category_seq}'"
+      category_query = `and tb2.category_seq = '${data.category_seq}'`
     }
+
+    if (data.page == undefined)
+      data.page = 1;
 
     let orderCase = checkCategoryOrderCase(data.sort_type);
     let whereCase = checkCategoryWhereCase(data.brand);
