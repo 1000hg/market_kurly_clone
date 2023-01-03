@@ -107,6 +107,10 @@ async function findProductViewCategory(data) {
     ${orderCase} LIMIT ${(data.page - 1) * 7}, 7`);
 
     if(result) {
+      for (let i = 0; i < result.length; i++) {
+        let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = ${result[i].product_seq}`);
+        result[i].imgList = [img]
+      }
       serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
