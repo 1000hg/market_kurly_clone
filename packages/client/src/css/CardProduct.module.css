@@ -29,8 +29,8 @@
 .crdBg {
   overflow: hidden;
   background-color: white;
-  height:320px;
-  width:250px;
+  /* height:320px;
+  width:250px; */
   position: relative;
 }
 
@@ -39,14 +39,14 @@
   width: 100%;
   height: 100%;
 }
-
+/* 
 .crdBg2 {
   overflow: hidden;
   background-color: white;
   height:448px;
   width:350px;
   position: relative;
-}
+} */
 
 .sbTitle{
   font-weight: 600;

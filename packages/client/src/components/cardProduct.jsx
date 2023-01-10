@@ -13,7 +13,10 @@ function CardProduct({ item, opt, setModalOpen, setClickedItem }) {
   return (
     <div className={styles.crdContainer}>
       <div className={styles.crd}>
-        <div className={opt === 0 ? styles.crdBg2 : styles.crdBg}>
+        <div
+          style={{ width: opt.width, height: opt.height }}
+          className={styles.crdBg}
+        >
           <img
             onClick={onClick}
             className={styles.crdImg}
@@ -35,7 +38,7 @@ function CardProduct({ item, opt, setModalOpen, setClickedItem }) {
             className={styles.crtBg}
           >
             <button
-              style={{ right: opt + "rem" }}
+              style={{ right: opt.rem + "rem" }}
               className={
                 item.imgList[0].length == 0 ? styles.crtBtnNull : styles.crtBtn
               }
