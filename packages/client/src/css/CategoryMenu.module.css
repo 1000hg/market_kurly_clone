@@ -1,0 +1,70 @@
+.parentDiv{
+  position:absolute;
+  width: 513px;
+  height: 807px;
+  top:34px;
+  left: -32px;
+}
+.mainDropdown{
+  position:absolute;
+  width:247px;
+  height:807px;
+  background-color: white;
+  overflow-y: scroll;
+}
+
+.subDropdown{
+  position:absolute;
+  width:0;
+  height:807px;
+  left:247px;
+  background-color:#f3f3f3;
+  overflow-y: scroll;
+  transition: width 0.5s;
+}
+
+.parentDiv ul{
+  list-style-type: none;
+  padding: 0;
+}
+
+.menuIcon{
+  width: 25px;
+  height: 25px;
+}
+
+.menuItems{
+  display: flex;
+  align-items: center;
+  margin:0;
+  height: 40px;
+  font-size: bold;
+  padding:20px 10px;
+  font-size: 14px;
+}
+
+.menuItems:hover{
+  color:#5F0080;
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+
+.subItems{
+  display: flex;
+  align-items: center;
+  width: 266px;
+  opacity: 1;
+  margin:0;
+  height: 40px;
+  /* transition: opacity 1s; */
+  padding:20px 10px;
+  font-size: 14px;
+}
+
+.subItems:hover{
+  color:#5F0080;
+  text-decoration: underline;
+  cursor: pointer;
+  
+}

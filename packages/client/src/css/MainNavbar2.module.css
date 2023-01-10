@@ -56,8 +56,11 @@
     /* new addition */
     .mns {
       display: flex;
+      width: 1100px;
+      justify-content: space-between;
       list-style: none;
       padding-top: 30px;
+      align-items: center;
     }
     .menus a{
       min-width: 120px;
@@ -130,14 +133,14 @@ border-width: 1px;
   }
   .adrChgBtn{
     border-radius: 3px;
-border-color: #5F0080;
-color:#5F0080;
-background-color: white;
-margin-top: 20px;
-margin-right:10px;
-padding:5px 18px;
-width:100%;
-border-width: 1px;
+    border-color: #5F0080;
+    color:#5F0080;
+    background-color: white;
+    margin-top: 20px;
+    margin-right:10px;
+    padding:5px 18px;
+    width:100%;
+    border-width: 1px;
   }
 
   .cartCnt{
@@ -193,4 +196,17 @@ border-width: 1px;
 
   .popMsg{
     width:212px;
+  }
+
+  .navList{
+    padding:0 30px;
+    font-size: 16px;
+    color:#333333;
+    font-weight: bold;
+    /* min-width:120px; */
+  }
+
+  .navList a:hover{
+    color:#5F0080;
+    text-decoration: underline;
   }
