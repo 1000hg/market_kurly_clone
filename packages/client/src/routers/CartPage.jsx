@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const CartPage = ({ mykurlyService }) => {
+  const [cartUpdate, setCartUpdate] = useState([{}]);
   const token = useSelector((state) => state.loginToken.accessToken);
   const user_seq = useSelector((state) => state.userData.user_seq);
   const user_address = useSelector((state) => state.userData.address);
@@ -15,15 +16,17 @@ const CartPage = ({ mykurlyService }) => {
   const [cartList, setCartList] = useState([{}]);
   const navigate = useNavigate();
   useEffect(() => {
-    mykurlyService.getCartList(token, user_seq).then((e) => setCartList(e));
-    console.log(cartList);
+    mykurlyService.getCartList(token, user_seq).then((e) => {
+      setCartList(e);
+      setCartUpdate(e);
+    });
   }, [mykurlyService]);
 
-  const onChangeProductCount = (cart, oper) => {
+  const onChangeProductCount = (cart, count) => {
     const cart_update = {
       cart_seq: cart.cart_seq,
       user_seq: cart.user_seq,
-      total_product_count: cart.total_product_count,
+      total_product_count: count,
       cart_total_price: cart.cart_total_price,
       delivery_price: cart.delivery_price,
       total_cart_discount_price: cart.total_cart_discount_price,
@@ -35,10 +38,6 @@ const CartPage = ({ mykurlyService }) => {
       products_buy_count: cart.products_buy_count,
       products_total_price: cart.products_total_price,
     };
-    if (oper === '+') {
-    }
-    if (oper === '-') {
-    }
   };
 
   return (
@@ -125,7 +124,7 @@ const CartPage = ({ mykurlyService }) => {
                                   className={styles.minus}
                                   onClick={onChangeProductCount(
                                     cartList[key],
-                                    '-'
+                                    cartList[key].total_product_count - 1
                                   )}
                                 >
                                   -
@@ -137,7 +136,7 @@ const CartPage = ({ mykurlyService }) => {
                                   className={styles.plus}
                                   onClick={onChangeProductCount(
                                     cartList[key],
-                                    '+'
+                                    cartList[key].total_product_count + 1
                                   )}
                                 >
                                   +
