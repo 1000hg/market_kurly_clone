@@ -116,11 +116,10 @@ async function findProductViewCategory(data) {
     where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}
     ${orderCase} LIMIT ${(data.page - 1) * 7}, 7`);
 
-    const [resultLength] = await db.query(`SELECT count(*) as count FROM tb_product_view as tb1 
+    const [resultLength] = await db.query(`SELECT count(*) as cnt FROM tb_product_view as tb1 
     LEFT JOIN tb_product as tb2
     on tb1.product_seq = tb2.product_seq 
-    where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}
-    ${orderCase} LIMIT ${(data.page - 1) * 7}, 7`);
+    where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}`);
 
     if(result) {
       for (let i = 0; i < result.length; i++) {
@@ -130,7 +129,7 @@ async function findProductViewCategory(data) {
 
       serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
-      serviceStatus.responseData = {data: result, length: resultLength[0].count}
+      serviceStatus.responseData = {data: result, length: resultLength[0].cnt}
   } else {
       serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
