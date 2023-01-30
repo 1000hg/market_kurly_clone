@@ -91,17 +91,23 @@ function MainNavbar2() {
             <li
               style={{
                 marginTop: "11px",
+                display: "flex",
+                alignItems: "center",
+                paddingLeft: "0",
               }}
               className={`${styles.navList} ${styles.cartDiv}`}
               onMouseOver={() => setNavMenu(true)}
             >
-              카테고리
+              <span className={styles.ctlImg1}></span>
+              <span style={{ paddingLeft: "20px" }}>카테고리</span>
               {navMenu && <CategoryMenu setNavMenu={setNavMenu} />}
             </li>
           </div>
 
           <li className={styles.navList}>
-            <Link to="">신상품</Link>
+            <Link to="/collections/market-newproduct?page=1&sort_type=0">
+              신상품
+            </Link>
           </li>
 
           <li className={styles.navList}>
