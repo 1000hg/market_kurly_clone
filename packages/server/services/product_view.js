@@ -192,9 +192,8 @@ async function findProductView(data) {
     let query = ``;
     let query2 = ``;
     if (data.user_seq) {
-      query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as is_wish`
+      query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq} and is_delete = 1) as is_wish`
       query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq} and is_delete = 1) as wish_item_seq`
-      where = `and tb3.is_delete = 1`;
     }
 
     let [result] = await db.query(`SELECT *
@@ -204,10 +203,10 @@ async function findProductView(data) {
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
     where tb1.product_view_seq = ${data.product_view_seq}`);
 
+    //console.log(result);
     if (result[0].is_wish == undefined)
       result[0].is_wish = 0;
 
-      console.log(result);
     if(result) {
         let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = '${result[0].product_seq}'`);
         result[0].imgList = [img]

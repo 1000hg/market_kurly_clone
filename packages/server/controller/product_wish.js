@@ -20,9 +20,16 @@ async function delWishProduct(req, res) {
 	return res.status(200).json({ message: "찜 상품이 삭제되었습니다!" });
 }
 
+async function delWishProduct2(req, res) {
+	
+	const resultWish = await productWishModel.delWishProduct2(req.body);
+	return res.status(200).json({ message: "찜 상품이 삭제되었습니다!" });
+}
+
 
 module.exports = {
 	getWishList,
 	addWishProduct,
 	delWishProduct,
+	delWishProduct2,
 };
