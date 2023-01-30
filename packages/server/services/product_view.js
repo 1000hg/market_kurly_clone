@@ -91,8 +91,9 @@ async function findProductViewCategory(data) {
   try {
     let category_query = "";
     let category_seq_list = [];
+
     if (data.category_seq != undefined) {
-      const [category_parent_list] = await db.query(`select * from tb_category where parent_id = ${data.category_seq}`);
+      const [category_parent_list] = await db.query(`select * from tb_category where parent_id in (${data.category_seq}) `);
 
       category_parent_list.forEach(element => {
         category_seq_list.push(element.category_seq);
