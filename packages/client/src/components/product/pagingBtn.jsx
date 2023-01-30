@@ -1,12 +1,21 @@
+import { useEffect, useImperativeHandle } from "react";
+import { forwardRef } from "react";
 import { useState } from "react";
 import styles from "../../css/product/PagingBtn.module.css";
 
-export default function PagingBtn({ reviewNum, pageNum, limit, setPageNum }) {
-  const numPages = Math.ceil(reviewNum / limit);
+const PagingBtn = ({ totalNum, pageNum, limit, setPageNum }) => {
+  let numPages = Math.ceil(totalNum / limit);
   const [firstNum, setFirstNum] = useState(((pageNum - 1) / 10) * 10 + 1);
   const [lastNum, setLastNum] = useState(
     numPages < firstNum + 9 ? numPages : firstNum + 9
   );
+
+  //카테고리 바꿀 떄 값 초기화
+  useEffect(() => {
+    setPageNum(1);
+    setFirstNum(1);
+    setLastNum(numPages < firstNum + 9 ? numPages : firstNum + 9);
+  }, [totalNum]);
 
   const page = (option) => {
     if (option === "next") {
@@ -53,7 +62,6 @@ export default function PagingBtn({ reviewNum, pageNum, limit, setPageNum }) {
         >
           &lt;
         </button>
-        {console.log("lastNum : " + lastNum + "/ firstNum : " + firstNum)}
         {Array(lastNum - firstNum + 1)
           .fill()
           .map((_, i) => {
@@ -96,4 +104,5 @@ export default function PagingBtn({ reviewNum, pageNum, limit, setPageNum }) {
       </div>
     </div>
   );
-}
+};
+export default PagingBtn;
