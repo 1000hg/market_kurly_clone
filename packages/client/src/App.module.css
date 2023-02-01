@@ -40,9 +40,7 @@ a {
   cursor: pointer;
 }
 
-li {
-  display: inline;
-}
+
 
 .app {
   min-width: fit-content;

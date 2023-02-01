@@ -123,11 +123,11 @@ function App({ authService, mykurlyService }) {
           element={<ProductDetailPage mykurlyService={mykurlyService} />}
         ></Route>
         {/* <Route
-          path="/categories/:category_seq"
+          path='/categories/:category_seq'
           element={<CategoryProductPage />}
         ></Route>
         <Route
-          path="/collections/market-newproduct"
+          path='/collections/market-newproduct'
           element={<NewProductPage />}
         ></Route> */}
         <Route path='/product/search' element={<SearchResultPage />}></Route>

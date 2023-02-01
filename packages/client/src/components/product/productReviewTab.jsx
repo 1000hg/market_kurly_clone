@@ -109,7 +109,7 @@ export default function ProductReviewTab({ reviewNum, product_view_seq }) {
         </table>
       </div>
       <PagingBtn
-        reviewNum={reviewNum}
+        totalNum={reviewNum}
         pageNum={pageNum}
         limit={7}
         setPageNum={setPageNum}

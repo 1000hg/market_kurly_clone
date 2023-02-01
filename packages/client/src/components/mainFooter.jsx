@@ -6,7 +6,7 @@ function MainFooter() {
   return (
     <footer>
       <hr style={{ color: "rgba(206, 206, 206, 0.7)" }} />
-      <div className="container">
+      <div className={"container " + `${styles.displayIn}`}>
         <div className="row">
           <div className="col-sm-12 col-lg-6 py-3">
             <div className="row ps-4">

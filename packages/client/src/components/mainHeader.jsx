@@ -8,6 +8,7 @@ import { DELETE_USER_INFO } from '../reducers/userData';
 import { DELETE_TOKEN } from '../reducers/authToken';
 import setAuthorizationToken from '../services/setAuthorizationToken';
 import axios from 'axios';
+import { useEffect } from 'react';
 
 function MainHeader() {
   const [topBnr, setTopBnr] = useState(true); //최상단 배너 X버튼 클릭 시 제거 스위치.
@@ -33,6 +34,22 @@ function MainHeader() {
       })
       .catch((e) => console.log(e));
   };
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem('ctl') == undefined ||
+      sessionStorage.getItem('ctl') == null
+    ) {
+      axios
+        .get('/api/category/list')
+        .then((res) => {
+          sessionStorage.setItem('ctl', JSON.stringify(res.data.responseData));
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  }, [sessionStorage.getItem('ctl')]);
 
   return (
     <>

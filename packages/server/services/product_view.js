@@ -2,6 +2,7 @@ const db = require('../db');
 const serviceStatus = require('../modules/serviceStatus')
 const checkCategoryOrderCase = require('../modules/checkCategoryOrderCase')
 const checkCategoryWhereCase = require('../modules/checkCategoryWhereCase')
+const childCategoryList = require('../modules/childCategoryList')
 
 async function createProductView(data) {
 
@@ -85,28 +86,51 @@ async function findProductViewList() {
     }
 }
 
+
 async function findProductViewCategory(data) {
   try {
-    
     let category_query = "";
+    let category_seq_list = [];
 
     if (data.category_seq != undefined) {
-      category_query = "and tb2.category_seq = '${data.category_seq}'"
+      const [category_parent_list] = await db.query(`select * from tb_category where parent_id in (${data.category_seq}) `);
+
+      category_parent_list.forEach(element => {
+        category_seq_list.push(element.category_seq);
+      })
+
+      if (category_seq_list == "")
+        category_query = `and category_seq in (${data.category_seq})`;
+      else
+        category_query = `and category_seq in (${category_seq_list.join()})`;
     }
+
+    if (data.page == undefined)
+      data.page = 1;
 
     let orderCase = checkCategoryOrderCase(data.sort_type);
     let whereCase = checkCategoryWhereCase(data.brand);
-
+    
     const [result] = await db.query(`SELECT * FROM tb_product_view as tb1 
     LEFT JOIN tb_product as tb2
     on tb1.product_seq = tb2.product_seq 
     where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}
     ${orderCase} LIMIT ${(data.page - 1) * 7}, 7`);
 
+    const [resultLength] = await db.query(`SELECT count(*) as cnt FROM tb_product_view as tb1 
+    LEFT JOIN tb_product as tb2
+    on tb1.product_seq = tb2.product_seq 
+    where 1=1 ${category_query} and product_status = 1 and product_view_status = 1 ${whereCase}`);
+
     if(result) {
+      for (let i = 0; i < result.length; i++) {
+        let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = ${result[i].product_seq}`);
+        result[i].imgList = [img]
+      }
+
       serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
-      serviceStatus.responseData = result
+      serviceStatus.responseData = {data: result, length: resultLength[0].cnt}
   } else {
       serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
@@ -169,9 +193,8 @@ async function findProductView(data) {
     let query = ``;
     let query2 = ``;
     if (data.user_seq) {
-      query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq}) as is_wish`
+      query = `, (SELECT count(*) from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq} and is_delete = 1) as is_wish`
       query2 = `, (SELECT wish_item_seq from tb_wish_item as tb3 where product_view_seq = ${data.product_view_seq} and user_seq = ${data.user_seq} and is_delete = 1) as wish_item_seq`
-      where = `and tb3.is_delete = 1`;
     }
 
     let [result] = await db.query(`SELECT *
@@ -181,10 +204,10 @@ async function findProductView(data) {
     LEFT JOIN tb_product as tb2 on tb1.product_seq = tb2.product_seq
     where tb1.product_view_seq = ${data.product_view_seq}`);
 
+    //console.log(result);
     if (result[0].is_wish == undefined)
       result[0].is_wish = 0;
 
-      console.log(result);
     if(result) {
         let [img] = await db.query(`SELECT product_img from tb_product_img where product_seq = '${result[0].product_seq}'`);
         result[0].imgList = [img]
@@ -203,12 +226,12 @@ async function findProductView(data) {
       serviceStatus.status = 200
       serviceStatus.msg = '상품 조회에 성공하였습니다.'
       serviceStatus.responseData = result
-  } else {
+    } else {
       serviceStatus.status = 400
       serviceStatus.msg = '상품 조회에 실패하였습니다.'
-  }
+    }
 
-  return serviceStatus;
+    return serviceStatus;
   } catch(error) {
     console.error(error);
   }

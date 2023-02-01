@@ -13,12 +13,11 @@ async function insertCartDetail(item, insertId) {
 			create_dtm = now(),
 			update_dtm = now()`
 	);
-	
+
 	return resultCartDetailInsert.insertId;
 }
 
 async function insertCart(item) {
-   
 	try {
 		const [resultCartInsert] = await dbPool.query(
 			`INSERT INTO tb_cart (
@@ -37,7 +36,7 @@ async function insertCart(item) {
 				'${item.products_buy_count}', 
 				'0', 
 				'${item.total_price}', 
-				'${item.payment_price > 43000 ? 0 : 3000}', 
+				'${item.total_price - item.total_discount_price > 43000 ? 0 : 3000}',
 				'${item.total_discount_price}', 
 				'${item.total_accumulate_price}', 
 				'${item.total_price - item.total_discount_price}', 
@@ -49,7 +48,7 @@ async function insertCart(item) {
 				 WHERE user_seq = ${item.user_seq} 
 					 AND status = "0");`
 		);
-		
+
 		if (resultCartInsert.insertId == 0) {
 			const [resultCardId] = await dbPool.query(
 				`SELECT cart_seq, payment_price
@@ -57,9 +56,12 @@ async function insertCart(item) {
 				 WHERE user_seq = ${item.user_seq}
 					 AND status = "0";`
 			);
-			
-			const resultCartUpdate = await updateCart(item, resultCardId[0].payment_price);
-			
+
+			const resultCartUpdate = await updateCart(
+				item,
+				resultCardId[0].payment_price
+			);
+
 			return resultCardId[0].cart_seq;
 		}
 		return resultCartInsert.insertId;
@@ -69,230 +71,267 @@ async function insertCart(item) {
 }
 
 async function updateCartDetail(item, insertId = 0) {
-  
-  if (item.guest_cart) {
-    try {
-      for await (let guest of item.guest_cart) {
-        
-        const [resultProduct] = await dbPool.query(
-          `SELECT product_price, discount_price, accumulate_price, product_discount_price
+	if (item.guest_cart) {
+		try {
+			for await (let guest of item.guest_cart) {
+				const [resultProduct] = await dbPool.query(
+					`SELECT product_price, discount_price, accumulate_price, product_discount_price
              FROM tb_product
             WHERE product_seq = ${guest.product_seq}`
-        );
-        
-        resultProduct[0].user_seq = item.user_seq;
-        resultProduct[0].product_seq = guest.product_seq;
-        resultProduct[0].product_view_seq = guest.product_view_seq;
-        resultProduct[0].products_buy_count = guest.products_buy_count;
-        resultProduct[0].total_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].product_price);
-        resultProduct[0].total_discount_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].discount_price);
-        resultProduct[0].total_accumulate_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].accumulate_price);
-        
-        const [resultCartDetailUpdate] = await dbPool.query(
-          `UPDATE tb_cart_detail tb1 SET
-            tb1.products_buy_count = CONVERT(tb1.products_buy_count, UNSIGNED) + ${parseInt( resultProduct[0].products_buy_count )},
-            tb1.products_total_price = CONVERT(tb1.products_total_price, UNSIGNED) + ${parseInt( resultProduct[0].total_price )},
+				);
+
+				resultProduct[0].user_seq = item.user_seq;
+				resultProduct[0].product_seq = guest.product_seq;
+				resultProduct[0].product_view_seq = guest.product_view_seq;
+				resultProduct[0].products_buy_count = guest.products_buy_count;
+				resultProduct[0].total_price =
+					parseInt(guest.products_buy_count) *
+					parseInt(resultProduct[0].product_price);
+				resultProduct[0].total_discount_price =
+					parseInt(guest.products_buy_count) *
+					parseInt(resultProduct[0].discount_price);
+				resultProduct[0].total_accumulate_price =
+					parseInt(guest.products_buy_count) *
+					parseInt(resultProduct[0].accumulate_price);
+
+				const [resultCartDetailUpdate] = await dbPool.query(
+					`UPDATE tb_cart_detail tb1 SET
+            tb1.products_buy_count = CONVERT(tb1.products_buy_count, UNSIGNED) + ${parseInt(
+							resultProduct[0].products_buy_count
+						)},
+            tb1.products_total_price = CONVERT(tb1.products_total_price, UNSIGNED) + ${parseInt(
+							resultProduct[0].total_price
+						)},
             tb1.update_dtm = now()
           WHERE tb1.user_seq = ${resultProduct[0].user_seq}
             AND tb1.product_seq = ${resultProduct[0].product_seq}
             AND tb1.is_delete = "1";`
-        );
-        
-        if (resultCartDetailUpdate.affectedRows == 0) {
-          const resultCartDetailInsert = await insertCartDetail( resultProduct[0], insertId );
-        }
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  } else {
-    try {
-      const [resultCartDetailUpdate] = await dbPool.query(
-        `UPDATE tb_cart_detail tb1 SET
-          tb1.products_buy_count = CONVERT(tb1.products_buy_count, UNSIGNED) + ${parseInt( item.products_buy_count )},
-          tb1.products_total_price = CONVERT(tb1.products_total_price, UNSIGNED) + ${parseInt( item.total_price )},
+				);
+
+				if (resultCartDetailUpdate.affectedRows == 0) {
+					const resultCartDetailInsert = await insertCartDetail(
+						resultProduct[0],
+						insertId
+					);
+				}
+			}
+		} catch (e) {
+			console.error(e);
+		}
+	} else {
+		try {
+			const [resultCartDetailUpdate] = await dbPool.query(
+				`UPDATE tb_cart_detail tb1 SET
+          tb1.products_buy_count = CONVERT(tb1.products_buy_count, UNSIGNED) + ${parseInt(
+						item.products_buy_count
+					)},
+          tb1.products_total_price = CONVERT(tb1.products_total_price, UNSIGNED) + ${parseInt(
+						item.total_price
+					)},
           tb1.update_dtm = now()
         WHERE tb1.user_seq = ${item.user_seq}
           AND tb1.product_seq = ${item.product_seq}
           AND tb1.is_delete = "1";`
-      );
-      
-      if (resultCartDetailUpdate.affectedRows == 0) {
-        const resultCartDetailInsert = await insertCartDetail(item, insertId);
-        return resultCartDetailInsert;
-      }
-      return resultCartDetailUpdate.info;
-    } catch (e) {
-      console.error(e);
-    }
-  }
+			);
+
+			if (resultCartDetailUpdate.affectedRows == 0) {
+				const resultCartDetailInsert = await insertCartDetail(item, insertId);
+				return resultCartDetailInsert;
+			}
+			return resultCartDetailUpdate.info;
+		} catch (e) {
+			console.error(e);
+		}
+	}
 }
 
 async function updateCart(item, price) {
-  
-  if (item.guest_cart) {
-    try {
-      for await (let guest of item.guest_cart) {
-        
-        const [resultProduct] = await dbPool.query(
-          `SELECT product_price, discount_price, accumulate_price, product_discount_price
+	if (item.guest_cart) {
+		try {
+			for await (let guest of item.guest_cart) {
+				const [resultProduct] = await dbPool.query(
+					`SELECT product_price, discount_price, accumulate_price, product_discount_price
              FROM tb_product
             WHERE product_seq = ${guest.product_seq}`
-        );
-        
-        resultProduct[0].user_seq = item.user_seq;
-        resultProduct[0].product_seq = guest.product_seq;
-        resultProduct[0].product_view_seq = guest.product_view_seq;
-        resultProduct[0].products_buy_count = guest.products_buy_count;
-        resultProduct[0].total_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].product_price);
-        resultProduct[0].total_discount_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].discount_price);
-        resultProduct[0].total_accumulate_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].accumulate_price);
-        
-        const [resultCartUpdate] = await dbPool.query(
-          `UPDATE tb_cart tb1 SET
-            tb1.total_product_count = CONVERT(tb1.total_product_count, UNSIGNED) + ${parseInt( resultProduct[0].products_buy_count )},
-            tb1.cart_total_price = CONVERT(tb1.cart_total_price, UNSIGNED) + ${parseInt( resultProduct[0].total_price )},
-            tb1.delivery_price = ${ parseInt(price) + parseInt(resultProduct[0].total_price) - parseInt(resultProduct[0].tal_discount_price) > 43000 ? 0 : 3000 },
-            tb1.total_cart_discount_price = CONVERT(tb1.total_cart_discount_price, UNSIGNED) + ${parseInt(resultProduct[0].total_discount_price )},
-            tb1.total_accumulate_price = CONVERT(tb1.total_accumulate_price, UNSIGNED) + ${parseInt( resultProduct[0].total_accumulate_price
-            )},
-            tb1.payment_price = CONVERT(tb1.payment_price, UNSIGNED) + ${ parseInt(resultProduct[0].total_price) -
-              parseInt(resultProduct[0].total_discount_price) },
+				);
+
+				resultProduct[0].user_seq = item.user_seq;
+				resultProduct[0].product_seq = guest.product_seq;
+				resultProduct[0].product_view_seq = guest.product_view_seq;
+				resultProduct[0].products_buy_count = guest.products_buy_count;
+				resultProduct[0].total_price =
+					parseInt(guest.products_buy_count) *
+					parseInt(resultProduct[0].product_price);
+				resultProduct[0].total_discount_price =
+					parseInt(guest.products_buy_count) *
+					parseInt(resultProduct[0].discount_price);
+				resultProduct[0].total_accumulate_price =
+					parseInt(guest.products_buy_count) *
+					parseInt(resultProduct[0].accumulate_price);
+
+				const [resultCartUpdate] = await dbPool.query(
+					`UPDATE tb_cart tb1 SET
+            tb1.total_product_count = CONVERT(tb1.total_product_count, UNSIGNED) + ${parseInt(
+							resultProduct[0].products_buy_count
+						)},
+            tb1.cart_total_price = CONVERT(tb1.cart_total_price, UNSIGNED) + ${parseInt(
+							resultProduct[0].total_price
+						)},
+            tb1.delivery_price = ${
+							parseInt(price) +
+								parseInt(resultProduct[0].total_price) -
+								parseInt(resultProduct[0].tal_discount_price) >
+							43000
+								? 0
+								: 3000
+						},
+            tb1.total_cart_discount_price = CONVERT(tb1.total_cart_discount_price, UNSIGNED) + ${parseInt(
+							resultProduct[0].total_discount_price
+						)},
+            tb1.total_accumulate_price = CONVERT(tb1.total_accumulate_price, UNSIGNED) + ${parseInt(
+							resultProduct[0].total_accumulate_price
+						)},
+            tb1.payment_price = CONVERT(tb1.payment_price, UNSIGNED) + ${
+							parseInt(resultProduct[0].total_price) -
+							parseInt(resultProduct[0].total_discount_price)
+						},
             tb1.update_dtm = now()
           WHERE tb1.user_seq = ${resultProduct[0].user_seq}
             AND tb1.status = "0";`
-        );  
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  } else {
-    try {
-      const [resultCartUpdate] = await dbPool.query(
-        `UPDATE tb_cart tb1 SET
+				);
+			}
+		} catch (e) {
+			console.error(e);
+		}
+	} else {
+		try {
+			const [resultCartUpdate] = await dbPool.query(
+				`UPDATE tb_cart tb1 SET
           tb1.total_product_count = CONVERT(tb1.total_product_count, UNSIGNED) + ${parseInt(
-            item.products_buy_count
-          )},
+						item.products_buy_count
+					)},
           tb1.cart_total_price = CONVERT(tb1.cart_total_price, UNSIGNED) + ${parseInt(
-            item.total_price
-          )},
+						item.total_price
+					)},
           tb1.delivery_price = ${
-            parseInt(price) +
-              parseInt(item.total_price) -
-              parseInt(item.total_discount_price) >
-            43000
-              ? 0
-              : 3000
-          },
+						parseInt(price) +
+							parseInt(item.total_price) -
+							parseInt(item.total_discount_price) >
+						43000
+							? 0
+							: 3000
+					},
           tb1.total_cart_discount_price = CONVERT(tb1.total_cart_discount_price, UNSIGNED) + ${parseInt(
-            item.total_discount_price
-          )},
+						item.total_discount_price
+					)},
           tb1.total_accumulate_price = CONVERT(tb1.total_accumulate_price, UNSIGNED) + ${parseInt(
-            item.total_accumulate_price
-          )},
+						item.total_accumulate_price
+					)},
           tb1.payment_price = CONVERT(tb1.payment_price, UNSIGNED) + ${
-            parseInt(item.total_price) - parseInt(item.total_discount_price)
-          },
+						parseInt(item.total_price) - parseInt(item.total_discount_price)
+					},
           tb1.update_dtm = now()
         WHERE tb1.user_seq = ${item.user_seq}
           AND tb1.status = "0";`
-      );
-      
-      return resultCartUpdate.info;
-    } catch (e) {
-      console.error(e);
-    }
-  }
+			);
+
+			return resultCartUpdate.info;
+		} catch (e) {
+			console.error(e);
+		}
+	}
 }
 
 async function addToCart(item) {
-  
-  if (item.guest_cart) {
-    try {
-      for await (let guest of item.guest_cart) {
-        
-        const [cartDetail] = await dbPool.query(
-          `SELECT tb1.*, tb2.cart_seq, tb2.payment_price
+	if (item.guest_cart) {
+		try {
+			for await (let guest of item.guest_cart) {
+				const [cartDetail] = await dbPool.query(
+					`SELECT tb1.*, tb2.cart_seq, tb2.payment_price
                FROM tb_cart_detail tb1, tb_cart tb2
               WHERE tb2.user_seq = ${item.user_seq}
                 AND tb1.product_seq = ${guest.product_seq}
                 AND tb1.is_delete = "1"`
-        );
-        
-        if (!cartDetail.length) {
-          
-          const [resultProduct] = await dbPool.query(
-            `SELECT product_price, discount_price, accumulate_price, product_discount_price
+				);
+
+				if (!cartDetail.length) {
+					const [resultProduct] = await dbPool.query(
+						`SELECT product_price, discount_price, accumulate_price, product_discount_price
                FROM tb_product
               WHERE product_seq = ${guest.product_seq}`
-          );
-          console.log("guest product db result : ", resultProduct[0]);
-          resultProduct[0].user_seq = item.user_seq;
-          resultProduct[0].product_seq = guest.product_seq;
-          resultProduct[0].product_view_seq = guest.product_view_seq;
-          resultProduct[0].products_buy_count = guest.products_buy_count;
-          resultProduct[0].total_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].product_price);
-          resultProduct[0].total_discount_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].discount_price);
-          resultProduct[0].total_accumulate_price = parseInt(guest.products_buy_count) * parseInt(resultProduct[0].accumulate_price);
-          
-          const resultInsertCart = await insertCart(resultProduct[0]);          
-          const resultInsertCartDetail = await insertCartDetail( resultProduct[0], resultInsertCart );
-        } else {
-          const resultUpdateCart = await updateCart(
-            item,
-            cartDetail[0].payment_price
-          );
-          const resultCartDetailUpdate = await updateCartDetail(
-            item,
-            cartDetail[0].cart_seq
-          );
-          
-          return { cart: resultUpdateCart, cartDetail: resultCartDetailUpdate };
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  } else {
-    try {
-      
-      const [cartDetail] = await dbPool.query(
-        `SELECT tb1.*, tb2.cart_seq, tb2.payment_price
+					);
+					console.log("guest product db result : ", resultProduct[0]);
+					resultProduct[0].user_seq = item.user_seq;
+					resultProduct[0].product_seq = guest.product_seq;
+					resultProduct[0].product_view_seq = guest.product_view_seq;
+					resultProduct[0].products_buy_count = guest.products_buy_count;
+					resultProduct[0].total_price =
+						parseInt(guest.products_buy_count) *
+						parseInt(resultProduct[0].product_price);
+					resultProduct[0].total_discount_price =
+						parseInt(guest.products_buy_count) *
+						parseInt(resultProduct[0].discount_price);
+					resultProduct[0].total_accumulate_price =
+						parseInt(guest.products_buy_count) *
+						parseInt(resultProduct[0].accumulate_price);
+
+					const resultInsertCart = await insertCart(resultProduct[0]);
+					const resultInsertCartDetail = await insertCartDetail(
+						resultProduct[0],
+						resultInsertCart
+					);
+				} else {
+					const resultUpdateCart = await updateCart(
+						item,
+						cartDetail[0].payment_price
+					);
+					const resultCartDetailUpdate = await updateCartDetail(
+						item,
+						cartDetail[0].cart_seq
+					);
+
+					return { cart: resultUpdateCart, cartDetail: resultCartDetailUpdate };
+				}
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	} else {
+		try {
+			const [cartDetail] = await dbPool.query(
+				`SELECT tb1.*, tb2.cart_seq, tb2.payment_price
            FROM tb_cart_detail tb1, tb_cart tb2
           WHERE tb2.user_seq = ${item.user_seq}
             AND tb1.product_seq = ${item.product_seq}
             AND tb1.is_delete = "1"`
-      );
-      
-      if (!cartDetail.length) {
-        
-        const resultInsertCart = await insertCart(item);        
-        const resultInsertCartDetail = await insertCartDetail(
-          item,
-          resultInsertCart
-        );
-        return { cart: resultInsertCart, cartDetail: resultInsertCartDetail };
-      } else {
-        
-        const resultUpdateCart = await updateCart(
-          item,
-          cartDetail[0].payment_price
-        );
-        const resultCartDetailUpdate = await updateCartDetail(
-          item,
-          cartDetail[0].cart_seq
-        );
-        
-        return { cart: resultUpdateCart, cartDetail: resultCartDetailUpdate };
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
+			);
+
+			if (!cartDetail.length) {
+				const resultInsertCart = await insertCart(item);
+				const resultInsertCartDetail = await insertCartDetail(
+					item,
+					resultInsertCart
+				);
+				return { cart: resultInsertCart, cartDetail: resultInsertCartDetail };
+			} else {
+				const resultUpdateCart = await updateCart(
+					item,
+					cartDetail[0].payment_price
+				);
+				const resultCartDetailUpdate = await updateCartDetail(
+					item,
+					cartDetail[0].cart_seq
+				);
+
+				return { cart: resultUpdateCart, cartDetail: resultCartDetailUpdate };
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	}
 }
 
 async function getCartList(user) {
-   
 	try {
 		const result = await dbPool.query(
 			`SELECT 
@@ -322,7 +361,7 @@ async function getCartList(user) {
       AND tb5.product_img_type = "0"
       AND tb6.default_address = "1"`
 		);
-		
+
 		return result[0];
 	} catch (e) {
 		console.log(e);
@@ -330,7 +369,6 @@ async function getCartList(user) {
 }
 
 async function deleteToCart(items) {
-   
 	const productCount = [];
 	let sum = 0;
 	try {
@@ -344,14 +382,14 @@ async function deleteToCart(items) {
 			productCount.push(result[0][0]);
 			sum += parseInt(result[0][0].products_buy_count);
 		}
-		
+
 		const result = await dbPool.query(
 			`SELECT total_product_count
 				FROM tb_cart tb
 			 WHERE tb.cart_seq = "${items.cart_seq}"`
 		);
 		const count = parseInt(result[0][0].total_product_count);
-		
+
 		if (count == sum) {
 			const result = await dbPool.query(
 				`DELETE tb1, tb2
@@ -361,7 +399,7 @@ async function deleteToCart(items) {
 				WHERE tb1.cart_seq = "${items.cart_seq}"
 					AND tb2.is_delete = "1"`
 			);
-		
+
 			return result[0].affectedRows;
 		} else {
 			const resultUpdate = await dbPool.query(
@@ -377,12 +415,12 @@ async function deleteToCart(items) {
 						tb1.update_dtm = now()
 				WHERE tb2.cart_detail_seq = "${items.cart_detail_seq}"`
 			);
-			
+
 			const resultDel = await dbPool.query(
 				`DELETE FROM tb_cart_detail
 					WHERE cart_detail_seq = "${items.cart_detail_seq}"`
 			);
-			
+
 			return [resultUpdate[0].info, resultDel[0].affectedRows];
 		}
 	} catch (e) {
@@ -391,7 +429,6 @@ async function deleteToCart(items) {
 }
 
 async function updateToCart(item) {
-   
 	try {
 		const result = await dbPool.query(
 			`UPDATE tb_cart tb1
@@ -412,7 +449,7 @@ async function updateToCart(item) {
 				AND tb2.product_seq = "${item.product_seq}"
 				AND tb2.cart_detail_seq = "${item.cart_detail_seq}"`
 		);
-		
+
 		return result[0].info;
 	} catch (e) {
 		console.log(e);
@@ -420,26 +457,25 @@ async function updateToCart(item) {
 }
 
 async function checkStock(user) {
-  const [checkStock] = await dbPool.query(
-    `SELECT tb1.product_seq, tb1.product_stock
+	const [checkStock] = await dbPool.query(
+		`SELECT tb1.product_seq, tb1.product_stock
     FROM tb_cart_detail tb2
     INNER JOIN tb_product tb1
     ON tb1.product_seq = tb2.product_seq
     WHERE tb2.user_seq = ${user.user_seq}
     AND tb2.is_delete = "1"
     ORDER BY tb1.product_stock ASC`
-  );
-  
-  return checkStock;
+	);
+
+	return checkStock;
 }
 
 async function orderCart(user) {
-  
-  try {
-    const resultCheckStock = await checkStock(user);
-    if (resultCheckStock[0].product_stock != "0") {
-      const [order] = await dbPool.query(
-        `SELECT
+	try {
+		const resultCheckStock = await checkStock(user);
+		if (resultCheckStock[0].product_stock != "0") {
+			const [order] = await dbPool.query(
+				`SELECT
           tb1.user_name, tb1.user_phone, tb1.user_email,
           tb2.user_address_seq, tb2.zip_code, tb2.address, tb2.address_detail,
           tb2.default_address, tb2.receiver, tb2.receiver_phone, tb2.receiver_place,
@@ -449,10 +485,10 @@ async function orderCart(user) {
         ON tb1.user_seq = tb2.user_seq
         WHERE tb1.user_seq = ${user.user_seq}
         AND tb2.default_address = "1"`
-      );
-      
-      const [coupon] = await dbPool.query(
-        `SELECT
+			);
+
+			const [coupon] = await dbPool.query(
+				`SELECT
           tb1.user_coupon_seq, tb1.coupon_seq,
           tb2.coupon_seq, tb2.category_seq, tb2.coupon_name, tb2.coupon_description,
           tb2.coupon_action, tb2.coupon_percent,  tb2.coupon_price, tb2.max_price
@@ -461,30 +497,30 @@ async function orderCart(user) {
         ON tb1.coupon_seq = tb2.coupon_seq
         WHERE tb1.user_seq = ${user.user_seq}
         AND tb1.is_use = "0"`
-      );
-      
-      const [accumulator] = await dbPool.query(
-        `SELECT
+			);
+
+			const [accumulator] = await dbPool.query(
+				`SELECT
           sum(accumulate_price) as accumulate_price
         FROM tb_accumulate
         WHERE user_seq = ${user.user_seq}
         AND is_use = "0"`
-      );
-      
-      const [paymentMethod] = await dbPool.query(
-        `SELECT payment_method, payment_kind, is_installment
+			);
+
+			const [paymentMethod] = await dbPool.query(
+				`SELECT payment_method, payment_kind, is_installment
         FROM tb_payment
         WHERE user_seq = ${user.user_seq}
         ORDER BY paymented_dtm DESC LIMIT 1;`
-      );
-      
-      return { order, coupon, accumulator, paymentMethod };
-    } else {
-      return { message: "품절된 상품이 있습니다!", resultCheckStock };
-    }
-  } catch (e) {
-    console.error(e);
-  }
+			);
+
+			return { order, coupon, accumulator, paymentMethod };
+		} else {
+			return { message: "품절된 상품이 있습니다!", resultCheckStock };
+		}
+	} catch (e) {
+		console.error(e);
+	}
 }
 
 module.exports = {

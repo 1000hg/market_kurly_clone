@@ -86,9 +86,30 @@ async function delWishProduct(item) {
 	}
 }
 
+async function delWishProduct2(item) {
+	
+	try {
+		dbPool.query(
+			`UPDATE tb_product_view
+			SET dib_count = dib_count - 1
+			WHERE product_view_seq = "${item.product_view_seq}"`
+		);
+		const result = await dbPool.query(
+			`UPDATE tb_wish_item
+			SET is_delete = 0
+			WHERE product_view_seq = "${item.product_view_seq}" and user_seq = "${item.user_seq}"`
+		);
+
+		return result[0].affectedRows;
+	} catch (e) {
+		console.log.error(e);
+	}
+}
+
 
 module.exports = {
 	addWishProduct,
 	getWishList,
 	delWishProduct,
+	delWishProduct2
 };

@@ -9,4 +9,6 @@ router.post("/add", isAuth, productWishController.addWishProduct);
 
 router.delete("/del/:seq", isAuth, productWishController.delWishProduct);
 
+router.post("/del", isAuth, productWishController.delWishProduct2);
+
 module.exports = router;

@@ -46,7 +46,13 @@ export default function SearchResultPage() {
         <div className={styles.searchProductView}>
           {data !== null &&
             data.responseData.map((item, idx) => {
-              return <CardProduct key={idx} item={item} opt={0} />;
+              return (
+                <CardProduct
+                  key={idx}
+                  item={item}
+                  opt={{ width: "350px", height: "448px", rem: 0 }}
+                />
+              );
             })}
         </div>
       </section>

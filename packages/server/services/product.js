@@ -199,9 +199,26 @@ async function createProduct(data) {
 
   async function getProductBrand(data) {
     try {
+
+      let category_query = "";
+      let category_seq_list = [];
+
+      if (data.category_seq != undefined) {
+        const [category_parent_list] = await db.query(`select * from tb_category where parent_id = ${data.category_seq}`);
+  
+        category_parent_list.forEach(element => {
+          category_seq_list.push(element.category_seq);
+        })
+  
+        if (category_seq_list == "")
+          category_query = `and tb2.category_seq in (${data.category_seq})`;
+        else
+          category_query = `and tb2.category_seq in (${category_seq_list.join()})`;
+      }
+
       const [result] = await db.query(`SELECT vender as brand, count(vender) as brand_cnt FROM tb_product_view as tb1 LEFT JOIN tb_product as tb2
       on tb1.product_seq = tb2.product_seq 
-      where tb2.category_seq = '${data.category_seq}' group by vender`);
+      where 1=1 ${category_query} group by vender`);
   
       if(result) {
         serviceStatus.status = 200
