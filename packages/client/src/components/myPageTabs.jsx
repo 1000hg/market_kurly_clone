@@ -71,7 +71,7 @@ const MyPageTabs = ({ active }) => {
           </li>
         </Link>
       </ul>
-      <a href='/mypage/inquiry/form' className={styles.inquiry}>
+      <a href='/serviceCenter/inquiry' className={styles.inquiry}>
         <div className={styles.inquiry_content}>
           <span>도움이 필요하신가요 ?</span>
           <span>1:1 문의하기</span>

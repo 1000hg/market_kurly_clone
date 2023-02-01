@@ -3,11 +3,15 @@ import styles from '../css/CheckoutPage.module.css';
 import MainFooter from '../components/mainFooter';
 import MainHeader from '../components/mainHeader';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutPage = ({ mykurlyService }) => {
+  const navigate = useNavigate();
   const token = useSelector((state) => state.loginToken.accessToken);
   const user_seq = useSelector((state) => state.userData.user_seq);
-  const user_id = useSelector((state) => state.userData.user_id);
+  const user_name = useSelector((state) => state.userData.user_name);
+  const user_phone = useSelector((state) => state.userData.user_phone);
+  const user_email = useSelector((state) => state.userData.user_email);
   const [cartList, setCartList] = useState([{}]);
   const user_address = useSelector((state) => state.userData.address);
   const user_address_detail = useSelector(
@@ -23,7 +27,7 @@ const CheckoutPage = ({ mykurlyService }) => {
     payment_kind: '토스',
     is_installment: '0',
     receiver: '아무개',
-    receiver_phone: '010xxxxxxxx',
+    receiver_phone: user_phone,
     receive_place: '문앞',
     door_password: 'null',
     receive_place_etc: 'null',
@@ -34,6 +38,19 @@ const CheckoutPage = ({ mykurlyService }) => {
     mykurlyService
       .paymentCheckOut(token, checkOutInfo)
       .then((e) => console.log(e));
+    const total_price = Object.keys(cartList)
+      .map((key) => parseInt(cartList[key].payment_price))
+      .reduce((acc, cur, idx) => {
+        return (acc += cur);
+      });
+    const accumulate_price = Object.keys(cartList)
+      .map((key) => parseInt(cartList[key].total_accumulate_price))
+      .reduce((acc, cur, idx) => {
+        return (acc += cur);
+      });
+    navigate('/order/receipt', {
+      state: { total_price: total_price, accumulate_price: accumulate_price },
+    });
   };
 
   useEffect(() => {
@@ -87,16 +104,16 @@ const CheckoutPage = ({ mykurlyService }) => {
             <div className={styles.orderer_info}>
               <div className={styles.info}>
                 <span>보내는 분</span>
-                <div>{user_id}</div>
+                <div>{user_name}</div>
               </div>
               <div className={styles.info}>
                 <span>휴대폰</span>
-                <div>010-xxxx-xxxx</div>
+                <div>{user_phone}</div>
               </div>
               <div className={styles.info}>
                 <span>이메일</span>
                 <div>
-                  chlehdnjs@gmail.com
+                  {user_email}
                   <p>
                     이메일을 통해 주문처리과정을 보내드립니다. <br />
                     정보변경은 마이컬리{'>'}개인정보 수정 메뉴에서 가능합니다.
@@ -225,7 +242,9 @@ const CheckoutPage = ({ mykurlyService }) => {
                       <div>주문금액</div>
                       <div>
                         {Object.keys(cartList)
-                          .map((key) => parseInt(cartList[key].payment_price))
+                          .map((key) =>
+                            parseInt(cartList[key].cart_total_price)
+                          )
                           .reduce((acc, cur, idx) => {
                             return (acc += cur);
                           })
@@ -279,9 +298,7 @@ const CheckoutPage = ({ mykurlyService }) => {
                       최종결제금액
                       <div className={styles.paymentPriceNumber}>
                         {Object.keys(cartList)
-                          .map((key) =>
-                            parseInt(cartList[key].cart_total_price)
-                          )
+                          .map((key) => parseInt(cartList[key].payment_price))
                           .reduce((acc, cur, idx) => {
                             return (acc += cur);
                           })

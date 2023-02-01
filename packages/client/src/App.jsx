@@ -26,6 +26,9 @@ import CartPage from './routers/CartPage';
 import CheckoutPage from './routers/CheckoutPage';
 import ReceiptPage from './routers/ReceiptPage';
 import NoticePage from './routers/serviceCenter/NoticePage';
+import FaqPage from './routers/serviceCenter/FaqPage';
+import InquiryPage from './routers/serviceCenter/InquiryPage';
+import NoticeDetailPage from './routers/serviceCenter/NoticeDetailPage';
 
 // import NewProductPage from "./routers/NewProductPage";
 // import CategoryProductPage from "./routers/CategoryProductPage";
@@ -78,9 +81,16 @@ function App({ authService, mykurlyService }) {
         <Route path='/mypage/gift' element={<GiftPage />}></Route>
         <Route path='/mypage/infoedit' element={<InfoEditPage />}></Route>
 
-        <Route path='/serviceCenter/notice' element={<NoticePage />}></Route>
-        <Route path='/serviceCenter/faq' element={<NoticePage />}></Route>
-        <Route path='/serviceCenter/inquiry' element={<NoticePage />}></Route>
+        <Route
+          path='/serviceCenter/notice'
+          element={<NoticePage mykurlyService={mykurlyService} />}
+        ></Route>
+        <Route
+          path='/serviceCenter/notice/detail'
+          element={<NoticeDetailPage />}
+        ></Route>
+        <Route path='/serviceCenter/faq' element={<FaqPage />}></Route>
+        <Route path='/serviceCenter/inquiry' element={<InquiryPage />}></Route>
         <Route
           path='/serviceCenter/bulk-order'
           element={<NoticePage />}

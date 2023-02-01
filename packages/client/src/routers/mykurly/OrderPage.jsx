@@ -4,11 +4,24 @@ import MainFooter from '../../components/mainFooter';
 import MainHeader from '../../components/mainHeader';
 import MypageHeader from '../../components/myPageHeader';
 import MyPageTabs from '../../components/myPageTabs';
+import { useSelector } from 'react-redux';
 import styles from '../../css/mykurly/OrderPage.module.css';
+import { useEffect } from 'react';
 
-const OrderPage = () => {
+const OrderPage = ({ mykurlyService }) => {
+  const token = useSelector((state) => state.loginToken.accessToken);
+  const user_seq = useSelector((state) => state.userData.user_seq);
   const [date, setDate] = useState('3개월');
   const [onTab, setOnTab] = useState(false);
+  const [paymentList, setPaymentList] = useState([{}]);
+
+  useEffect(() => {
+    mykurlyService
+      .getPaymentList(token, user_seq)
+      .then((e) => setPaymentList(e));
+    console.log(paymentList);
+  }, [mykurlyService]);
+
   const onChangeDate = (e) => {
     setDate(e);
     setOnTab(false);
