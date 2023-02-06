@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <div>
+            <span>유저 인덱스 : </span>
+            <input type="text" name="user_seq" id="user_seq" placeholder="유저 인덱스 (숫자만)">
+        </div>
+
+        <div>
+            <span>타입1 인덱스 : </span>
+            <input type="text" name="type1_seq" id="type1_seq" placeholder="1~6 (숫자만)">
+        </div>
+
+        <div>
+            <span>타입2 인덱스 : </span>
+            <input type="text" name="type2_seq" id="type2_seq" placeholder="7~31 (숫자만)">
+        </div>
+
+        <div>
+            <span>타입1 내용 : </span>
+            <input type="text" name="type1_content" id="type1_content" placeholder="타입1 이름">
+        </div>
+        
+        <div>
+            <span>타입2 내용 : </span>
+            <input type="text" name="type2_content" id="type2_content" placeholder="타입2 이름">
+        </div>
+
+        <div>
+            <span>제목 : </span>
+            <input type="text" name="title" id="title" placeholder="재목">
+        </div>
+
+
+        <div>
+            <span>내용 : </span>
+            <input type="text" name="content" id="content" placeholder="내용">
+        </div>
+
+
+
+        <hr>
+        이미지 여러 장 넣기 가능
+        <div>
+            <input type="file" id="img" name="img", accept="image/*" multiple="multiple">
+        </div>
+        <hr>
+        <button class="submit-button" id="createProduct">생성</button>
+        <hr>
+        이 아래로는 테스트중
+        <button id="test"></button>
+        <img id ="test2" src="" alt="준비중">
+    </div>
+    
+</body>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+
+$("#createProduct").click(function() {
+
+    let file = document.querySelector('#img').files[0];
+    let data = {
+        user_seq: $('#user_seq').val(),
+        type1_seq: $('#type1_seq').val(),
+        type2_seq: $('#type2_seq').val(),
+        type1_content: $('#type1_content').val(),
+        type2_content: $('#type2_content').val(),
+        title: $('#title').val(),
+        content: $('#content').val(),
+        img_data: content_files
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/faq/createFaq",
+        data: JSON.stringify(data),
+        enctype: "multipart/form-data",
+        contentType: "application/json",
+        success: function(res) {
+            console.log(res)
+        }
+    })
+})
+
+$("#img").on("change", fileCheck);
+
+// 파일 현재 필드 숫자 totalCount랑 비교값
+var fileCount = 0;
+// 해당 숫자를 수정하여 전체 업로드 갯수를 정한다.
+var totalCount = 8;
+// 파일 고유넘버
+var fileNum = 0;
+// 첨부파일 배열
+var content_files = new Array();
+
+function fileCheck(e) {
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    
+    // 파일 개수 확인 및 제한
+    if (fileCount + filesArr.length > totalCount) {
+      $.alert('파일은 최대 '+totalCount+'개까지 업로드 할 수 있습니다.');
+      return;
+    } else {
+        fileCount = fileCount + filesArr.length;
+    }
+    
+    // 각각의 파일 배열담기 및 기타
+    filesArr.forEach(function (f) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        content_files.push(reader.result);
+      };
+      reader.readAsDataURL(f);
+    });
+    console.log(content_files)
+  }
+
+  $("#test").click(function() {
+    $.ajax({
+        type: "GET",
+        url: "/product/view/img",
+        contentType: "application/json",
+        success: function(res) {
+            console.log(res)
+        }
+    })
+})
+
+</script>
+</html>

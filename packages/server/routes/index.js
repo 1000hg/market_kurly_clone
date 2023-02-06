@@ -14,6 +14,7 @@ const qaRouter = require('./qa');
 const paymentRouter = require('./payment');
 const noticeRouter = require('./notice');
 const guestRouter = require('./guest');
+const faqRouter = require('./faq');
 
 // 회원가입 및 로그인 생성, 토큰발행
 router.use('/auth', authRouter);
@@ -43,5 +44,8 @@ router.use('/payment', paymentRouter);
 router.use('/notice', noticeRouter);
 
 router.use('/guest', guestRouter);
+
+router.use('/faq', faqRouter);
+
 
 module.exports = router;
