@@ -204,7 +204,7 @@ async function createProduct(data) {
       let category_seq_list = [];
 
       if (data.category_seq != undefined) {
-        const [category_parent_list] = await db.query(`select * from tb_category where parent_id = ${data.category_seq}`);
+        const [category_parent_list] = await db.query(`select * from tb_category where parent_id in (${data.category_seq})`);
   
         category_parent_list.forEach(element => {
           category_seq_list.push(element.category_seq);
@@ -237,7 +237,7 @@ async function createProduct(data) {
 
   async function getProductCategory(data) {
     try {
-      const [result] = await db.query(`SELECT count(product_seq) as category_cnt, tb2.category_name FROM tb_product as tb1
+      const [result] = await db.query(`SELECT count(product_seq) as category_cnt, tb2.category_name, tb2.category_seq FROM tb_product  as tb1
       Left join tb_category as tb2 on tb1.category_seq = tb2.category_seq
       group by tb1.category_seq`);
   
