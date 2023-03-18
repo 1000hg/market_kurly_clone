@@ -6,19 +6,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 export default function CategoryContents({
   item,
-  setItem,
+
   mykurlyService,
-  query,
-  totalCount,
-  setTotalCount,
 }) {
-  const [chuchun, setChuchun] = useState(false);
-  const [sortArray, setSortArrays] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
-  const navigate = useNavigate();
-  const { category_seq } = useParams();
-  const location = useLocation();
 
   // useEffect(() => {
   //   onClickSortType(query.sort_type);

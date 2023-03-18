@@ -19,11 +19,30 @@ function LoginPage({ authService }) {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let { cart_list } = useSelector((state) => {
+    return state.cartData;
+  });
   const onSubmitHandler = (e) => {
     e.preventDefault();
-
+    let nProductArr = [];
+    let guest_seq = localStorage.getItem("guest_seq");
+    if (guest_seq !== null) {
+      for (let obj of cart_list) {
+        nProductArr.push({
+          guest_cart_seq: parseInt(obj.guest_cart_seq),
+          guest_seq: parseInt(guest_seq),
+          product_seq: parseInt(obj.product_seq),
+          product_buy_count: parseInt(obj.product_buy_count),
+        });
+      }
+      console.log("nProductArr : ", JSON.stringify(nProductArr));
+    }
     axios
-      .post("/api/auth/login", { user_id: id, user_password: pwd })
+      .post("/api/auth/login", {
+        user_id: id,
+        user_password: pwd,
+        products: nProductArr,
+      })
       .then((res) => {
         setModalOpen(false);
         console.log("userData : ", res);

@@ -1,137 +1,136 @@
-import styles from './App.module.css';
-import MainPage from './routers/MainPage.jsx';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import styles from "./App.module.css";
+import MainPage from "./routers/MainPage.jsx";
+import { Routes, Route, Navigate } from "react-router-dom";
 
-import LoginPage from './routers/LoginPage';
-import SignUpPage from './routers/SignupPage';
-import AddressPage from './routers/AddressPage';
-import AddressResult from './components/addressResult';
-import FindIdPage from './routers/FindIdPage';
-import FindPwdPage from './routers/FindPwdPage';
-import FindIdConfirmPage from './routers/FindIdConfirmPage';
-import PwdRePage from './routers/PwdRePage';
-import PwdRemailPage from './routers/PwdRemailPage';
-import OrderPage from './routers/mykurly/OrderPage';
-import CouponPage from './routers/mykurly/CouponPage';
-import EmoneyPage from './routers/mykurly/EmoneyPage';
-import InfoEditPage from './routers/mykurly/InfoEditPage';
-import GiftPage from './routers/mykurly/GiftPage';
-import MyPickPage from './routers/mykurly/MyPickPage';
-import ReviewPage from './routers/mykurly/ReviewPage';
-import DestinationPage from './routers/mykurly/DestinationPage';
-import ProductDetailPage from './routers/ProductDetailPage';
-import SearchResultPage from './routers/SearchResultPage';
-import AddressEdit from './components/addressEdit';
-import CartPage from './routers/CartPage';
-import CheckoutPage from './routers/CheckoutPage';
-import ReceiptPage from './routers/ReceiptPage';
-import NoticePage from './routers/serviceCenter/NoticePage';
-import FaqPage from './routers/serviceCenter/FaqPage';
-import InquiryPage from './routers/serviceCenter/InquiryPage';
-import NoticeDetailPage from './routers/serviceCenter/NoticeDetailPage';
-
-// import NewProductPage from "./routers/NewProductPage";
-// import CategoryProductPage from "./routers/CategoryProductPage";
+import LoginPage from "./routers/LoginPage";
+import SignUpPage from "./routers/SignupPage";
+import AddressPage from "./routers/AddressPage";
+import AddressResult from "./components/addressResult";
+import FindIdPage from "./routers/FindIdPage";
+import FindPwdPage from "./routers/FindPwdPage";
+import FindIdConfirmPage from "./routers/FindIdConfirmPage";
+import PwdRePage from "./routers/PwdRePage";
+import PwdRemailPage from "./routers/PwdRemailPage";
+import OrderPage from "./routers/mykurly/OrderPage";
+import CouponPage from "./routers/mykurly/CouponPage";
+import EmoneyPage from "./routers/mykurly/EmoneyPage";
+import InfoEditPage from "./routers/mykurly/InfoEditPage";
+import GiftPage from "./routers/mykurly/GiftPage";
+import MyPickPage from "./routers/mykurly/MyPickPage";
+import ReviewPage from "./routers/mykurly/ReviewPage";
+import DestinationPage from "./routers/mykurly/DestinationPage";
+import ProductDetailPage from "./routers/ProductDetailPage";
+import SearchResultPage from "./routers/SearchResultPage";
+import AddressEdit from "./components/addressEdit";
+import CartPage from "./routers/CartPage";
+import CheckoutPage from "./routers/CheckoutPage";
+import ReceiptPage from "./routers/ReceiptPage";
+import NoticePage from "./routers/serviceCenter/NoticePage";
+import FaqPage from "./routers/serviceCenter/FaqPage";
+import InquiryPage from "./routers/serviceCenter/InquiryPage";
+import NoticeDetailPage from "./routers/serviceCenter/NoticeDetailPage";
+import NewProductPage from "./routers/NewProductPage";
+import CategoryProductPage from "./routers/CategoryProductPage";
 
 function App({ authService, mykurlyService }) {
   return (
     <div className={styles.app}>
       <Routes>
         <Route
-          path='/'
+          path="/"
           element={<MainPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/login'
+          path="/login"
           element={<LoginPage authService={authService} />}
         ></Route>
-        <Route path='/login/findId' element={<FindIdPage />}></Route>
-        <Route path='/login/findPwd' element={<FindPwdPage />}></Route>
+        <Route path="/login/findId" element={<FindIdPage />}></Route>
+        <Route path="/login/findPwd" element={<FindPwdPage />}></Route>
         <Route
-          path='/login/findIdConfirm'
+          path="/login/findIdConfirm"
           element={<FindIdConfirmPage />}
         ></Route>
-        <Route path='/login/pwdRePage' element={<PwdRePage />}></Route>
-        <Route path='/login/pwdRemail' element={<PwdRemailPage />}></Route>
+        <Route path="/login/pwdRePage" element={<PwdRePage />}></Route>
+        <Route path="/login/pwdRemail" element={<PwdRemailPage />}></Route>
         <Route
-          path='/signup'
+          path="/signup"
           element={<SignUpPage authService={authService} />}
         ></Route>
         <Route
-          path='/cart'
+          path="/cart"
           element={<CartPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/order/checkout'
+          path="/order/checkout"
           element={<CheckoutPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/order/receipt'
+          path="/order/receipt"
           element={<ReceiptPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/mypage/coupon'
+          path="/mypage/coupon"
           element={<CouponPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/mypage/destination'
+          path="/mypage/destination"
           element={<DestinationPage mykurlyService={mykurlyService} />}
         ></Route>
-        <Route path='/mypage/emoney' element={<EmoneyPage />}></Route>
-        <Route path='/mypage/gift' element={<GiftPage />}></Route>
-        <Route path='/mypage/infoedit' element={<InfoEditPage />}></Route>
+        <Route path="/mypage/emoney" element={<EmoneyPage />}></Route>
+        <Route path="/mypage/gift" element={<GiftPage />}></Route>
+        <Route path="/mypage/infoedit" element={<InfoEditPage />}></Route>
 
         <Route
-          path='/serviceCenter/notice'
+          path="/serviceCenter/notice"
           element={<NoticePage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/serviceCenter/notice/detail'
+          path="/serviceCenter/notice/detail"
           element={<NoticeDetailPage />}
         ></Route>
-        <Route path='/serviceCenter/faq' element={<FaqPage />}></Route>
-        <Route path='/serviceCenter/inquiry' element={<InquiryPage />}></Route>
+        <Route path="/serviceCenter/faq" element={<FaqPage />}></Route>
+        <Route path="/serviceCenter/inquiry" element={<InquiryPage />}></Route>
         <Route
-          path='/serviceCenter/bulk-order'
+          path="/serviceCenter/bulk-order"
           element={<NoticePage />}
         ></Route>
 
         <Route
-          path='/mypage/mypick'
+          path="/mypage/mypick"
           element={<MyPickPage mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/mypage/order'
+          path="/mypage/order"
           element={<OrderPage mykurlyService={mykurlyService} />}
         ></Route>
-        <Route path='/mypage/review' element={<ReviewPage />}></Route>
+        <Route path="/mypage/review" element={<ReviewPage />}></Route>
 
         <Route
-          path='/address/shipping-address'
+          path="/address/shipping-address"
           element={<AddressPage />}
         ></Route>
         <Route
-          path='/address/shipping-address/result'
+          path="/address/shipping-address/result"
           element={<AddressResult mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/address/shipping-address/edit'
+          path="/address/shipping-address/edit"
           element={<AddressEdit mykurlyService={mykurlyService} />}
         ></Route>
         <Route
-          path='/product/detail/:product_view_seq'
+          path="/product/detail/:product_view_seq"
           element={<ProductDetailPage mykurlyService={mykurlyService} />}
         ></Route>
-        {/* <Route
-          path='/categories/:category_seq'
+        <Route
+          path="/categories/:category_seq"
           element={<CategoryProductPage />}
         ></Route>
         <Route
-          path='/collections/market-newproduct'
+          path="/collections/market-newproduct"
           element={<NewProductPage />}
-        ></Route> */}
-        <Route path='/product/search' element={<SearchResultPage />}></Route>
-        <Route path='*' element={<Navigate replace to='/' />}></Route>
+        ></Route>
+        <Route path="/product/search" element={<SearchResultPage />}></Route>
+        <Route path="*" element={<Navigate replace to="/" />}></Route>
       </Routes>
     </div>
   );

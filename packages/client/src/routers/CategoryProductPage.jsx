@@ -15,7 +15,6 @@ export default function CategoryProductPage({ mykurlyService }) {
   const [totalCount, setTotalCount] = useState(null);
   const { category_seq } = useParams();
   const location = useLocation();
-  const [filterSelect, setFilterSelect] = useState([]);
   const [childCategorylist, setChildCategorylist] = useState([]);
   const categoryList =
     sessionStorage.getItem("ctl") == null
@@ -30,10 +29,33 @@ export default function CategoryProductPage({ mykurlyService }) {
   const query = qs.parse(searchParams);
   const [pageNum, setPageNum] = useState(1);
 
-  const onClickSortType = (idx) => {
+  const paramHandler = () => {
+    let params;
+    if (query.brand === null || query.brand === undefined) {
+      params = {
+        category_seq: category_seq,
+        page: query.page,
+        sort_type: query.sort_type,
+      };
+    } else {
+      params = {
+        category_seq: category_seq,
+        page: query.page,
+        sort_type: query.sort_type,
+        brand: query.brand,
+      };
+    }
+    console.log("params: ", params);
+    return params;
+  };
+
+  const onClickSortType = async (idx) => {
     let temp = Array.from({ length: 6 }, () => false);
     temp[idx] = true;
     setSortArrays(temp);
+    console.log("sortArray: ", sortArray);
+    let brandCheck = query.brand ? true : false;
+    /*
     if (location.pathname.includes("collections")) {
       // if (query.sort_type === null || query.sort_type === undefined) {
       //   navigate(`/collections/market-newproduct?page=1&sort_type=0`);
@@ -63,26 +85,35 @@ export default function CategoryProductPage({ mykurlyService }) {
           setItem(res.data.responseData.data);
           setTotalCount(res.data.responseData.length);
         });
+    } else {*/
+    if (query.sort_type === null || query.sort_type === undefined) {
+      navigate(`/categories/${category_seq}?page=1&sort_type=5`);
+    } else if (brandCheck) {
+      navigate(
+        `/categories/${category_seq}?page=1&sort_type=${idx}&brand=${query.brand}`
+      );
+      axios
+        .get("/api/product/view/findCategory", {
+          params: paramHandler(),
+        })
+        .then((res) => {
+          console.log("sort_type brand: ", res.data);
+          setItem(res.data.responseData.data);
+          setTotalCount(res.data.responseData.length);
+        });
     } else {
-      if (query.sort_type === null || query.sort_type === undefined) {
-        navigate(`/categories/${category_seq}?page=1&sort_type=5`);
-      } else {
-        navigate(`/categories/${category_seq}?page=1&sort_type=${idx}`);
-        axios
-          .get("/api/product/view/findCategory", {
-            params: {
-              category_seq: category_seq,
-              page: query.page,
-              sort_type: idx,
-            },
-          })
-          .then((res) => {
-            console.log("sort_type : ", res.data);
-            setItem(res.data.responseData.data);
-            setTotalCount(res.data.responseData.length);
-          });
-      }
+      navigate(`/categories/${category_seq}?page=1&sort_type=${idx}`);
+      axios
+        .get("/api/product/view/findCategory", {
+          params: paramHandler(),
+        })
+        .then((res) => {
+          console.log("sort_type : ", res.data);
+          setItem(res.data.responseData.data);
+          setTotalCount(res.data.responseData.length);
+        });
     }
+    // }
   };
 
   const makeParams = (type, value) => {
@@ -146,9 +177,13 @@ export default function CategoryProductPage({ mykurlyService }) {
   }, [category_seq]);
 
   useEffect(() => {
-    navigate(
-      `/categories/${category_seq}?page=${pageNum}&sort_type=${query.sort_type}`
-    );
+    if (query.sort_type === null || query.sort_type === undefined) {
+      navigate(`/categories/${category_seq}?page=${pageNum}&sort_type=5`);
+    } else {
+      navigate(
+        `/categories/${category_seq}?page=${pageNum}&sort_type=${query.sort_type}`
+      );
+    }
   }, [pageNum]);
 
   useEffect(() => {
@@ -157,11 +192,7 @@ export default function CategoryProductPage({ mykurlyService }) {
     axios
       .get("/api/product/view/findCategory", {
         // if(query == null || query === undefined){
-        params: {
-          category_seq: category_seq,
-          page: query.page,
-          sort_type: query.sort_type,
-        },
+        params: paramHandler(),
       })
       .then((res) => {
         console.log("length : ", res.data);
@@ -175,7 +206,7 @@ export default function CategoryProductPage({ mykurlyService }) {
         }
         setSortArrays(defaultArr);
       });
-  }, [category_seq, query.page]);
+  }, [category_seq, query.page, query.brand]);
 
   if (item == null) {
     return <div></div>;
@@ -238,11 +269,7 @@ export default function CategoryProductPage({ mykurlyService }) {
       </div>
 
       <div className={styles.mainContainer}>
-        <LeftSideBar
-          category_seq={category_seq}
-          filterSelect={filterSelect}
-          setFilterSelect={setFilterSelect}
-        />
+        <LeftSideBar category_seq={category_seq} />
         <section className={styles.mainProductSec}>
           <ul className={styles.listOrder}>
             <li className={styles.fontBold}>총 {totalCount}건</li>
@@ -326,16 +353,7 @@ export default function CategoryProductPage({ mykurlyService }) {
               </div>
             </li>
           </ul>
-          <CategoryContents
-            item={item}
-            setItem={setItem}
-            filterSelect={filterSelect}
-            setFilterSelect={setFilterSelect}
-            mykurlyService={mykurlyService}
-            query={query}
-            totalCount={totalCount}
-            setTotalCount={setTotalCount}
-          />
+          <CategoryContents item={item} mykurlyService={mykurlyService} />
           <PagingBtn
             totalNum={totalCount}
             pageNum={pageNum}
